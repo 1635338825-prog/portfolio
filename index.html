@@ -1,0 +1,1362 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>个人作品集 | AI 项目与自动化作品</title>
+  <meta name="description" content="面向招聘与项目展示的个人作品集，集中展示 AI 应用、数据自动化、知识库和工作流项目。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050607;
+      --ink: #f7f2e8;
+      --soft: #a6adb9;
+      --line: rgba(247, 242, 232, .16);
+      --panel: #101217;
+      --coal: #f7f2e8;
+      --acid: #dfff4f;
+      --coral: #ff6a55;
+      --blue: #5f7cff;
+      --mint: #9be5c2;
+      --shadow: 0 28px 92px rgba(0, 0, 0, .38);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--ink);
+      font-family: "Noto Sans SC", sans-serif;
+      background:
+        radial-gradient(circle at var(--mx, 72%) var(--my, 18%), rgba(223, 255, 79, .22), transparent 22vw),
+        radial-gradient(circle at 16% 76%, rgba(255, 106, 85, .18), transparent 24vw),
+        linear-gradient(90deg, rgba(247, 242, 232, .055) 1px, transparent 1px) 0 0 / 34px 34px,
+        linear-gradient(0deg, rgba(247, 242, 232, .055) 1px, transparent 1px) 0 0 / 34px 34px,
+        var(--bg);
+    }
+
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      content: "";
+      pointer-events: none;
+      background:
+        linear-gradient(115deg, transparent 0 38%, rgba(255, 255, 255, .055) 49%, transparent 60%),
+        radial-gradient(circle at 50% 110%, rgba(155, 229, 194, .18), transparent 36vw);
+      animation: atmosphere 14s ease-in-out infinite alternate;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .site-shell {
+      overflow: clip;
+      padding-bottom: 104px;
+    }
+
+    .topbar {
+      position: fixed;
+      left: 50%;
+      top: 18px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: min(720px, calc(100% - 24px));
+      min-height: 56px;
+      padding: 7px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(7, 8, 10, .72);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, .24);
+      backdrop-filter: blur(18px);
+      transform: translateX(-50%);
+    }
+
+    .topbar a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 14px;
+      color: var(--ink);
+      text-decoration: none;
+      white-space: nowrap;
+      border-radius: 999px;
+    }
+
+    .topbar a:hover {
+      background: rgba(247, 242, 232, .1);
+    }
+
+    .topbar .logo {
+      margin-right: auto;
+      color: #090a0d;
+      font-weight: 900;
+      background: var(--coal);
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      align-content: center;
+      gap: clamp(24px, 4vw, 52px);
+      padding: 116px clamp(18px, 5vw, 76px) 54px;
+    }
+
+    .hero-label,
+    .eyebrow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      color: var(--soft);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+
+    .hero-label::before {
+      width: 10px;
+      height: 10px;
+      content: "";
+      border-radius: 999px;
+      background: var(--coral);
+      box-shadow: 18px 0 0 var(--acid), 36px 0 0 var(--blue);
+    }
+
+    .hero h1 {
+      max-width: 1260px;
+      margin: 0;
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: clamp(76px, 15vw, 206px);
+      font-weight: 900;
+      line-height: .82;
+      letter-spacing: 0;
+      text-shadow: 0 22px 90px rgba(0, 0, 0, .42);
+    }
+
+    .hero h1 em {
+      color: var(--blue);
+      font-style: normal;
+      filter: drop-shadow(0 0 24px rgba(95, 124, 255, .26));
+    }
+
+    .hero-bottom {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 500px);
+      gap: 28px;
+      align-items: end;
+    }
+
+    .hero-copy {
+      margin: 0;
+      color: var(--soft);
+      font-size: clamp(16px, 1.65vw, 22px);
+      line-height: 1.75;
+      max-width: 760px;
+    }
+
+    .hero-proof {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .hero-proof span {
+      min-height: 58px;
+      display: grid;
+      align-content: center;
+      padding: 10px 12px;
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.45;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .05);
+      backdrop-filter: blur(12px);
+    }
+
+    .contact-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      align-items: center;
+      margin-top: 18px;
+      color: var(--soft);
+      font-size: 14px;
+      font-style: normal;
+      line-height: 1.6;
+    }
+
+    .contact-line strong {
+      color: var(--ink);
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .contact-line a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(247, 242, 232, .35);
+      overflow-wrap: anywhere;
+    }
+
+    .contact-line a:hover {
+      border-color: var(--acid);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      color: #090a0d;
+      text-decoration: none;
+      border: 1px solid var(--coal);
+      border-radius: 999px;
+      background: var(--coal);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .button.secondary {
+      color: var(--ink);
+      background: rgba(255, 255, 255, .05);
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 34px rgba(223, 255, 79, .18);
+    }
+
+    .visual-strip {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      padding: 0 clamp(18px, 5vw, 76px) 34px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .visual-card {
+      position: relative;
+      overflow: hidden;
+      min-height: clamp(170px, 22vw, 330px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      animation: cardFloat 8s ease-in-out infinite alternate;
+    }
+
+    .visual-card:nth-child(2) {
+      animation-delay: -2s;
+    }
+
+    .visual-card:nth-child(3) {
+      animation-delay: -4s;
+    }
+
+    .visual-card:nth-child(1) {
+      grid-column: span 5;
+      background:
+        linear-gradient(135deg, rgba(255, 106, 85, .92), rgba(255, 253, 250, .38)),
+        url("assets/work-portfolio.png") center / cover;
+    }
+
+    .visual-card:nth-child(2) {
+      grid-column: span 3;
+      background:
+        linear-gradient(180deg, rgba(23, 22, 19, .08), rgba(23, 22, 19, .58)),
+        url("assets/work-data.png") center / cover;
+    }
+
+    .visual-card:nth-child(3) {
+      grid-column: span 4;
+      background:
+        linear-gradient(120deg, rgba(223, 255, 79, .84), rgba(255, 253, 250, .18)),
+        url("assets/work-brand.png") center / cover;
+    }
+
+    .visual-card::after {
+      position: absolute;
+      inset: 16px;
+      content: "";
+      border: 1px solid rgba(255, 253, 250, .72);
+      border-radius: 6px;
+      mix-blend-mode: overlay;
+    }
+
+    .section {
+      padding: clamp(64px, 10vw, 138px) clamp(18px, 5vw, 76px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .marquee {
+      overflow: hidden;
+      display: flex;
+      gap: 18px;
+      padding: 22px 0;
+      border-block: 1px solid var(--line);
+      background: rgba(255, 255, 255, .035);
+    }
+
+    .marquee-track {
+      flex: 0 0 auto;
+      display: flex;
+      gap: 18px;
+      min-width: max-content;
+      animation: marqueeMove 28s linear infinite;
+    }
+
+    .marquee span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 54px;
+      padding: 0 22px;
+      color: var(--ink);
+      font-size: clamp(18px, 2vw, 30px);
+      font-weight: 900;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .section-title {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(260px, 430px);
+      gap: 28px;
+      align-items: end;
+      margin-bottom: 42px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: clamp(42px, 7vw, 108px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--soft);
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(200px, 1fr) 180px 180px auto;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .field,
+    .select {
+      width: 100%;
+      min-height: 46px;
+      padding: 0 14px;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .06);
+      outline: none;
+    }
+
+    .icon-button {
+      width: 46px;
+      height: 46px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--ink);
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .project-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .project-row {
+      display: grid;
+      grid-template-columns: minmax(220px, 34vw) minmax(0, 1fr);
+      gap: clamp(18px, 4vw, 54px);
+      align-items: center;
+      min-height: 420px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(255, 255, 255, .09), rgba(255, 255, 255, .035));
+      box-shadow: 0 20px 70px rgba(0, 0, 0, .28);
+      backdrop-filter: blur(16px);
+      transition: transform .24s ease, border-color .24s ease, background .24s ease;
+    }
+
+    .project-row:hover {
+      border-color: rgba(223, 255, 79, .54);
+      background: linear-gradient(145deg, rgba(255, 255, 255, .12), rgba(95, 124, 255, .06));
+      transform: translateY(-4px);
+    }
+
+    .project-row:nth-child(even) {
+      grid-template-columns: minmax(0, 1fr) minmax(220px, 34vw);
+    }
+
+    .project-row:nth-child(even) .project-media {
+      order: 2;
+    }
+
+    .project-media {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+      border-radius: var(--radius);
+      background: #141820;
+    }
+
+    .project-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .6s ease;
+    }
+
+    .project-row:hover .project-media img {
+      transform: scale(1.035);
+    }
+
+    .project-info {
+      display: grid;
+      gap: 18px;
+      align-content: center;
+    }
+
+    .project-info h3 {
+      margin: 0;
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: clamp(34px, 5vw, 74px);
+      font-weight: 900;
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    .project-info p,
+    .case-block p {
+      max-width: 700px;
+      margin: 0;
+      color: var(--soft);
+      font-size: 17px;
+      line-height: 1.85;
+    }
+
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .case-block {
+      min-height: 120px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .045);
+    }
+
+    .case-block b,
+    .detail-grid b {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--soft);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .row-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 0 10px;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .055);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .stat {
+      min-height: 170px;
+      display: grid;
+      align-content: space-between;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .stat b {
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: clamp(56px, 8vw, 104px);
+      font-weight: 900;
+      line-height: .82;
+    }
+
+    .stat span {
+      color: var(--soft);
+      line-height: 1.6;
+    }
+
+    .statement-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .72fr) minmax(280px, .5fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .quote-card,
+    .principle-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .06);
+      box-shadow: 0 18px 52px rgba(0, 0, 0, .22);
+    }
+
+    .quote-card {
+      display: grid;
+      align-content: center;
+      min-height: 360px;
+      padding: clamp(24px, 4vw, 52px);
+    }
+
+    .quote-card blockquote {
+      margin: 0;
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: clamp(36px, 5vw, 72px);
+      font-weight: 900;
+      line-height: 1.08;
+    }
+
+    .quote-card cite {
+      margin-top: 24px;
+      color: var(--soft);
+      font-style: normal;
+    }
+
+    .principle-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .principle-card {
+      min-height: 173px;
+      padding: 20px;
+    }
+
+    .principle-card h3 {
+      margin: 0 0 12px;
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: 34px;
+      font-weight: 900;
+    }
+
+    .principle-card p {
+      margin: 0;
+      color: var(--soft);
+      line-height: 1.8;
+    }
+
+    .cursor-cta {
+      position: relative;
+      overflow: hidden;
+      min-height: 360px;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      color: var(--ink);
+      text-align: center;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(255, 106, 85, .2), transparent 34%),
+        linear-gradient(315deg, rgba(223, 255, 79, .28), transparent 38%),
+        #0b0c10;
+    }
+
+    .cursor-cta h2 {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0;
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: clamp(44px, 8vw, 112px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .cursor-cta .contact-line {
+      position: relative;
+      z-index: 2;
+      justify-content: center;
+      margin-top: 24px;
+      padding: 10px 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(5, 6, 7, .42);
+      backdrop-filter: blur(12px);
+    }
+
+    .dot {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: var(--acid);
+      opacity: .82;
+      transform: translate(-50%, -50%);
+      transition: left .12s ease, top .12s ease;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: none;
+      place-items: center;
+      padding: 18px;
+      background: rgba(0, 0, 0, .64);
+    }
+
+    .modal[open] {
+      display: grid;
+    }
+
+    .modal-content {
+      width: min(960px, 100%);
+      max-height: 92vh;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #101217;
+      box-shadow: var(--shadow);
+    }
+
+    .modal-image {
+      aspect-ratio: 16 / 8;
+      overflow: hidden;
+      background: #141820;
+    }
+
+    .modal-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .modal-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .modal h3 {
+      margin: 0;
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: clamp(34px, 6vw, 72px);
+      font-weight: 900;
+      line-height: 1.06;
+    }
+
+    .close {
+      flex: 0 0 auto;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .detail-grid div {
+      min-height: 104px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .045);
+    }
+
+    .detail-grid span {
+      color: var(--soft);
+      line-height: 1.75;
+    }
+
+    .empty {
+      min-height: 360px;
+      display: grid;
+      place-items: center;
+      padding: 48px;
+      color: var(--soft);
+      text-align: center;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .03)),
+        radial-gradient(circle at 18% 24%, rgba(255, 106, 85, .18), transparent 24%),
+        radial-gradient(circle at 78% 72%, rgba(61, 99, 255, .14), transparent 24%);
+    }
+
+    .empty strong {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--ink);
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: clamp(42px, 7vw, 92px);
+      font-weight: 900;
+      line-height: .9;
+    }
+
+    @keyframes atmosphere {
+      from {
+        opacity: .62;
+        transform: translate3d(-2vw, -1vh, 0) scale(1);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(2vw, 1vh, 0) scale(1.04);
+      }
+    }
+
+    @keyframes cardFloat {
+      from {
+        transform: translateY(0) rotate(.001deg);
+      }
+      to {
+        transform: translateY(-14px) rotate(-1deg);
+      }
+    }
+
+    @keyframes marqueeMove {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(calc(-100% - 18px));
+      }
+    }
+
+    @media (max-width: 980px) {
+      .topbar {
+        overflow-x: auto;
+        justify-content: flex-start;
+      }
+
+      .hero-bottom,
+      .section-title,
+      .project-row,
+      .project-row:nth-child(even),
+      .statement-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions {
+        justify-content: flex-start;
+      }
+
+      .project-row:nth-child(even) .project-media {
+        order: 0;
+      }
+
+      .stats,
+      .case-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .visual-card:nth-child(1),
+      .visual-card:nth-child(2),
+      .visual-card:nth-child(3) {
+        grid-column: span 4;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .site-shell {
+        padding-bottom: 94px;
+      }
+
+      .topbar {
+        top: auto;
+        bottom: 14px;
+      }
+
+      .topbar a {
+        padding: 0 12px;
+      }
+
+      .hero {
+        min-height: 88vh;
+        padding-top: 44px;
+      }
+
+      .hero h1 {
+        font-size: clamp(68px, 24vw, 94px);
+        line-height: .88;
+      }
+
+      .hero-proof {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-proof span {
+        min-height: 48px;
+      }
+
+      .cursor-cta .contact-line {
+        justify-content: flex-start;
+        border-radius: var(--radius);
+      }
+
+      .marquee {
+        padding: 14px 0;
+      }
+
+      .toolbar,
+      .stats,
+      .case-grid,
+      .detail-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .visual-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .visual-card:nth-child(1),
+      .visual-card:nth-child(2),
+      .visual-card:nth-child(3) {
+        grid-column: auto;
+      }
+
+      .project-row {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar" aria-label="主导航">
+    <a class="logo" href="#top">作品集</a>
+    <a href="#work">作品</a>
+    <a href="#method">能力</a>
+    <a href="#contact">联系</a>
+  </nav>
+
+  <main class="site-shell" id="top">
+    <section class="hero">
+      <div>
+        <p class="hero-label">个人作品集 / AI 与自动化</p>
+        <h1>我的<br><em>作品集</em></h1>
+      </div>
+      <div class="hero-bottom">
+        <div>
+          <p class="hero-copy">AI 应用 · 数据自动化 · 知识库</p>
+          <div class="hero-proof" aria-label="作品集能力摘要">
+            <span>AI 产品原型与智能问答系统</span>
+            <span>自动化脚本、报表和工作流</span>
+            <span>知识库、RAG 与内容处理能力</span>
+          </div>
+          <address class="contact-line" aria-label="联系方式">
+            <strong>吴新坷</strong>
+            <a href="tel:+8618066361663">M: (+86)180-6636-1663</a>
+            <a href="mailto:wxkzs2002@163.com">E: wxkzs2002@163.com</a>
+          </address>
+        </div>
+        <div class="hero-actions">
+          <a class="button" href="#work">查看作品</a>
+          <a class="button secondary" href="#method">查看能力结构</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="visual-strip" aria-label="作品视觉预览">
+      <div class="visual-card"></div>
+      <div class="visual-card"></div>
+      <div class="visual-card"></div>
+    </section>
+
+    <section class="marquee" aria-label="能力关键词">
+      <div class="marquee-track">
+        <span>AI 应用开发</span>
+        <span>RAG 知识库</span>
+        <span>Agent 工作流</span>
+        <span>数据自动化</span>
+        <span>内容质检</span>
+        <span>桌面效率工具</span>
+        <span>项目交付</span>
+      </div>
+      <div class="marquee-track" aria-hidden="true">
+        <span>AI 应用开发</span>
+        <span>RAG 知识库</span>
+        <span>Agent 工作流</span>
+        <span>数据自动化</span>
+        <span>内容质检</span>
+        <span>桌面效率工具</span>
+        <span>项目交付</span>
+      </div>
+    </section>
+
+    <section class="section" id="work">
+      <div class="section-title">
+        <h2>精选作品</h2>
+        <p>每个项目都按“项目描述、解决的问题、方案设计、职责与工具”整理，方便快速判断项目复杂度、技术栈和实际产出。</p>
+      </div>
+      <div class="toolbar" id="filterToolbar">
+        <input class="field" id="searchInput" type="search" placeholder="搜索项目、技术或关键词">
+        <select class="select" id="categoryFilter" aria-label="按分类筛选"></select>
+        <select class="select" id="yearFilter" aria-label="按年份筛选"></select>
+        <button class="icon-button" id="resetFilters" type="button" title="重置筛选" aria-label="重置筛选">↺</button>
+      </div>
+      <div class="project-stack" id="projectStack"></div>
+    </section>
+
+    <section class="section" id="method">
+      <div class="section-title">
+        <h2>能力结构</h2>
+        <p>这些项目共同体现四类能力：把业务问题拆成流程、把流程做成工具、把资料沉淀成知识库、把结果整理成可复用交付物。</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><b id="statTotal">0</b><span>项目作品</span></div>
+        <div class="stat"><b id="statCategories">0</b><span>能力方向</span></div>
+        <div class="stat"><b id="statYears">0</b><span>项目年份</span></div>
+        <div class="stat"><b id="statFeatured">0</b><span>重点展示</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="statement-grid">
+        <article class="quote-card">
+          <blockquote>我擅长把模糊需求拆成可运行的 AI 工具。</blockquote>
+          <cite>从问题理解、流程设计到脚本实现和结果交付，我更关注工具能否真实减少重复劳动。</cite>
+        </article>
+        <div class="principle-grid">
+          <article class="principle-card">
+            <h3>AI 产品与工作流</h3>
+            <p>能设计 RAG 问答、Agent 自动化、内容质检、智能推送等流程，把大模型能力接到具体业务任务里。</p>
+          </article>
+          <article class="principle-card">
+            <h3>数据自动化与知识系统</h3>
+            <p>能用 Python、配置文件和结构化文档搭建报表、知识库、批处理脚本和可复用 Skill，提高团队执行效率。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="cursor-cta" id="cursorCta">
+        <span class="dot" id="dotOne"></span>
+        <span class="dot" id="dotTwo" style="background:var(--coral);width:15px;height:15px"></span>
+        <span class="dot" id="dotThree" style="background:var(--blue);width:30px;height:30px"></span>
+        <h2>期待在更真实的业务场景里继续构建 AI 工具。</h2>
+        <address class="contact-line" aria-label="联系方式">
+          <strong>吴新坷</strong>
+          <a href="tel:+8618066361663">M: (+86)180-6636-1663</a>
+          <a href="mailto:wxkzs2002@163.com">E: wxkzs2002@163.com</a>
+        </address>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="modal" id="projectModal">
+    <div class="modal-content">
+      <div class="modal-image"><img id="modalImage" alt=""></div>
+      <div class="modal-body">
+        <div class="modal-top">
+          <div>
+            <p class="eyebrow" id="modalMeta"></p>
+            <h3 id="modalTitle"></h3>
+          </div>
+          <button class="close" id="closeModal" type="button" aria-label="关闭详情">×</button>
+        </div>
+        <p class="hero-copy" id="modalDescription"></p>
+        <div class="detail-grid">
+          <div><b>解决的问题</b><span id="modalProblem"></span></div>
+          <div><b>方案设计</b><span id="modalSolution"></span></div>
+          <div><b>我的职责</b><span id="modalRole"></span></div>
+          <div><b>使用工具</b><span id="modalTools"></span></div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    const projectsData = [
+      {
+        title: "员工 Skill 创建助手",
+        category: "AI 工作流",
+        year: "2026",
+        role: "Skill 结构设计 / 创建脚本编写 / 交付校验",
+        tools: "SKILL.md、Markdown、Python、references、scripts",
+        description: "一个帮助员工把工作经验沉淀成内部 Skill 的工具包，包含写作规范、流程参考、输出模板、初始化脚本、结构校验和打包脚本。",
+        problem: "员工在沉淀 AI 工作流时，常把经验写成散文式说明，缺少触发条件、执行步骤、资源读取规则、脚本入口和交付检查，导致 Skill 难以被另一个 AI 稳定复用。",
+        solution: "把创建流程拆成用途澄清、目录初始化、SKILL.md 编写、references/scripts/assets 整理、quick_validate 校验和 package 打包，形成从想法到可交付 Skill 的标准路径。",
+        image: "assets/work-prototype.png",
+        link: "assets/skill-creator.zip",
+        linkLabel: "下载 ZIP",
+        featured: true,
+        tags: ["Skill", "中文化", "员工赋能", "知识沉淀"]
+      },
+      {
+        title: "内容质检与评论助手",
+        category: "AI 工作流",
+        year: "2026",
+        role: "质检流程拆解 / 规则文件整理 / 评论写入脚本",
+        tools: "Skill、Python、OCR、JSON Schema、规则配置、Markdown 报告",
+        description: "一个用于企业内容审核的 Skill，按“文档提取、图片 OCR、规则命中、模型复核、报告生成、确认后写入评论”的步骤完成内容质检。",
+        problem: "图文内容审核既要检查正文，也要检查图片里的文字，还要区分通用规则、行业规则和项目规则；人工检查容易漏掉图片文字、敏感表达和规则依据。",
+        solution: "用脚本抽取文档文本与图片，合并 OCR 结果后执行多层规则匹配，再用结构化输入输出约束模型复核，最终生成质检报告，并在用户确认后把问题点写回到对应评论位置。",
+        image: "assets/work-data.png",
+        link: "assets/content-review-skill.zip",
+        linkLabel: "下载 ZIP",
+        featured: true,
+        tags: ["内容质检", "规则匹配", "OCR", "自动化审核"]
+      },
+      {
+        title: "客户广告报告 Skill 模板",
+        category: "数据自动化",
+        year: "2026",
+        role: "客户模板设计 / 指标口径整理 / 报告生成流程",
+        tools: "Skill、Python、Excel、JSON 配置、字段映射、计算规则",
+        description: "一个用于快速生成客户广告报告 Skill 的模板，围绕客户信息、投放模式、报表类型、字段映射、计算规则和报告脚本组织交付结构。",
+        problem: "不同客户的账户结构、投放模式、报告频率和指标口径不一致，如果每次临时改脚本，容易出现字段命名混乱、计算口径不统一和交付文件难复用的问题。",
+        solution: "把客户配置、字段映射、指标计算、城市省份映射和报告引擎分离成固定目录，新建客户时先确认客户信息和报告样式，再生成独立 Skill 目录，复用同一套报表生产框架。",
+        image: "assets/work-brand.png",
+        link: "assets/ad-report-skill-template.zip",
+        linkLabel: "下载 ZIP",
+        featured: true,
+        tags: ["数据报表", "广告分析", "配置化", "Excel 自动化"]
+      },
+      {
+        title: "客户周报自动化助手",
+        category: "数据自动化",
+        year: "2026",
+        role: "周报配置设计 / 聚合逻辑实现 / 脱敏交付",
+        tools: "Skill、Python、CSV、JSON 配置、指标计算、校验摘要",
+        description: "一个脱敏后的周报自动化模板，读取本地 CSV，按配置生成整体汇总、投放位置、内容类型等周报页面，并输出校验摘要。",
+        problem: "每周报告需要反复整理花费、曝光、点击、转化等数据，再计算 CPC、CTR、转化率、转化成本；手工处理容易漏行、算错口径或忘记检查异常值。",
+        solution: "在配置中定义日期范围、分组维度、基础指标、派生指标和页面结构，由脚本完成数据聚合、指标计算、CSV 输出和摘要校验，作品集版本只保留占位客户与本地示例数据。",
+        image: "assets/work-data.png",
+        link: "assets/weekly-report-automation.zip",
+        linkLabel: "下载 ZIP",
+        featured: true,
+        tags: ["周报自动化", "数据聚合", "脱敏模板", "本地报表"]
+      },
+      {
+        title: "跨境电商智能助教系统",
+        category: "AI 应用",
+        year: "2026",
+        role: "Dify 工作流搭建 / 意图分类 / RAG 召回调优",
+        tools: "Dify、RAG、qwen3-max、qwen3-rerank、Python",
+        description: "一个面向跨境电商学习与运营咨询的 Dify 智能助教，通过意图识别、条件路由、知识库召回、重排序和双模式回答完成专业问答。",
+        problem: "跨境电商问题既包含问候、转人工、投诉等服务类意图，也包含平台规则、运营策略和专业概念咨询；如果全部交给同一个问答节点，回复容易跑偏或缺少依据。",
+        solution: "先识别问候、礼貌用语、人工服务和知识咨询四类意图，再将专业问题送入 RAG 流程；知识库召回后用重排序模型筛选 Top-K 内容，并区分专业模式与通用模式，减少无依据回答。",
+        image: "assets/work-portfolio.png",
+        link: "assets/rag-cross-border-tutor.pdf",
+        linkLabel: "查看 PDF",
+        featured: true,
+        tags: ["RAG", "智能问答", "知识库", "跨境电商"]
+      },
+      {
+        title: "AI 新闻智能推送与日程助手",
+        category: "AI 自动化",
+        year: "2026",
+        role: "n8n 编排 / Agent 工具设计 / 推送卡片生成",
+        tools: "n8n、DeepSeek Chat、JavaScript、日程数据、Webhook",
+        description: "一个每天 8 点自动运行的 AI 新闻简报系统，抓取近两天新闻和未来 7 天日程，让 Agent 判断用户是否适合阅读、归档或安排后续行动。",
+        problem: "AI 新闻更新快，但用户当天是否有空阅读、哪些内容值得优先看、忙碌时是否只需要归档提醒，这些判断很难靠固定规则完成。",
+        solution: "用 n8n 定时触发，分别获取新闻和日程数据，交给带有 news、daily 两个工具的 Agent 生成 Markdown 建议，再通过群消息卡片推送，实现信息筛选、日程判断和提醒发送闭环。",
+        image: "assets/work-data.png",
+        link: "assets/agent-news-digest.pdf",
+        linkLabel: "查看 PDF",
+        featured: true,
+        tags: ["Agent", "信息推送", "自动化", "日程助手"]
+      },
+      {
+        title: "AI 语音输入助手",
+        category: "AI 应用",
+        year: "2026",
+        role: "Windows 桌面工具开发 / 音频流处理 / Prompt 优化",
+        tools: "Python、PyAudio、WebSocket、Tkinter、pystray、keyboard",
+        description: "一个 Windows 桌面语音输入工具，按住快捷键录音，完成实时识别、AI 文本润色、剪贴板写入和跨应用粘贴，适合办公场景快速输入长文本。",
+        problem: "真实办公输入不只是把语音转文字，还要处理麦克风设备选择、录音状态反馈、流式识别稳定性、口语化文本整理、全局热键冲突和不同软件的粘贴兼容性。",
+        solution: "用 PyAudio 采集 16kHz 音频并分帧发送到 WebSocket 识别服务，识别结果再交给大模型做标点、语序和书面化优化；桌面端用托盘、状态提示、快捷键监听和剪贴板粘贴完成闭环。",
+        image: "assets/work-prototype.png",
+        link: "assets/ai-voice-input.pdf",
+        linkLabel: "查看 PDF",
+        featured: true,
+        tags: ["语音识别", "桌面工具", "文本优化", "Python"]
+      },
+      {
+        title: "通用个人知识库 Skill",
+        category: "知识系统",
+        year: "2026",
+        role: "知识库架构设计 / 资料消化流程 / 检索入口设计",
+        tools: "Skill、Python、Markdown、MinerU VLM、qmd、Obsidian 风格结构",
+        description: "一个 Obsidian 风格的个人知识库 Skill，用于把 PDF、PPT、Word、网页和项目文档解析为来源页、主题页、实体页，并建立可检索索引。",
+        problem: "资料管理常停留在文件夹和零散笔记层面，来源内容、主题归纳、实体关系、检索证据和论文写作材料彼此断开，后续查找和复用成本很高。",
+        solution: "建立 raw、parsed、digest、wiki、retrieval 的分层契约：先用解析工具处理原始资料，再由 LLM 消化为 digest，脚本负责重建页面、审计链接和生成检索索引；论文模式下额外维护主线、文献桥接和章节草稿工作面。",
+        image: "assets/work-portfolio.png",
+        link: "assets/general-knowledge-base.zip",
+        linkLabel: "下载 ZIP",
+        featured: true,
+        tags: ["知识库", "RAG", "资料管理", "论文写作"]
+      }
+      /*
+      后续项目发给我后，我会按这个结构补充：
+      {
+        title: "项目名称",
+        category: "分类",
+        year: "年份",
+        role: "你的角色",
+        tools: "工具或技术",
+        description: "项目描述",
+        problem: "为了解决什么问题",
+        solution: "解决方案",
+        image: "assets/project-image.png",
+        link: "",
+        linkLabel: "打开",
+        featured: true,
+        tags: ["关键词"]
+      }
+      */
+    ];
+
+    let projects = projectsData.map(normalizeProject);
+
+    const stack = document.querySelector("#projectStack");
+    const searchInput = document.querySelector("#searchInput");
+    const categoryFilter = document.querySelector("#categoryFilter");
+    const yearFilter = document.querySelector("#yearFilter");
+    const filterToolbar = document.querySelector("#filterToolbar");
+
+    function normalizeProject(raw) {
+      return {
+        title: raw.title || "未命名项目",
+        category: raw.category || "其他",
+        year: String(raw.year || "待补充"),
+        role: raw.role || "待补充",
+        tools: raw.tools || "待补充",
+        description: raw.description || "",
+        problem: raw.problem || "",
+        solution: raw.solution || "",
+        image: raw.image || "assets/work-portfolio.png",
+        link: raw.link || "",
+        linkLabel: raw.linkLabel || "打开",
+        featured: Boolean(raw.featured),
+        tags: Array.isArray(raw.tags) ? raw.tags : String(raw.tags || "").split(",").map((tag) => tag.trim()).filter(Boolean)
+      };
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      })[char]);
+    }
+
+    function updateFilters() {
+      const categories = ["全部", ...new Set(projects.map((project) => project.category))];
+      const years = ["全部", ...new Set(projects.map((project) => project.year))].sort((a, b) => b.localeCompare(a));
+      categoryFilter.innerHTML = categories.map((item) => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`).join("");
+      yearFilter.innerHTML = years.map((item) => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`).join("");
+      filterToolbar.hidden = projects.length === 0;
+    }
+
+    function filteredProjects() {
+      const query = searchInput.value.trim().toLowerCase();
+      return projects.filter((project) => {
+        const text = [
+          project.title,
+          project.category,
+          project.year,
+          project.role,
+          project.tools,
+          project.description,
+          project.problem,
+          project.solution,
+          project.tags.join(" ")
+        ].join(" ").toLowerCase();
+        return (!query || text.includes(query))
+          && (categoryFilter.value === "全部" || project.category === categoryFilter.value)
+          && (yearFilter.value === "全部" || project.year === yearFilter.value);
+      });
+    }
+
+    function renderStats() {
+      document.querySelector("#statTotal").textContent = projects.length;
+      document.querySelector("#statCategories").textContent = new Set(projects.map((project) => project.category)).size;
+      document.querySelector("#statYears").textContent = new Set(projects.map((project) => project.year)).size;
+      document.querySelector("#statFeatured").textContent = projects.filter((project) => project.featured).length;
+    }
+
+    function renderProjects() {
+      const visible = filteredProjects();
+      if (!visible.length) {
+        stack.innerHTML = `
+          <div class="empty">
+            <div>
+              <strong>没有匹配的项目</strong>
+              <span>可以换一个关键词，或者重置筛选查看全部作品。</span>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      stack.innerHTML = visible.map((project, index) => `
+        <article class="project-row">
+          <div class="project-media">
+            <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)} project image" onerror="this.src='assets/work-portfolio.png'">
+          </div>
+          <div class="project-info">
+            <div class="eyebrow">
+              <span>${escapeHtml(project.category)}</span>
+              <span>${escapeHtml(project.year)}</span>
+              <span>${escapeHtml(project.role)}</span>
+            </div>
+            <h3>${escapeHtml(project.title)}</h3>
+            <p>${escapeHtml(project.description)}</p>
+            <div class="case-grid">
+              <div class="case-block"><b>解决的问题</b><p>${escapeHtml(project.problem)}</p></div>
+              <div class="case-block"><b>方案设计</b><p>${escapeHtml(project.solution)}</p></div>
+            </div>
+            <div>${project.tags.map((tag) => `<span class="pill">${escapeHtml(tag)}</span>`).join(" ")}</div>
+            <div class="row-actions">
+              <button class="button" type="button" data-detail="${index}">查看详情</button>
+              ${project.link ? `<a class="button secondary" href="${escapeHtml(project.link)}" target="_blank" rel="noreferrer">${escapeHtml(project.linkLabel)}</a>` : ""}
+            </div>
+          </div>
+        </article>
+      `).join("");
+
+      stack.querySelectorAll("[data-detail]").forEach((button) => {
+        button.addEventListener("click", () => showDetail(visible[Number(button.dataset.detail)]));
+      });
+    }
+
+    function showDetail(project) {
+      document.querySelector("#modalImage").src = project.image;
+      document.querySelector("#modalImage").alt = `${project.title} project image`;
+      document.querySelector("#modalMeta").textContent = `${project.category} / ${project.year}`;
+      document.querySelector("#modalTitle").textContent = project.title;
+      document.querySelector("#modalDescription").textContent = project.description;
+      document.querySelector("#modalProblem").textContent = project.problem;
+      document.querySelector("#modalSolution").textContent = project.solution;
+      document.querySelector("#modalRole").textContent = project.role;
+      document.querySelector("#modalTools").textContent = project.tools;
+      document.querySelector("#projectModal").setAttribute("open", "");
+    }
+
+    function refresh() {
+      renderStats();
+      renderProjects();
+    }
+
+    document.querySelector("#resetFilters").addEventListener("click", () => {
+      searchInput.value = "";
+      categoryFilter.value = "全部";
+      yearFilter.value = "全部";
+      renderProjects();
+    });
+    document.querySelector("#closeModal").addEventListener("click", () => {
+      document.querySelector("#projectModal").removeAttribute("open");
+    });
+    document.querySelector("#projectModal").addEventListener("click", (event) => {
+      if (event.target.id === "projectModal") event.currentTarget.removeAttribute("open");
+    });
+    [searchInput, categoryFilter, yearFilter].forEach((control) => {
+      control.addEventListener("input", renderProjects);
+      control.addEventListener("change", renderProjects);
+    });
+
+    window.addEventListener("pointermove", (event) => {
+      document.body.style.setProperty("--mx", `${Math.round((event.clientX / window.innerWidth) * 100)}%`);
+      document.body.style.setProperty("--my", `${Math.round((event.clientY / window.innerHeight) * 100)}%`);
+    });
+
+    document.querySelector("#cursorCta").addEventListener("pointermove", (event) => {
+      const box = event.currentTarget.getBoundingClientRect();
+      const x = event.clientX - box.left;
+      const y = event.clientY - box.top;
+      [["#dotOne", 0], ["#dotTwo", 28], ["#dotThree", -34]].forEach(([selector, offset]) => {
+        const dot = document.querySelector(selector);
+        dot.style.left = `${x + offset}px`;
+        dot.style.top = `${y - offset}px`;
+      });
+    });
+
+    updateFilters();
+    refresh();
+  </script>
+</body>
+</html>
