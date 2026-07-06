@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>作品集 | 吴新坷</title>
   <meta name="description" content="吴新坷的项目作品集，集中展示工具、自动化、知识库和工作流项目。">
+  <link rel="icon" href="data:,">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -763,6 +764,217 @@
       line-height: .9;
     }
 
+    /* Neon gallery redesign overrides */
+    :root {
+      --bg: #050508;
+      --ink: #eeeeee;
+      --soft: #9a9aa6;
+      --line: rgba(232, 232, 236, .14);
+      --panel: #0c0c12;
+      --coal: #f1f1f5;
+      --acid: #d4d4e0;
+      --coral: #b9b9c6;
+      --blue: #e8e8ec;
+      --mint: #b8b8c8;
+      --shadow: 0 32px 92px rgba(0, 0, 0, .48);
+    }
+
+    body {
+      background:
+        radial-gradient(circle at var(--mx, 78%) var(--my, 18%), rgba(210, 210, 230, .10), transparent 23vw),
+        linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px) 0 0 / 46px 46px,
+        linear-gradient(0deg, rgba(255, 255, 255, .035) 1px, transparent 1px) 0 0 / 46px 46px,
+        #050508;
+    }
+
+    body::before {
+      background:
+        radial-gradient(ellipse at 55% 22%, rgba(255, 255, 255, .08), transparent 34vw),
+        radial-gradient(ellipse at 50% 120%, rgba(180, 180, 200, .10), transparent 38vw);
+    }
+
+    body::after {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      content: "";
+      pointer-events: none;
+      opacity: .045;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 220px 220px;
+      mix-blend-mode: screen;
+    }
+
+    .topbar {
+      width: min(760px, calc(100% - 24px));
+      background: rgba(5, 5, 8, .78);
+    }
+
+    .topbar .logo {
+      color: #050508;
+      background: var(--coal);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      padding-top: 132px;
+    }
+
+    .hero h1 {
+      max-width: 1180px;
+      font-size: clamp(78px, 14vw, 190px);
+      text-transform: none;
+    }
+
+    .hero h1 em {
+      color: var(--blue);
+      text-shadow: 0 0 34px rgba(232, 232, 236, .20), 0 22px 90px rgba(0, 0, 0, .62);
+      filter: none;
+    }
+
+    .hero-proof span,
+    .field,
+    .select,
+    .icon-button,
+    .stat,
+    .principle-card,
+    .quote-card,
+    .cursor-cta {
+      background: linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .025));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+    }
+
+    .button:hover {
+      box-shadow: 0 14px 42px rgba(220, 220, 240, .16);
+    }
+
+    .visual-strip {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 0 clamp(18px, 5vw, 76px) 46px;
+      border-bottom: 1px solid var(--line);
+      scrollbar-width: none;
+    }
+
+    .visual-strip::-webkit-scrollbar {
+      display: none;
+    }
+
+    .visual-card {
+      flex: 0 0 clamp(230px, 28vw, 420px);
+      min-height: auto;
+      aspect-ratio: 16 / 10;
+      padding: 0;
+      color: var(--ink);
+      text-align: left;
+      scroll-snap-align: start;
+      background: #0a0a0f;
+      box-shadow: 0 32px 92px rgba(0, 0, 0, .48);
+      animation: none;
+      cursor: pointer;
+      transition: transform .26s ease, border-color .26s ease;
+    }
+
+    .visual-card:nth-child(1),
+    .visual-card:nth-child(2),
+    .visual-card:nth-child(3) {
+      grid-column: auto;
+      background: #0a0a0f;
+    }
+
+    .visual-card:hover {
+      border-color: rgba(232, 232, 236, .42);
+      transform: translateY(-4px);
+    }
+
+    .visual-card::after {
+      inset: 0;
+      border: 0;
+      border-radius: 0;
+      background: linear-gradient(180deg, transparent 45%, rgba(0, 0, 0, .72));
+      mix-blend-mode: normal;
+    }
+
+    .visual-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(.08) contrast(1.08);
+      transition: transform .5s ease, filter .5s ease;
+    }
+
+    .visual-card:hover img {
+      transform: scale(1.035);
+      filter: grayscale(0) contrast(1.12);
+    }
+
+    .visual-card span {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 16px;
+      z-index: 2;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-shadow: 0 6px 22px rgba(0, 0, 0, .72);
+    }
+
+    .marquee {
+      background: rgba(255, 255, 255, .025);
+    }
+
+    .marquee span {
+      color: var(--soft);
+      font-size: clamp(16px, 1.8vw, 26px);
+      background: rgba(255, 255, 255, .035);
+    }
+
+    .project-row {
+      background: linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .022));
+    }
+
+    .project-row:hover {
+      border-color: rgba(232, 232, 236, .36);
+      background: linear-gradient(145deg, rgba(255, 255, 255, .095), rgba(255, 255, 255, .035));
+    }
+
+    .project-media {
+      background: #08080c;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08), 0 22px 70px rgba(0, 0, 0, .34);
+    }
+
+    .pill {
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .modal-content {
+      background: #0b0b11;
+      box-shadow: 0 34px 120px rgba(0, 0, 0, .68);
+    }
+
+    @media (max-width: 740px) {
+      .topbar {
+        top: 10px;
+        bottom: auto;
+        width: calc(100% - 20px);
+        overflow-x: auto;
+        justify-content: flex-start;
+      }
+
+      .visual-strip {
+        padding-bottom: 28px;
+      }
+
+      .visual-card {
+        flex-basis: min(78vw, 340px);
+      }
+    }
+
     @keyframes atmosphere {
       from {
         opacity: .62;
@@ -836,8 +1048,8 @@
       }
 
       .topbar {
-        top: auto;
-        bottom: 14px;
+        top: 10px;
+        bottom: auto;
       }
 
       .topbar a {
@@ -846,7 +1058,7 @@
 
       .hero {
         min-height: 88vh;
-        padding-top: 44px;
+        padding-top: 104px;
       }
 
       .hero h1 {
@@ -930,10 +1142,7 @@
       </div>
     </section>
 
-    <section class="visual-strip" aria-label="作品视觉预览">
-      <div class="visual-card"></div>
-      <div class="visual-card"></div>
-      <div class="visual-card"></div>
+    <section class="visual-strip" id="visualStrip" aria-label="作品视觉预览">
     </section>
 
     <section class="marquee" aria-label="能力关键词">
@@ -1051,7 +1260,7 @@
         description: "一个帮助员工把工作经验沉淀成内部 Skill 的工具包，包含写作规范、流程参考、输出模板、初始化脚本、结构校验和打包脚本。",
         problem: "员工在沉淀 AI 工作流时，常把经验写成散文式说明，缺少触发条件、执行步骤、资源读取规则、脚本入口和交付检查，导致 Skill 难以被另一个 AI 稳定复用。",
         solution: "把创建流程拆成用途澄清、目录初始化、SKILL.md 编写、references/scripts/assets 整理、quick_validate 校验和 package 打包，形成从想法到可交付 Skill 的标准路径。",
-        image: "assets/work-prototype.png",
+        image: "assets/project-skill-creator.png",
         link: "assets/skill-creator.zip",
         linkLabel: "下载 ZIP",
         featured: true,
@@ -1066,7 +1275,7 @@
         description: "一个用于企业内容审核的 Skill，按“文档提取、图片 OCR、规则命中、模型复核、报告生成、确认后写入评论”的步骤完成内容质检。",
         problem: "图文内容审核既要检查正文，也要检查图片里的文字，还要区分通用规则、行业规则和项目规则；人工检查容易漏掉图片文字、敏感表达和规则依据。",
         solution: "用脚本抽取文档文本与图片，合并 OCR 结果后执行多层规则匹配，再用结构化输入输出约束模型复核，最终生成质检报告，并在用户确认后把问题点写回到对应评论位置。",
-        image: "assets/work-data.png",
+        image: "assets/project-content-review.png",
         link: "assets/content-review-skill.zip",
         linkLabel: "下载 ZIP",
         featured: true,
@@ -1081,7 +1290,7 @@
         description: "一个用于快速生成客户广告报告 Skill 的模板，围绕客户信息、投放模式、报表类型、字段映射、计算规则和报告脚本组织交付结构。",
         problem: "不同客户的账户结构、投放模式、报告频率和指标口径不一致，如果每次临时改脚本，容易出现字段命名混乱、计算口径不统一和交付文件难复用的问题。",
         solution: "把客户配置、字段映射、指标计算、城市省份映射和报告引擎分离成固定目录，新建客户时先确认客户信息和报告样式，再生成独立 Skill 目录，复用同一套报表生产框架。",
-        image: "assets/work-brand.png",
+        image: "assets/project-ad-report.png",
         link: "assets/ad-report-skill-template.zip",
         linkLabel: "下载 ZIP",
         featured: true,
@@ -1096,7 +1305,7 @@
         description: "一个脱敏后的周报自动化模板，读取本地 CSV，按配置生成整体汇总、投放位置、内容类型等周报页面，并输出校验摘要。",
         problem: "每周报告需要反复整理花费、曝光、点击、转化等数据，再计算 CPC、CTR、转化率、转化成本；手工处理容易漏行、算错口径或忘记检查异常值。",
         solution: "在配置中定义日期范围、分组维度、基础指标、派生指标和页面结构，由脚本完成数据聚合、指标计算、CSV 输出和摘要校验，作品集版本只保留占位客户与本地示例数据。",
-        image: "assets/work-data.png",
+        image: "assets/project-weekly-report.png",
         link: "assets/weekly-report-automation.zip",
         linkLabel: "下载 ZIP",
         featured: true,
@@ -1111,7 +1320,7 @@
         description: "一个面向跨境电商学习与运营咨询的 Dify 智能助教，通过意图识别、条件路由、知识库召回、重排序和双模式回答完成专业问答。",
         problem: "跨境电商问题既包含问候、转人工、投诉等服务类意图，也包含平台规则、运营策略和专业概念咨询；如果全部交给同一个问答节点，回复容易跑偏或缺少依据。",
         solution: "先识别问候、礼貌用语、人工服务和知识咨询四类意图，再将专业问题送入 RAG 流程；知识库召回后用重排序模型筛选 Top-K 内容，并区分专业模式与通用模式，减少无依据回答。",
-        image: "assets/work-portfolio.png",
+        image: "assets/project-rag-tutor.png",
         link: "assets/rag-cross-border-tutor.pdf",
         linkLabel: "查看 PDF",
         featured: true,
@@ -1126,7 +1335,7 @@
         description: "一个每天 8 点自动运行的 AI 新闻简报系统，抓取近两天新闻和未来 7 天日程，让 Agent 判断用户是否适合阅读、归档或安排后续行动。",
         problem: "AI 新闻更新快，但用户当天是否有空阅读、哪些内容值得优先看、忙碌时是否只需要归档提醒，这些判断很难靠固定规则完成。",
         solution: "用 n8n 定时触发，分别获取新闻和日程数据，交给带有 news、daily 两个工具的 Agent 生成 Markdown 建议，再通过群消息卡片推送，实现信息筛选、日程判断和提醒发送闭环。",
-        image: "assets/work-data.png",
+        image: "assets/project-ai-news.png",
         link: "assets/agent-news-digest.pdf",
         linkLabel: "查看 PDF",
         featured: true,
@@ -1141,7 +1350,7 @@
         description: "一个 Windows 桌面语音输入工具，按住快捷键录音，完成实时识别、AI 文本润色、剪贴板写入和跨应用粘贴，适合办公场景快速输入长文本。",
         problem: "真实办公输入不只是把语音转文字，还要处理麦克风设备选择、录音状态反馈、流式识别稳定性、口语化文本整理、全局热键冲突和不同软件的粘贴兼容性。",
         solution: "用 PyAudio 采集 16kHz 音频并分帧发送到 WebSocket 识别服务，识别结果再交给大模型做标点、语序和书面化优化；桌面端用托盘、状态提示、快捷键监听和剪贴板粘贴完成闭环。",
-        image: "assets/work-prototype.png",
+        image: "assets/project-voice-input.png",
         link: "assets/ai-voice-input.pdf",
         linkLabel: "查看 PDF",
         featured: true,
@@ -1156,7 +1365,7 @@
         description: "一个 Obsidian 风格的个人知识库 Skill，用于把 PDF、PPT、Word、网页和文献检索结果沉淀为来源页、主题页、实体页，并建立可检索索引。",
         problem: "资料管理不只包括本地 PDF，还会涉及网页材料、论文候选、DOI 落地页和后续写作证据；如果缺少统一入口，网页、文献发现、解析、消化和检索会分散在不同工具里。",
         solution: "建立 raw、parsed、digest、wiki、retrieval 的分层契约：PDF 走 MinerU VLM，网页走 Firecrawl，文献发现走 Sciverse，统一生成 parsed/source bundle 后再由 LLM 消化为 digest，脚本负责重建页面、审计链接、生成 qmd 检索索引，并支持论文模式下的文献桥接和章节草稿工作面。",
-        image: "assets/work-portfolio.png",
+        image: "assets/project-knowledge-base.png",
         link: "assets/general-knowledge-base.zip",
         linkLabel: "下载 ZIP",
         featured: true,
@@ -1185,6 +1394,7 @@
     let projects = projectsData.map(normalizeProject);
 
     const stack = document.querySelector("#projectStack");
+    const visualStrip = document.querySelector("#visualStrip");
     const searchInput = document.querySelector("#searchInput");
     const categoryFilter = document.querySelector("#categoryFilter");
     const yearFilter = document.querySelector("#yearFilter");
@@ -1270,7 +1480,7 @@
       stack.innerHTML = visible.map((project, index) => `
         <article class="project-row">
           <div class="project-media">
-            <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)} project image" onerror="this.src='assets/work-portfolio.png'">
+            <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)} project image" loading="lazy" onerror="this.src='assets/work-portfolio.png'">
           </div>
           <div class="project-info">
             <div class="eyebrow">
@@ -1298,6 +1508,19 @@
       });
     }
 
+    function renderVisualStrip() {
+      visualStrip.innerHTML = projects.map((project, index) => `
+        <button class="visual-card" type="button" data-visual-detail="${index}" aria-label="查看${escapeHtml(project.title)}详情">
+          <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)} project cover" loading="lazy" onerror="this.src='assets/work-portfolio.png'">
+          <span>${escapeHtml(project.title)}</span>
+        </button>
+      `).join("");
+
+      visualStrip.querySelectorAll("[data-visual-detail]").forEach((button) => {
+        button.addEventListener("click", () => showDetail(projects[Number(button.dataset.visualDetail)]));
+      });
+    }
+
     function showDetail(project) {
       document.querySelector("#modalImage").src = project.image;
       document.querySelector("#modalImage").alt = `${project.title} project image`;
@@ -1313,6 +1536,7 @@
 
     function refresh() {
       renderStats();
+      renderVisualStrip();
       renderProjects();
     }
 
