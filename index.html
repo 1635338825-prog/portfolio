@@ -3,66 +3,79 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>作品集 | 吴新坷</title>
-  <meta name="description" content="吴新坷的项目作品集，集中展示工具、自动化、知识库和工作流项目。">
+  <title>Daniel -- AI Creator Portfolio</title>
+  <meta name="description" content="Daniel 的 AI 应用、自动化、知识库和工作流项目作品集。">
   <link rel="icon" href="data:,">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #050607;
-      --ink: #f7f2e8;
-      --soft: #a6adb9;
-      --line: rgba(247, 242, 232, .16);
-      --panel: #101217;
-      --coal: #f7f2e8;
-      --acid: #dfff4f;
-      --coral: #ff6a55;
-      --blue: #5f7cff;
-      --mint: #9be5c2;
-      --shadow: 0 28px 92px rgba(0, 0, 0, .38);
+      --bg: #0c0c0c;
+      --ink: #d7e2ea;
+      --muted: rgba(215, 226, 234, .68);
+      --line: rgba(215, 226, 234, .18);
+      --panel: #121318;
+      --paper: #f6f7f1;
+      --black: #0c0c0c;
+      --hot: #cf19b9;
+      --amber: #ffad4d;
+      --cyan: #8fd9ff;
+      --green: #b7ff5a;
       --radius: 8px;
     }
 
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     html {
       scroll-behavior: smooth;
+      background: var(--bg);
     }
 
     body {
-      margin: 0;
+      min-height: 100vh;
       overflow-x: hidden;
       color: var(--ink);
-      font-family: "Noto Sans SC", sans-serif;
+      font-family: "Kanit", "Noto Sans SC", sans-serif;
       background:
-        radial-gradient(circle at var(--mx, 72%) var(--my, 18%), rgba(223, 255, 79, .22), transparent 22vw),
-        radial-gradient(circle at 16% 76%, rgba(255, 106, 85, .18), transparent 24vw),
-        linear-gradient(90deg, rgba(247, 242, 232, .055) 1px, transparent 1px) 0 0 / 34px 34px,
-        linear-gradient(0deg, rgba(247, 242, 232, .055) 1px, transparent 1px) 0 0 / 34px 34px,
+        linear-gradient(90deg, rgba(215, 226, 234, .05) 1px, transparent 1px) 0 0 / 42px 42px,
+        linear-gradient(0deg, rgba(215, 226, 234, .045) 1px, transparent 1px) 0 0 / 42px 42px,
+        radial-gradient(circle at var(--mx, 72%) var(--my, 18%), rgba(143, 217, 255, .18), transparent 24vw),
         var(--bg);
     }
 
     body::before {
       position: fixed;
       inset: 0;
-      z-index: -1;
+      z-index: -2;
       content: "";
       pointer-events: none;
       background:
-        linear-gradient(115deg, transparent 0 38%, rgba(255, 255, 255, .055) 49%, transparent 60%),
-        radial-gradient(circle at 50% 110%, rgba(155, 229, 194, .18), transparent 36vw);
-      animation: atmosphere 14s ease-in-out infinite alternate;
+        linear-gradient(180deg, rgba(12, 12, 12, 0) 0%, rgba(12, 12, 12, .72) 66%, var(--bg) 100%),
+        radial-gradient(circle at 16% 78%, rgba(255, 173, 77, .16), transparent 28vw);
+    }
+
+    body::after {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      content: "";
+      pointer-events: none;
+      opacity: .2;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+      mix-blend-mode: screen;
     }
 
     a {
       color: inherit;
+      text-decoration: none;
     }
 
     button,
@@ -75,1166 +88,797 @@
       cursor: pointer;
     }
 
-    .site-shell {
-      overflow: clip;
-      padding-bottom: 104px;
+    img {
+      display: block;
+      max-width: 100%;
     }
 
-    .topbar {
+    .hero-heading {
+      color: transparent;
+      background: linear-gradient(180deg, #646973 0%, #bbccd7 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .shell {
+      overflow-x: clip;
+    }
+
+    .nav {
       position: fixed;
       left: 50%;
       top: 18px;
-      z-index: 20;
+      z-index: 50;
       display: flex;
       align-items: center;
-      gap: 6px;
-      width: min(720px, calc(100% - 24px));
-      min-height: 56px;
+      justify-content: space-between;
+      width: min(880px, calc(100% - 24px));
+      min-height: 54px;
       padding: 7px;
       border: 1px solid var(--line);
       border-radius: 999px;
-      background: rgba(7, 8, 10, .72);
-      box-shadow: 0 18px 44px rgba(0, 0, 0, .24);
-      backdrop-filter: blur(18px);
+      background: rgba(12, 12, 12, .72);
+      backdrop-filter: blur(20px);
       transform: translateX(-50%);
     }
 
-    .topbar a {
+    .nav a {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       min-height: 40px;
       padding: 0 14px;
       color: var(--ink);
-      text-decoration: none;
+      font-size: clamp(.78rem, 1.35vw, 1.04rem);
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
       white-space: nowrap;
       border-radius: 999px;
+      transition: opacity .2s ease, background .2s ease;
     }
 
-    .topbar a:hover {
-      background: rgba(247, 242, 232, .1);
+    .nav a:hover {
+      opacity: .72;
+      background: rgba(215, 226, 234, .08);
     }
 
-    .topbar .logo {
-      margin-right: auto;
-      color: #090a0d;
-      font-weight: 900;
-      background: var(--coal);
+    .nav a.active,
+    .nav .brand.active {
+      color: var(--black);
+      background: var(--ink);
     }
 
     .hero {
-      min-height: 100vh;
-      display: grid;
-      align-content: center;
-      gap: clamp(24px, 4vw, 52px);
-      padding: 116px clamp(18px, 5vw, 76px) 54px;
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      padding: 94px clamp(18px, 5vw, 64px) 28px;
     }
 
-    .eyebrow {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      color: var(--soft);
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: .08em;
+    .hero-title {
+      position: relative;
+      z-index: 5;
+      overflow: hidden;
+      margin-top: clamp(16px, 2.8vw, 34px);
+      text-align: center;
     }
 
     .hero h1 {
-      max-width: 1260px;
-      margin: 0;
-      font-family: "Noto Sans SC", sans-serif;
-      font-size: clamp(76px, 15vw, 206px);
+      display: inline-block;
+      width: auto;
+      max-width: 100%;
+      font-size: clamp(3.8rem, 11.8vw, 12rem);
       font-weight: 900;
       line-height: .82;
       letter-spacing: 0;
-      text-shadow: 0 22px 90px rgba(0, 0, 0, .42);
+      text-transform: uppercase;
+      white-space: nowrap;
+      text-align: center;
     }
 
-    .hero h1 em {
-      color: var(--blue);
-      font-style: normal;
-      filter: drop-shadow(0 0 24px rgba(95, 124, 255, .26));
+    .hero-portrait {
+      position: absolute;
+      left: 50%;
+      top: clamp(286px, 38vh, 318px);
+      bottom: auto;
+      z-index: 3;
+      width: min(38vw, 440px, 43vh);
+      min-width: 250px;
+      perspective: 900px;
+      transform: translateX(-50%) translate3d(var(--head-x, 0px), var(--head-y, 0px), 0);
+      filter: drop-shadow(0 34px 80px rgba(0, 0, 0, .62));
+      animation: floatPortrait 6s ease-in-out infinite;
+      transition: transform .18s ease-out;
+      will-change: transform;
+    }
+
+    .hero-portrait::before {
+      position: absolute;
+      left: 50%;
+      bottom: 4%;
+      width: 70%;
+      height: 18%;
+      content: "";
+      background: radial-gradient(ellipse, rgba(143, 217, 255, .26), transparent 70%);
+      transform: translateX(-50%);
+      filter: blur(18px);
+    }
+
+    .hero-portrait img {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      border-radius: 0;
+      transform: rotateX(var(--head-rx, 0deg)) rotateY(var(--head-ry, 0deg));
+      transform-style: preserve-3d;
+      transition: transform .18s ease-out;
+      will-change: transform;
     }
 
     .hero-bottom {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(280px, 500px);
-      gap: 28px;
+      position: relative;
+      z-index: 5;
+      display: flex;
       align-items: end;
+      justify-content: space-between;
+      gap: 18px;
     }
 
     .hero-copy {
-      margin: 0;
-      color: var(--soft);
-      font-size: clamp(16px, 1.65vw, 22px);
-      line-height: 1.75;
-      max-width: 760px;
-    }
-
-    .hero-proof {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 22px;
-    }
-
-    .hero-proof span {
-      min-height: 58px;
-      display: grid;
-      align-content: center;
-      padding: 10px 12px;
+      max-width: 360px;
       color: var(--ink);
-      font-size: 14px;
-      line-height: 1.45;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: rgba(255, 255, 255, .05);
-      backdrop-filter: blur(12px);
-    }
-
-    .contact-line {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px 16px;
-      align-items: center;
-      margin-top: 18px;
-      color: var(--soft);
-      font-size: 14px;
-      font-style: normal;
-      line-height: 1.6;
-    }
-
-    .contact-line strong {
-      color: var(--ink);
-      font-size: 16px;
-      font-weight: 900;
-    }
-
-    .contact-line a {
-      color: var(--ink);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(247, 242, 232, .35);
-      overflow-wrap: anywhere;
-    }
-
-    .contact-line a:hover {
-      border-color: var(--acid);
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: 10px;
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: clamp(.78rem, 1.4vw, 1.35rem);
+      font-weight: 500;
+      line-height: 1.55;
+      letter-spacing: .04em;
+      text-transform: uppercase;
     }
 
     .button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 48px;
-      padding: 0 18px;
-      color: #090a0d;
-      text-decoration: none;
-      border: 1px solid var(--coal);
+      min-height: 46px;
+      padding: 0 28px;
+      color: #fff;
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      border: 2px solid rgba(255, 255, 255, .82);
       border-radius: 999px;
-      background: var(--coal);
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-
-    .button.secondary {
-      color: var(--ink);
-      background: rgba(255, 255, 255, .05);
+      outline: 1px solid rgba(255, 255, 255, .36);
+      outline-offset: -5px;
+      background: linear-gradient(123deg, #18011f 7%, #b600a8 37%, #7621b0 72%, #be4c00 100%);
+      box-shadow: 0 10px 30px rgba(182, 0, 168, .28), 4px 4px 12px #7721b1 inset;
+      transition: transform .2s ease, filter .2s ease;
     }
 
     .button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 34px rgba(223, 255, 79, .18);
+      filter: brightness(1.12);
     }
 
-    .visual-strip {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 14px;
-      padding: 0 clamp(18px, 5vw, 76px) 34px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .visual-card {
-      position: relative;
-      overflow: hidden;
-      min-height: clamp(170px, 22vw, 330px);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--panel);
-      box-shadow: var(--shadow);
-      animation: cardFloat 8s ease-in-out infinite alternate;
-    }
-
-    .visual-card:nth-child(2) {
-      animation-delay: -2s;
-    }
-
-    .visual-card:nth-child(3) {
-      animation-delay: -4s;
-    }
-
-    .visual-card:nth-child(1) {
-      grid-column: span 5;
-      background:
-        linear-gradient(135deg, rgba(255, 106, 85, .92), rgba(255, 253, 250, .38)),
-        url("assets/work-portfolio.png") center / cover;
-    }
-
-    .visual-card:nth-child(2) {
-      grid-column: span 3;
-      background:
-        linear-gradient(180deg, rgba(23, 22, 19, .08), rgba(23, 22, 19, .58)),
-        url("assets/work-data.png") center / cover;
-    }
-
-    .visual-card:nth-child(3) {
-      grid-column: span 4;
-      background:
-        linear-gradient(120deg, rgba(223, 255, 79, .84), rgba(255, 253, 250, .18)),
-        url("assets/work-brand.png") center / cover;
-    }
-
-    .visual-card::after {
-      position: absolute;
-      inset: 16px;
-      content: "";
-      border: 1px solid rgba(255, 253, 250, .72);
-      border-radius: 6px;
-      mix-blend-mode: overlay;
+    .button.secondary {
+      color: var(--ink);
+      background: rgba(215, 226, 234, .04);
+      box-shadow: none;
     }
 
     .section {
-      padding: clamp(64px, 10vw, 138px) clamp(18px, 5vw, 76px);
-      border-bottom: 1px solid var(--line);
+      position: relative;
+      padding: clamp(76px, 10vw, 132px) clamp(18px, 5vw, 64px);
     }
 
-    .marquee {
-      overflow: hidden;
+    .about {
+      min-height: 82vh;
+      display: grid;
+      place-items: center;
+      padding-bottom: clamp(108px, 14vw, 180px);
+      text-align: center;
+    }
+
+    .about-inner {
+      width: min(900px, 100%);
+    }
+
+    .about-actions {
       display: flex;
-      gap: 18px;
-      padding: 22px 0;
-      border-block: 1px solid var(--line);
-      background: rgba(255, 255, 255, .035);
-    }
-
-    .marquee-track {
-      flex: 0 0 auto;
-      display: flex;
-      gap: 18px;
-      min-width: max-content;
-      animation: marqueeMove 28s linear infinite;
-    }
-
-    .marquee span {
-      display: inline-flex;
-      align-items: center;
-      min-height: 54px;
-      padding: 0 22px;
-      color: var(--ink);
-      font-size: clamp(18px, 2vw, 30px);
-      font-weight: 900;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, .06);
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(18px, 3vw, 34px);
     }
 
     .section-title {
-      display: grid;
-      grid-template-columns: minmax(0, .9fr) minmax(260px, 430px);
-      gap: 28px;
-      align-items: end;
-      margin-bottom: 42px;
+      margin-bottom: clamp(34px, 6vw, 78px);
+      text-align: center;
     }
 
     .section-title h2 {
-      margin: 0;
-      font-family: "Noto Sans SC", sans-serif;
-      font-size: clamp(42px, 7vw, 108px);
+      font-size: clamp(3rem, 11vw, 10rem);
       font-weight: 900;
-      line-height: 1;
+      line-height: .84;
       letter-spacing: 0;
+      text-transform: uppercase;
     }
 
-    .section-title p {
-      margin: 0;
-      color: var(--soft);
-      font-size: 17px;
+    .section-title p,
+    .about p {
+      width: min(760px, 100%);
+      margin: 22px auto 0;
+      color: var(--muted);
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: clamp(1rem, 1.75vw, 1.28rem);
+      font-weight: 500;
+      line-height: 1.9;
+    }
+
+    .ability {
+      position: relative;
+      z-index: 2;
+      margin-top: -58px;
+      color: var(--black);
+      border-radius: 56px 56px 0 0;
+      background:
+        linear-gradient(90deg, rgba(12, 12, 12, .06) 1px, transparent 1px) 0 0 / 36px 36px,
+        var(--paper);
+      box-shadow: 0 -36px 120px rgba(0, 0, 0, .5);
+    }
+
+    .ability .section-title h2,
+    .ability .section-title p {
+      color: var(--black);
+    }
+
+    .service-list {
+      width: min(1040px, 100%);
+      margin: 0 auto;
+      border-top: 1px solid rgba(12, 12, 12, .16);
+    }
+
+    .service-item {
+      display: grid;
+      grid-template-columns: minmax(96px, .32fr) minmax(0, 1fr);
+      gap: clamp(18px, 5vw, 64px);
+      align-items: center;
+      padding: clamp(24px, 4vw, 42px) 0;
+      border-bottom: 1px solid rgba(12, 12, 12, .16);
+    }
+
+    .service-item strong {
+      font-size: clamp(3rem, 9vw, 8.8rem);
+      font-weight: 900;
+      line-height: .8;
+    }
+
+    .service-item h3 {
+      margin-bottom: 8px;
+      font-size: clamp(1.1rem, 2.3vw, 2.1rem);
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .service-item p {
+      max-width: 720px;
+      color: rgba(12, 12, 12, .64);
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: clamp(.92rem, 1.5vw, 1.16rem);
       line-height: 1.8;
     }
 
-    .toolbar {
+    .projects {
+      z-index: 2;
+      margin-top: -42px;
+      border-radius: 46px 46px 0 0;
+      background: var(--bg);
+    }
+
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition:
+        opacity 1.05s cubic-bezier(.22, 1, .36, 1),
+        transform 1.05s cubic-bezier(.22, 1, .36, 1),
+        filter 1.05s cubic-bezier(.22, 1, .36, 1);
+      transition-delay: var(--reveal-delay, 0ms);
+      will-change: opacity, transform;
+    }
+
+    body.reveal-ready .reveal {
+      opacity: 0;
+      filter: blur(10px);
+      transform: translate3d(var(--reveal-x, 0), var(--reveal-y, 72px), 0) scale(.97);
+    }
+
+    body.reveal-ready .reveal.in-view,
+    .reveal.in-view {
+      opacity: 1;
+      filter: blur(0);
+      transform: translate3d(0, 0, 0);
+    }
+
+    .split-reveal {
+      color: inherit;
+    }
+
+    body.reveal-ready .split-reveal {
+      color: transparent;
+    }
+
+    .split-reveal .char {
+      color: var(--ink);
+      opacity: var(--char-opacity, .18);
+      filter: blur(calc((1 - var(--char-opacity, .18)) * 2px));
+      transform: translateY(calc((1 - var(--char-opacity, .18)) * 5px));
+      display: inline-block;
+      transition: opacity .14s linear, filter .14s linear, transform .14s linear;
+    }
+
+    .hero-heading.split-reveal .char {
+      color: transparent;
+      background: inherit;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .ability .split-reveal .char {
+      color: var(--black);
+    }
+
+    .project-tools {
       display: grid;
-      grid-template-columns: minmax(200px, 1fr) 180px 180px auto;
+      grid-template-columns: minmax(0, 1fr) 180px 150px 46px;
       gap: 10px;
-      margin-bottom: 18px;
+      width: min(1040px, 100%);
+      margin: -24px auto 48px;
     }
 
     .field,
-    .select {
-      width: 100%;
+    .select,
+    .icon-button {
       min-height: 46px;
-      padding: 0 14px;
       color: var(--ink);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: rgba(255, 255, 255, .06);
+      background: rgba(215, 226, 234, .06);
       outline: none;
     }
 
+    .field {
+      padding: 0 14px;
+      font-family: "Noto Sans SC", sans-serif;
+    }
+
+    .select {
+      padding: 0 12px;
+    }
+
     .icon-button {
-      width: 46px;
-      height: 46px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      color: var(--ink);
-      background: rgba(255, 255, 255, .06);
+      font-size: 1.2rem;
     }
 
     .project-stack {
-      display: grid;
-      gap: 18px;
+      width: min(1120px, 100%);
+      margin: 0 auto;
     }
 
-    .project-row {
+    .project-card {
+      position: sticky;
+      top: clamp(76px, 9vh, 96px);
       display: grid;
-      grid-template-columns: minmax(220px, 34vw) minmax(0, 1fr);
-      gap: clamp(18px, 4vw, 54px);
+      gap: clamp(14px, 2vw, 20px);
+      min-height: min(76vh, 650px);
+      margin-bottom: clamp(96px, 16vh, 150px);
+      padding: clamp(16px, 2.2vw, 26px);
+      border: 2px solid var(--ink);
+      border-radius: clamp(24px, 5vw, 56px);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(143, 217, 255, .14), transparent 36%),
+        #0c0c0c;
+      transform-origin: top center;
+      box-shadow: 0 40px 120px rgba(0, 0, 0, .45);
+    }
+
+    .project-head {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: clamp(14px, 2vw, 22px);
+      align-items: start;
+    }
+
+    .project-number {
+      font-size: clamp(2.4rem, 5vw, 4.8rem);
+      font-weight: 900;
+      line-height: .78;
+    }
+
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: .8rem;
+      font-weight: 700;
+    }
+
+    .project-card h3 {
+      max-width: 900px;
+      font-size: clamp(1.55rem, 3.2vw, 3.6rem);
+      font-weight: 900;
+      line-height: .92;
+      text-transform: uppercase;
+    }
+
+    .ghost {
+      display: inline-flex;
       align-items: center;
-      min-height: 420px;
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: linear-gradient(145deg, rgba(255, 255, 255, .09), rgba(255, 255, 255, .035));
-      box-shadow: 0 20px 70px rgba(0, 0, 0, .28);
-      backdrop-filter: blur(16px);
-      transition: transform .24s ease, border-color .24s ease, background .24s ease;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 22px;
+      color: var(--ink);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      background: rgba(215, 226, 234, .02);
     }
 
-    .project-row:hover {
-      border-color: rgba(223, 255, 79, .54);
-      background: linear-gradient(145deg, rgba(255, 255, 255, .12), rgba(95, 124, 255, .06));
-      transform: translateY(-4px);
+    .project-body {
+      display: grid;
+      grid-template-columns: minmax(280px, .9fr) minmax(0, 1.1fr);
+      gap: clamp(16px, 2.6vw, 28px);
+      align-items: stretch;
     }
 
-    .project-row:nth-child(even) {
-      grid-template-columns: minmax(0, 1fr) minmax(220px, 34vw);
+    .project-images {
+      display: block;
+      min-height: clamp(220px, 28vw, 340px);
     }
 
-    .project-row:nth-child(even) .project-media {
-      order: 2;
-    }
-
-    .project-media {
-      position: relative;
-      overflow: hidden;
-      aspect-ratio: 1 / 1;
-      border-radius: var(--radius);
-      background: #141820;
-    }
-
-    .project-media img {
+    .project-image {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      transition: transform .6s ease;
+      min-height: clamp(220px, 28vw, 340px);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: clamp(20px, 4vw, 42px);
+      background: var(--panel);
     }
 
-    .project-row:hover .project-media img {
-      transform: scale(1.035);
+    .project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform .7s ease;
     }
 
-    .project-info {
+    .project-card:hover .project-image img {
+      transform: scale(1.05);
+    }
+
+    .project-text {
       display: grid;
-      gap: 18px;
-      align-content: center;
-    }
-
-    .project-info h3 {
-      margin: 0;
+      align-content: start;
+      gap: 12px;
       font-family: "Noto Sans SC", sans-serif;
-      font-size: clamp(34px, 5vw, 74px);
-      font-weight: 900;
-      line-height: 1.04;
-      letter-spacing: 0;
     }
 
-    .project-info p,
-    .case-block p {
-      max-width: 700px;
-      margin: 0;
-      color: var(--soft);
-      font-size: 17px;
-      line-height: 1.85;
+    .project-text > p {
+      color: var(--ink);
+      font-size: clamp(.9rem, 1.22vw, 1.02rem);
+      line-height: 1.62;
     }
 
     .case-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
+      gap: 8px;
     }
 
     .case-block {
-      min-height: 120px;
-      padding: 14px;
+      padding: 11px 12px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: rgba(255, 255, 255, .045);
+      background: rgba(215, 226, 234, .055);
     }
 
-    .case-block b,
-    .detail-grid b {
+    .case-block b {
       display: block;
-      margin-bottom: 8px;
-      color: var(--soft);
-      font-size: 12px;
-      letter-spacing: .08em;
+      margin-bottom: 6px;
+      color: var(--cyan);
+      font-size: .82rem;
+    }
+
+    .case-block p {
+      color: var(--muted);
+      font-size: .86rem;
+      line-height: 1.58;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      padding: 6px 9px;
+      color: var(--ink);
+      font-size: .74rem;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(215, 226, 234, .06);
+    }
+
+    .contact {
+      min-height: 72vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .contact-card {
+      width: min(960px, 100%);
+      padding: clamp(28px, 6vw, 72px);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, rgba(143, 217, 255, .14), transparent 32%),
+        rgba(215, 226, 234, .045);
+    }
+
+    .contact-card h2 {
+      margin-bottom: 24px;
+      font-size: clamp(2.7rem, 8vw, 8.8rem);
+      font-weight: 900;
+      line-height: .86;
       text-transform: uppercase;
     }
 
-    .row-actions {
+    .contact-line {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      min-height: 32px;
-      padding: 0 10px;
-      color: var(--ink);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, .055);
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .stat {
-      min-height: 170px;
-      display: grid;
-      align-content: space-between;
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: rgba(255, 255, 255, .06);
-    }
-
-    .stat b {
+      justify-content: center;
+      gap: 10px 18px;
+      color: var(--muted);
       font-family: "Noto Sans SC", sans-serif;
-      font-size: clamp(56px, 8vw, 104px);
-      font-weight: 900;
-      line-height: .82;
-    }
-
-    .stat span {
-      color: var(--soft);
-      line-height: 1.6;
-    }
-
-    .statement-grid {
-      display: grid;
-      grid-template-columns: minmax(0, .72fr) minmax(280px, .5fr);
-      gap: 22px;
-      align-items: stretch;
-    }
-
-    .quote-card,
-    .principle-card {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: rgba(255, 255, 255, .06);
-      box-shadow: 0 18px 52px rgba(0, 0, 0, .22);
-    }
-
-    .quote-card {
-      display: grid;
-      align-content: center;
-      min-height: 360px;
-      padding: clamp(24px, 4vw, 52px);
-    }
-
-    .quote-card blockquote {
-      margin: 0;
-      font-family: "Noto Sans SC", sans-serif;
-      font-size: clamp(36px, 5vw, 72px);
-      font-weight: 900;
-      line-height: 1.08;
-    }
-
-    .quote-card cite {
-      margin-top: 24px;
-      color: var(--soft);
       font-style: normal;
-    }
-
-    .principle-grid {
-      display: grid;
-      gap: 14px;
-    }
-
-    .principle-card {
-      min-height: 173px;
-      padding: 20px;
-    }
-
-    .principle-card h3 {
-      margin: 0 0 12px;
-      font-family: "Noto Sans SC", sans-serif;
-      font-size: 34px;
-      font-weight: 900;
-    }
-
-    .principle-card p {
-      margin: 0;
-      color: var(--soft);
       line-height: 1.8;
     }
 
-    .cursor-cta {
-      position: relative;
-      overflow: hidden;
-      min-height: 360px;
-      display: grid;
-      place-items: center;
-      padding: 28px;
+    .contact-line strong,
+    .contact-line a {
       color: var(--ink);
-      text-align: center;
-      border-radius: var(--radius);
-      background:
-        linear-gradient(135deg, rgba(255, 106, 85, .2), transparent 34%),
-        linear-gradient(315deg, rgba(223, 255, 79, .28), transparent 38%),
-        #0b0c10;
-    }
-
-    .cursor-cta h2 {
-      position: relative;
-      z-index: 2;
-      max-width: 900px;
-      margin: 0;
-      font-family: "Noto Sans SC", sans-serif;
-      font-size: clamp(44px, 8vw, 112px);
       font-weight: 900;
-      line-height: 1;
-      letter-spacing: 0;
-    }
-
-    .cursor-cta .contact-line {
-      position: relative;
-      z-index: 2;
-      justify-content: center;
-      margin-top: 24px;
-      padding: 10px 16px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(5, 6, 7, .42);
-      backdrop-filter: blur(12px);
-    }
-
-    .dot {
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      border-radius: 999px;
-      background: var(--acid);
-      opacity: .82;
-      transform: translate(-50%, -50%);
-      transition: left .12s ease, top .12s ease;
-    }
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      z-index: 30;
-      display: none;
-      place-items: center;
-      padding: 18px;
-      background: rgba(0, 0, 0, .64);
-    }
-
-    .modal[open] {
-      display: grid;
-    }
-
-    .modal-content {
-      width: min(960px, 100%);
-      max-height: 92vh;
-      overflow: auto;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #101217;
-      box-shadow: var(--shadow);
-    }
-
-    .modal-image {
-      aspect-ratio: 16 / 8;
-      overflow: hidden;
-      background: #141820;
-    }
-
-    .modal-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .modal-body {
-      padding: 24px;
-    }
-
-    .modal-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .modal h3 {
-      margin: 0;
-      font-family: "Noto Sans SC", sans-serif;
-      font-size: clamp(34px, 6vw, 72px);
-      font-weight: 900;
-      line-height: 1.06;
-    }
-
-    .close {
-      flex: 0 0 auto;
-      width: 44px;
-      height: 44px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: var(--ink);
-      background: rgba(255, 255, 255, .06);
-    }
-
-    .detail-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .detail-grid div {
-      min-height: 104px;
-      padding: 14px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: rgba(255, 255, 255, .045);
-    }
-
-    .detail-grid span {
-      color: var(--soft);
-      line-height: 1.75;
+      overflow-wrap: anywhere;
     }
 
     .empty {
-      min-height: 360px;
-      display: grid;
-      place-items: center;
-      padding: 48px;
-      color: var(--soft);
+      padding: 38px;
       text-align: center;
-      border: 1px dashed var(--line);
+      border: 1px solid var(--line);
       border-radius: var(--radius);
-      background:
-        linear-gradient(135deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .03)),
-        radial-gradient(circle at 18% 24%, rgba(255, 106, 85, .18), transparent 24%),
-        radial-gradient(circle at 78% 72%, rgba(61, 99, 255, .14), transparent 24%);
+      background: rgba(215, 226, 234, .055);
     }
 
-    .empty strong {
-      display: block;
-      margin-bottom: 10px;
-      color: var(--ink);
-      font-family: "Noto Sans SC", sans-serif;
-      font-size: clamp(42px, 7vw, 92px);
-      font-weight: 900;
-      line-height: .9;
+    @keyframes floatPortrait {
+      0%, 100% { translate: 0 0; }
+      50% { translate: 0 -14px; }
     }
 
-    /* Neon gallery redesign overrides */
-    :root {
-      --bg: #050508;
-      --ink: #eeeeee;
-      --soft: #9a9aa6;
-      --line: rgba(232, 232, 236, .14);
-      --panel: #0c0c12;
-      --coal: #f1f1f5;
-      --acid: #d4d4e0;
-      --coral: #b9b9c6;
-      --blue: #e8e8ec;
-      --mint: #b8b8c8;
-      --shadow: 0 32px 92px rgba(0, 0, 0, .48);
-    }
-
-    body {
-      background:
-        radial-gradient(circle at var(--mx, 78%) var(--my, 18%), rgba(210, 210, 230, .10), transparent 23vw),
-        linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px) 0 0 / 46px 46px,
-        linear-gradient(0deg, rgba(255, 255, 255, .035) 1px, transparent 1px) 0 0 / 46px 46px,
-        #050508;
-    }
-
-    body::before {
-      background:
-        radial-gradient(ellipse at 55% 22%, rgba(255, 255, 255, .08), transparent 34vw),
-        radial-gradient(ellipse at 50% 120%, rgba(180, 180, 200, .10), transparent 38vw);
-    }
-
-    body::after {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      content: "";
-      pointer-events: none;
-      opacity: .045;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 220px 220px;
-      mix-blend-mode: screen;
-    }
-
-    .topbar {
-      width: min(760px, calc(100% - 24px));
-      background: rgba(5, 5, 8, .78);
-    }
-
-    .topbar .logo {
-      color: #050508;
-      background: var(--coal);
-    }
-
-    .hero {
-      position: relative;
-      min-height: 78vh;
-      padding-top: 132px;
-    }
-
-    .hero h1 {
-      max-width: 1180px;
-      font-size: clamp(78px, 14vw, 190px);
-      text-transform: none;
-    }
-
-    .hero h1 em {
-      color: var(--blue);
-      text-shadow: 0 0 34px rgba(232, 232, 236, .20), 0 22px 90px rgba(0, 0, 0, .62);
-      filter: none;
-    }
-
-    .hero-proof span,
-    .field,
-    .select,
-    .icon-button,
-    .stat,
-    .principle-card,
-    .quote-card,
-    .cursor-cta {
-      background: linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .025));
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
-    }
-
-    .button:hover {
-      box-shadow: 0 14px 42px rgba(220, 220, 240, .16);
-    }
-
-    .visual-strip {
-      position: relative;
-      display: block;
-      overflow: hidden;
-      padding: 0 0 52px;
-      border-bottom: 1px solid var(--line);
-      -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-      mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-    }
-
-    .visual-strip::before,
-    .visual-strip::after {
-      position: absolute;
-      top: 0;
-      bottom: 52px;
-      z-index: 3;
-      width: clamp(42px, 9vw, 130px);
-      content: "";
-      pointer-events: none;
-    }
-
-    .visual-strip::before {
-      left: 0;
-      background: linear-gradient(90deg, #050508, transparent);
-    }
-
-    .visual-strip::after {
-      right: 0;
-      background: linear-gradient(270deg, #050508, transparent);
-    }
-
-    .visual-track {
-      display: flex;
-      gap: 18px;
-      width: max-content;
-      padding-left: clamp(18px, 5vw, 76px);
-      animation: projectWheel 44s linear infinite;
-      will-change: transform;
-    }
-
-    .visual-strip:hover .visual-track {
-      animation-play-state: paused;
-    }
-
-    .visual-card {
-      flex: 0 0 clamp(230px, 28vw, 420px);
-      min-height: auto;
-      aspect-ratio: 16 / 10;
-      padding: 0;
-      color: var(--ink);
-      text-align: left;
-      scroll-snap-align: start;
-      background: #0a0a0f;
-      box-shadow: 0 32px 92px rgba(0, 0, 0, .48);
-      animation: none;
-      cursor: pointer;
-      transform: perspective(900px) rotateY(-4deg);
-      transition: transform .26s ease, border-color .26s ease, box-shadow .26s ease;
-    }
-
-    .visual-card:nth-child(1),
-    .visual-card:nth-child(2),
-    .visual-card:nth-child(3) {
-      grid-column: auto;
-      background: #0a0a0f;
-    }
-
-    .visual-card:hover {
-      border-color: rgba(232, 232, 236, .42);
-      transform: perspective(900px) rotateY(0deg) translateY(-5px) scale(1.015);
-      box-shadow: 0 36px 110px rgba(0, 0, 0, .62), 0 0 46px rgba(220, 220, 240, .10);
-    }
-
-    .visual-card::after {
-      inset: 0;
-      border: 0;
-      border-radius: 0;
-      background: linear-gradient(180deg, transparent 45%, rgba(0, 0, 0, .72));
-      mix-blend-mode: normal;
-    }
-
-    .visual-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(.08) contrast(1.08);
-      transition: transform .5s ease, filter .5s ease;
-    }
-
-    .visual-card:hover img {
-      transform: scale(1.035);
-      filter: grayscale(0) contrast(1.12);
-    }
-
-    .visual-card span {
-      position: absolute;
-      left: 18px;
-      right: 18px;
-      bottom: 16px;
-      z-index: 2;
-      color: var(--ink);
-      font-size: 15px;
-      font-weight: 900;
-      letter-spacing: 0;
-      text-shadow: 0 6px 22px rgba(0, 0, 0, .72);
-    }
-
-    @keyframes projectWheel {
-      from {
-        transform: translate3d(0, 0, 0);
-      }
-      to {
-        transform: translate3d(calc(-50% - 9px), 0, 0);
-      }
-    }
-
-    .marquee {
-      background: rgba(255, 255, 255, .025);
-    }
-
-    .marquee span {
-      color: var(--soft);
-      font-size: clamp(16px, 1.8vw, 26px);
-      background: rgba(255, 255, 255, .035);
-    }
-
-    .project-row {
-      overflow: hidden;
-      background: linear-gradient(145deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, .018));
-    }
-
-    .project-row:hover {
-      border-color: rgba(232, 232, 236, .36);
-      background: linear-gradient(145deg, rgba(255, 255, 255, .095), rgba(255, 255, 255, .035));
-    }
-
-    .project-media {
-      background: #08080c;
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08), 0 22px 70px rgba(0, 0, 0, .34);
-      aspect-ratio: 16 / 10;
-      min-height: 320px;
-    }
-
-    .project-media::after {
-      position: absolute;
-      inset: 0;
-      content: "";
-      pointer-events: none;
-      background:
-        linear-gradient(180deg, transparent 58%, rgba(0, 0, 0, .35)),
-        radial-gradient(circle at 64% 40%, rgba(255, 255, 255, .10), transparent 32%);
-      opacity: .85;
-    }
-
-    .project-info {
-      padding-right: clamp(8px, 2vw, 28px);
-    }
-
-    .project-info h3 {
-      font-size: clamp(38px, 5.4vw, 82px);
-    }
-
-    .pill {
-      background: rgba(255, 255, 255, .06);
-    }
-
-    .modal-content {
-      background: #0b0b11;
-      box-shadow: 0 34px 120px rgba(0, 0, 0, .68);
-    }
-
-    @media (max-width: 740px) {
-      .topbar {
-        top: 10px;
-        bottom: auto;
-        width: calc(100% - 20px);
-        overflow-x: auto;
-        justify-content: flex-start;
+    @media (max-width: 900px) {
+      .nav {
+        justify-content: center;
+        gap: 2px;
       }
 
-      .visual-strip {
-        padding-bottom: 28px;
-      }
-
-      .visual-card {
-        flex-basis: min(78vw, 340px);
-      }
-    }
-
-    @keyframes atmosphere {
-      from {
-        opacity: .62;
-        transform: translate3d(-2vw, -1vh, 0) scale(1);
-      }
-      to {
-        opacity: 1;
-        transform: translate3d(2vw, 1vh, 0) scale(1.04);
-      }
-    }
-
-    @keyframes cardFloat {
-      from {
-        transform: translateY(0) rotate(.001deg);
-      }
-      to {
-        transform: translateY(-14px) rotate(-1deg);
-      }
-    }
-
-    @keyframes marqueeMove {
-      from {
-        transform: translateX(0);
-      }
-      to {
-        transform: translateX(calc(-100% - 18px));
-      }
-    }
-
-    @media (max-width: 980px) {
-      .topbar {
-        overflow-x: auto;
-        justify-content: flex-start;
-      }
-
-      .hero-bottom,
-      .section-title,
-      .project-row,
-      .project-row:nth-child(even),
-      .statement-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-actions {
-        justify-content: flex-start;
-      }
-
-      .project-row:nth-child(even) .project-media {
-        order: 0;
-      }
-
-      .stats,
-      .case-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .toolbar {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .visual-card:nth-child(1),
-      .visual-card:nth-child(2),
-      .visual-card:nth-child(3) {
-        grid-column: span 4;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .site-shell {
-        padding-bottom: 94px;
-      }
-
-      .topbar {
-        top: 10px;
-        bottom: auto;
-      }
-
-      .topbar a {
-        padding: 0 12px;
+      .nav .brand {
+        display: none;
       }
 
       .hero {
-        min-height: 88vh;
-        padding-top: 104px;
+        padding-top: 84px;
       }
 
       .hero h1 {
-        font-size: clamp(68px, 24vw, 94px);
-        line-height: .88;
+        font-size: clamp(3.1rem, 15.2vw, 6.9rem);
+        white-space: normal;
       }
 
-      .hero-proof {
+      .hero-portrait {
+        top: 248px;
+        width: min(68vw, 360px, 45vh);
+      }
+
+      .hero-bottom {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .project-tools {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .field {
+        grid-column: 1 / -1;
+      }
+
+      .project-head,
+      .project-body {
         grid-template-columns: 1fr;
       }
 
-      .hero-proof span {
-        min-height: 48px;
+      .project-head .ghost {
+        justify-self: start;
       }
 
-      .cursor-cta .contact-line {
-        justify-content: flex-start;
-        border-radius: var(--radius);
+      .project-images {
+        min-height: 300px;
       }
 
-      .marquee {
-        padding: 14px 0;
+    }
+
+    @media (max-width: 560px) {
+      .nav a {
+        padding: 0 9px;
+        font-size: .68rem;
       }
 
-      .toolbar,
-      .stats,
-      .case-grid,
-      .detail-grid {
+      .hero {
+        min-height: 760px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.95rem, 15.2vw, 6.1rem);
+      }
+
+      .hero-portrait {
+        top: 244px;
+        width: min(68vw, 292px);
+      }
+
+      .hero-bottom {
+        width: 100%;
+      }
+
+      .hero-bottom .button {
+        width: min(100%, 340px);
+      }
+
+      .service-item,
+      .project-tools,
+      .project-images {
         grid-template-columns: 1fr;
       }
 
-      .visual-strip {
-        grid-template-columns: 1fr;
-      }
-
-      .visual-card:nth-child(1),
-      .visual-card:nth-child(2),
-      .visual-card:nth-child(3) {
-        grid-column: auto;
-      }
-
-      .project-row {
+      .project-card {
+        position: relative;
+        top: auto;
         min-height: auto;
+        margin-bottom: 28px;
+      }
+
+      .project-image {
+        min-height: 240px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+      }
+
+      .reveal,
+      .reveal.in-view {
+        opacity: 1;
+        transform: none;
+      }
+
+      .split-reveal .char {
+        opacity: 1;
       }
     }
   </style>
 </head>
 <body>
-  <nav class="topbar" aria-label="主导航">
-    <a class="logo" href="#top">作品集</a>
-    <a href="#work">作品</a>
-    <a href="assets/resume-wu-xinke.pdf" target="_blank" rel="noreferrer">简历</a>
-    <a href="#method">能力</a>
-    <a href="#contact">联系</a>
+  <nav class="nav" aria-label="主导航">
+    <a class="brand active" href="#top" data-nav-target="top">Daniel</a>
+    <a href="#about" data-nav-target="about">About</a>
+    <a href="#ability" data-nav-target="ability">Ability</a>
+    <a href="#projects" data-nav-target="projects">Projects</a>
+    <a href="#contact" data-nav-target="contact">Contact</a>
   </nav>
 
-  <main class="site-shell" id="top">
-    <section class="hero">
-      <div>
-        <h1><em>作品集</em></h1>
+  <main class="shell" id="top">
+    <section class="hero" aria-label="Daniel 作品集首页">
+      <div class="hero-title">
+        <h1 class="hero-heading">Hi, I'm Daniel</h1>
+      </div>
+      <div class="hero-portrait" id="heroPortrait" aria-hidden="true">
+        <img src="assets/hero-daniel-style-3d.png" alt="">
       </div>
       <div class="hero-bottom">
-        <div>
-          <p class="hero-copy">AI 应用 · 数据自动化 · 知识库</p>
-          <div class="hero-proof" aria-label="作品集能力摘要">
-            <span>AI 产品原型与智能问答系统</span>
-            <span>自动化脚本、报表和工作流</span>
-            <span>知识库、RAG 与内容处理能力</span>
-          </div>
-          <address class="contact-line" aria-label="联系方式">
-            <strong>吴新坷</strong>
-            <a href="tel:+8618066361663">M: (+86)180-6636-1663</a>
-            <a href="mailto:wxkzs2002@163.com">E: wxkzs2002@163.com</a>
-          </address>
+        <p class="hero-copy">AI creator driven by building useful workflows, knowledge systems and automation projects.</p>
+        <a class="button" href="assets/resume-wu-xinke.pdf" target="_blank" rel="noreferrer">Resume</a>
+      </div>
+    </section>
+
+    <section class="section about" id="about">
+      <div class="about-inner">
+        <div class="section-title">
+          <h2 class="hero-heading reveal split-heading" data-reveal data-split-reveal>About Me</h2>
+          <p class="split-reveal" data-split-reveal>我关注 AI 应用、自动化脚本、知识库和工作流交付。这个作品集把我的项目按真实问题、方案设计、角色职责和交付物重新整理，方便快速判断我如何把模糊需求拆成可运行的工具。</p>
         </div>
-        <div class="hero-actions">
-          <a class="button" href="assets/resume-wu-xinke.pdf" target="_blank" rel="noreferrer">查看简历</a>
-          <a class="button secondary" href="#work">查看作品</a>
-          <a class="button secondary" href="#method">查看能力结构</a>
+        <div class="about-actions reveal" data-reveal style="--reveal-delay:180ms">
+          <a class="button secondary" href="#projects">View Projects</a>
+          <a class="button" href="assets/resume-wu-xinke.pdf" target="_blank" rel="noreferrer">Resume</a>
         </div>
       </div>
     </section>
 
-    <section class="visual-strip" id="visualStrip" aria-label="作品视觉预览">
-    </section>
-
-    <section class="marquee" aria-label="能力关键词">
-      <div class="marquee-track">
-        <span>AI 应用开发</span>
-        <span>RAG 知识库</span>
-        <span>Agent 工作流</span>
-        <span>数据自动化</span>
-        <span>内容质检</span>
-        <span>桌面效率工具</span>
-        <span>项目交付</span>
-      </div>
-      <div class="marquee-track" aria-hidden="true">
-        <span>AI 应用开发</span>
-        <span>RAG 知识库</span>
-        <span>Agent 工作流</span>
-        <span>数据自动化</span>
-        <span>内容质检</span>
-        <span>桌面效率工具</span>
-        <span>项目交付</span>
-      </div>
-    </section>
-
-    <section class="section" id="work">
+    <section class="section ability" id="ability">
       <div class="section-title">
-        <h2>精选作品</h2>
-        <p>每个项目都按“项目描述、解决的问题、方案设计、职责与工具”整理，方便快速判断项目复杂度、技术栈和实际产出。</p>
+        <h2 class="reveal" data-reveal>Ability</h2>
       </div>
-      <div class="toolbar" id="filterToolbar">
+      <div class="service-list">
+        <article class="service-item reveal" data-reveal style="--reveal-delay:0ms">
+          <strong>01</strong>
+          <div>
+            <h3>AI Workflow</h3>
+            <p>能设计 RAG 问答、Agent 推送、内容质检和 Skill 创建流程，把大模型能力接入具体业务任务。</p>
+          </div>
+        </article>
+        <article class="service-item reveal" data-reveal style="--reveal-delay:90ms">
+          <strong>02</strong>
+          <div>
+            <h3>Automation</h3>
+            <p>能用 Python、配置文件、CSV 和脚本管线处理周报、广告数据、桌面输入和批量交付。</p>
+          </div>
+        </article>
+        <article class="service-item reveal" data-reveal style="--reveal-delay:180ms">
+          <strong>03</strong>
+          <div>
+            <h3>Knowledge System</h3>
+            <p>能把 PDF、网页、文献和业务资料沉淀成可检索、可复用、可追踪来源的知识库结构。</p>
+          </div>
+        </article>
+        <article class="service-item reveal" data-reveal style="--reveal-delay:270ms">
+          <strong>04</strong>
+          <div>
+            <h3>Product Delivery</h3>
+            <p>能从需求澄清、流程拆解、工具搭建到演示文档和压缩包交付，关注项目是否能被他人继续使用。</p>
+          </div>
+        </article>
+        <article class="service-item reveal" data-reveal style="--reveal-delay:360ms">
+          <strong>05</strong>
+          <div>
+            <h3>Frontend Portfolio</h3>
+            <p>能独立完成个人作品集前端页面，包括视觉风格、响应式布局、滚动动画、3D 头像交互和项目展示体验。</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section projects" id="projects">
+      <div class="section-title">
+        <h2 class="hero-heading">Project</h2>
+      </div>
+      <div class="project-tools" id="filterToolbar">
         <input class="field" id="searchInput" type="search" placeholder="搜索项目、技术或关键词">
         <select class="select" id="categoryFilter" aria-label="按分类筛选"></select>
         <select class="select" id="yearFilter" aria-label="按年份筛选"></select>
@@ -1243,46 +887,11 @@
       <div class="project-stack" id="projectStack"></div>
     </section>
 
-    <section class="section" id="method">
-      <div class="section-title">
-        <h2>能力结构</h2>
-        <p>这些项目共同体现四类能力：把业务问题拆成流程、把流程做成工具、把资料沉淀成知识库、把结果整理成可复用交付物。</p>
-      </div>
-      <div class="stats">
-        <div class="stat"><b id="statTotal">0</b><span>项目作品</span></div>
-        <div class="stat"><b id="statCategories">0</b><span>能力方向</span></div>
-        <div class="stat"><b id="statYears">0</b><span>项目年份</span></div>
-        <div class="stat"><b id="statFeatured">0</b><span>重点展示</span></div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="statement-grid">
-        <article class="quote-card">
-          <blockquote>我擅长把模糊需求拆成可运行的 AI 工具。</blockquote>
-          <cite>从问题理解、流程设计到脚本实现和结果交付，我更关注工具能否真实减少重复劳动。</cite>
-        </article>
-        <div class="principle-grid">
-          <article class="principle-card">
-            <h3>AI 产品与工作流</h3>
-            <p>能设计 RAG 问答、Agent 自动化、内容质检、智能推送等流程，把大模型能力接到具体业务任务里。</p>
-          </article>
-          <article class="principle-card">
-            <h3>数据自动化与知识系统</h3>
-            <p>能用 Python、配置文件和结构化文档搭建报表、知识库、批处理脚本和可复用 Skill，提高团队执行效率。</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="contact">
-      <div class="cursor-cta" id="cursorCta">
-        <span class="dot" id="dotOne"></span>
-        <span class="dot" id="dotTwo" style="background:var(--coral);width:15px;height:15px"></span>
-        <span class="dot" id="dotThree" style="background:var(--blue);width:30px;height:30px"></span>
-        <h2>期待在更真实的业务场景里继续构建 AI 工具。</h2>
+    <section class="section contact" id="contact">
+      <div class="contact-card">
+        <h2 class="hero-heading">Let's connect.</h2>
         <address class="contact-line" aria-label="联系方式">
-          <strong>吴新坷</strong>
+          <strong>吴新坷 / Daniel</strong>
           <a href="tel:+8618066361663">M: (+86)180-6636-1663</a>
           <a href="mailto:wxkzs2002@163.com">E: wxkzs2002@163.com</a>
         </address>
@@ -1290,39 +899,17 @@
     </section>
   </main>
 
-  <dialog class="modal" id="projectModal">
-    <div class="modal-content">
-      <div class="modal-image"><img id="modalImage" alt=""></div>
-      <div class="modal-body">
-        <div class="modal-top">
-          <div>
-            <p class="eyebrow" id="modalMeta"></p>
-            <h3 id="modalTitle"></h3>
-          </div>
-          <button class="close" id="closeModal" type="button" aria-label="关闭详情">×</button>
-        </div>
-        <p class="hero-copy" id="modalDescription"></p>
-        <div class="detail-grid">
-          <div><b>解决的问题</b><span id="modalProblem"></span></div>
-          <div><b>方案设计</b><span id="modalSolution"></span></div>
-          <div><b>我的职责</b><span id="modalRole"></span></div>
-          <div><b>使用工具</b><span id="modalTools"></span></div>
-        </div>
-      </div>
-    </div>
-  </dialog>
-
   <script>
     const projectsData = [
       {
         title: "员工 Skill 创建助手",
-        category: "AI 工作流",
+        category: "AI Workflow",
         year: "2026",
         role: "Skill 结构设计 / 创建脚本编写 / 交付校验",
-        tools: "SKILL.md、Markdown、Python、references、scripts",
-        description: "一个帮助员工把工作经验沉淀成内部 Skill 的工具包，包含写作规范、流程参考、输出模板、初始化脚本、结构校验和打包脚本。",
-        problem: "员工在沉淀 AI 工作流时，常把经验写成散文式说明，缺少触发条件、执行步骤、资源读取规则、脚本入口和交付检查，导致 Skill 难以被另一个 AI 稳定复用。",
-        solution: "把创建流程拆成用途澄清、目录初始化、SKILL.md 编写、references/scripts/assets 整理、quick_validate 校验和 package 打包，形成从想法到可交付 Skill 的标准路径。",
+        tools: "SKILL.md, Markdown, Python, references, scripts",
+        description: "帮助员工把工作经验沉淀成内部 Skill 的工具包，包含写作规范、流程参考、输出模板、初始化脚本、结构校验和打包脚本。",
+        problem: "员工在沉淀 AI 工作流时，常把经验写成散文式说明，缺少触发条件、执行步骤、资源读取规则、脚本入口和交付检查。",
+        solution: "把创建流程拆成用途澄清、目录初始化、SKILL.md 编写、references/scripts/assets 整理、quick_validate 校验和 package 打包。",
         image: "assets/project-skill-creator.png",
         link: "assets/skill-creator.zip",
         linkLabel: "下载 ZIP",
@@ -1331,13 +918,13 @@
       },
       {
         title: "内容质检与评论助手",
-        category: "AI 工作流",
+        category: "AI Workflow",
         year: "2026",
         role: "质检流程拆解 / 规则文件整理 / 评论写入脚本",
-        tools: "Skill、Python、OCR、JSON Schema、规则配置、Markdown 报告",
-        description: "一个用于企业内容审核的 Skill，按“文档提取、图片 OCR、规则命中、模型复核、报告生成、确认后写入评论”的步骤完成内容质检。",
-        problem: "图文内容审核既要检查正文，也要检查图片里的文字，还要区分通用规则、行业规则和项目规则；人工检查容易漏掉图片文字、敏感表达和规则依据。",
-        solution: "用脚本抽取文档文本与图片，合并 OCR 结果后执行多层规则匹配，再用结构化输入输出约束模型复核，最终生成质检报告，并在用户确认后把问题点写回到对应评论位置。",
+        tools: "Skill, Python, OCR, JSON Schema, Markdown",
+        description: "用于企业内容审核的 Skill，按文档提取、图片 OCR、规则命中、模型复核、报告生成、确认后写入评论完成质检。",
+        problem: "图文内容审核既要检查正文，也要检查图片里的文字，还要区分通用规则、行业规则和项目规则。",
+        solution: "抽取文档文本与图片，合并 OCR 结果后执行多层规则匹配，再用结构化输入输出约束模型复核并生成质检报告。",
         image: "assets/project-content-review.png",
         link: "assets/content-review-skill.zip",
         linkLabel: "下载 ZIP",
@@ -1346,13 +933,13 @@
       },
       {
         title: "客户广告报告 Skill 模板",
-        category: "数据自动化",
+        category: "Data Automation",
         year: "2026",
         role: "客户模板设计 / 指标口径整理 / 报告生成流程",
-        tools: "Skill、Python、Excel、JSON 配置、字段映射、计算规则",
-        description: "一个用于快速生成客户广告报告 Skill 的模板，围绕客户信息、投放模式、报表类型、字段映射、计算规则和报告脚本组织交付结构。",
-        problem: "不同客户的账户结构、投放模式、报告频率和指标口径不一致，如果每次临时改脚本，容易出现字段命名混乱、计算口径不统一和交付文件难复用的问题。",
-        solution: "把客户配置、字段映射、指标计算、城市省份映射和报告引擎分离成固定目录，新建客户时先确认客户信息和报告样式，再生成独立 Skill 目录，复用同一套报表生产框架。",
+        tools: "Skill, Python, Excel, JSON, 字段映射",
+        description: "用于快速生成客户广告报告 Skill 的模板，围绕客户信息、投放模式、报表类型、字段映射、计算规则和报告脚本组织交付结构。",
+        problem: "不同客户的账户结构、报告频率和指标口径不一致，临时改脚本容易造成字段混乱、计算口径不统一和交付文件难复用。",
+        solution: "把客户配置、字段映射、指标计算、城市省份映射和报告引擎分离成固定目录，复用同一套报表生产框架。",
         image: "assets/project-ad-report.png",
         link: "assets/ad-report-skill-template.zip",
         linkLabel: "下载 ZIP",
@@ -1361,13 +948,13 @@
       },
       {
         title: "客户周报自动化助手",
-        category: "数据自动化",
+        category: "Data Automation",
         year: "2026",
         role: "周报配置设计 / 聚合逻辑实现 / 脱敏交付",
-        tools: "Skill、Python、CSV、JSON 配置、指标计算、校验摘要",
-        description: "一个脱敏后的周报自动化模板，读取本地 CSV，按配置生成整体汇总、投放位置、内容类型等周报页面，并输出校验摘要。",
-        problem: "每周报告需要反复整理花费、曝光、点击、转化等数据，再计算 CPC、CTR、转化率、转化成本；手工处理容易漏行、算错口径或忘记检查异常值。",
-        solution: "在配置中定义日期范围、分组维度、基础指标、派生指标和页面结构，由脚本完成数据聚合、指标计算、CSV 输出和摘要校验，作品集版本只保留占位客户与本地示例数据。",
+        tools: "Skill, Python, CSV, JSON, 指标计算",
+        description: "脱敏后的周报自动化模板，读取本地 CSV，按配置生成整体汇总、投放位置、内容类型等周报页面，并输出校验摘要。",
+        problem: "每周报告需要反复整理花费、曝光、点击、转化等数据，再计算 CPC、CTR、转化率、转化成本。",
+        solution: "在配置中定义日期范围、分组维度、基础指标、派生指标和页面结构，由脚本完成数据聚合、指标计算、CSV 输出和摘要校验。",
         image: "assets/project-weekly-report.png",
         link: "assets/weekly-report-automation.zip",
         linkLabel: "下载 ZIP",
@@ -1376,13 +963,13 @@
       },
       {
         title: "跨境电商智能助教系统",
-        category: "AI 应用",
+        category: "AI App",
         year: "2026",
         role: "Dify 工作流搭建 / 意图分类 / RAG 召回调优",
-        tools: "Dify、RAG、qwen3-max、qwen3-rerank、Python",
-        description: "一个面向跨境电商学习与运营咨询的 Dify 智能助教，通过意图识别、条件路由、知识库召回、重排序和双模式回答完成专业问答。",
-        problem: "跨境电商问题既包含问候、转人工、投诉等服务类意图，也包含平台规则、运营策略和专业概念咨询；如果全部交给同一个问答节点，回复容易跑偏或缺少依据。",
-        solution: "先识别问候、礼貌用语、人工服务和知识咨询四类意图，再将专业问题送入 RAG 流程；知识库召回后用重排序模型筛选 Top-K 内容，并区分专业模式与通用模式，减少无依据回答。",
+        tools: "Dify, RAG, qwen3-max, qwen3-rerank, Python",
+        description: "面向跨境电商学习与运营咨询的 Dify 智能助教，通过意图识别、条件路由、知识库召回、重排序和双模式回答完成专业问答。",
+        problem: "跨境电商问题既包含服务类意图，也包含平台规则、运营策略和专业概念咨询，全部交给同一问答节点容易跑偏。",
+        solution: "先识别问候、礼貌用语、人工服务和知识咨询四类意图，再将专业问题送入 RAG 流程并用重排序模型筛选 Top-K 内容。",
         image: "assets/project-rag-tutor.png",
         link: "assets/rag-cross-border-tutor.pdf",
         linkLabel: "查看 PDF",
@@ -1391,13 +978,13 @@
       },
       {
         title: "AI 新闻智能推送与日程助手",
-        category: "AI 自动化",
+        category: "AI Automation",
         year: "2026",
         role: "n8n 编排 / Agent 工具设计 / 推送卡片生成",
-        tools: "n8n、DeepSeek Chat、JavaScript、日程数据、Webhook",
-        description: "一个每天 8 点自动运行的 AI 新闻简报系统，抓取近两天新闻和未来 7 天日程，让 Agent 判断用户是否适合阅读、归档或安排后续行动。",
-        problem: "AI 新闻更新快，但用户当天是否有空阅读、哪些内容值得优先看、忙碌时是否只需要归档提醒，这些判断很难靠固定规则完成。",
-        solution: "用 n8n 定时触发，分别获取新闻和日程数据，交给带有 news、daily 两个工具的 Agent 生成 Markdown 建议，再通过群消息卡片推送，实现信息筛选、日程判断和提醒发送闭环。",
+        tools: "n8n, DeepSeek Chat, JavaScript, Webhook",
+        description: "每天 8 点自动运行的 AI 新闻简报系统，抓取近两天新闻和未来 7 天日程，让 Agent 判断用户是否适合阅读、归档或安排行动。",
+        problem: "AI 新闻更新快，但当天是否有空阅读、哪些内容优先看、忙碌时是否只需归档提醒，很难靠固定规则完成。",
+        solution: "用 n8n 定时触发，分别获取新闻和日程数据，交给带有 news、daily 两个工具的 Agent 生成 Markdown 建议，再通过群消息卡片推送。",
         image: "assets/project-ai-news.png",
         link: "assets/agent-news-digest.pdf",
         linkLabel: "查看 PDF",
@@ -1406,13 +993,13 @@
       },
       {
         title: "AI 语音输入助手",
-        category: "AI 应用",
+        category: "AI App",
         year: "2026",
         role: "Windows 桌面工具开发 / 音频流处理 / Prompt 优化",
-        tools: "Python、PyAudio、WebSocket、Tkinter、pystray、keyboard",
-        description: "一个 Windows 桌面语音输入工具，按住快捷键录音，完成实时识别、AI 文本润色、剪贴板写入和跨应用粘贴，适合办公场景快速输入长文本。",
-        problem: "真实办公输入不只是把语音转文字，还要处理麦克风设备选择、录音状态反馈、流式识别稳定性、口语化文本整理、全局热键冲突和不同软件的粘贴兼容性。",
-        solution: "用 PyAudio 采集 16kHz 音频并分帧发送到 WebSocket 识别服务，识别结果再交给大模型做标点、语序和书面化优化；桌面端用托盘、状态提示、快捷键监听和剪贴板粘贴完成闭环。",
+        tools: "Python, PyAudio, WebSocket, Tkinter, pystray",
+        description: "Windows 桌面语音输入工具，按住快捷键录音，完成实时识别、AI 文本润色、剪贴板写入和跨应用粘贴。",
+        problem: "真实办公输入不只是语音转文字，还要处理设备选择、录音状态反馈、流式识别稳定性、文本整理、全局热键和粘贴兼容。",
+        solution: "用 PyAudio 采集 16kHz 音频并分帧发送到 WebSocket 识别服务，识别结果再交给大模型做标点、语序和书面化优化。",
         image: "assets/project-voice-input.png",
         link: "assets/ai-voice-input.pdf",
         linkLabel: "查看 PDF",
@@ -1421,65 +1008,26 @@
       },
       {
         title: "通用个人知识库 Skill",
-        category: "知识系统",
+        category: "Knowledge System",
         year: "2026",
         role: "知识库架构设计 / 网页与文献接入 / 检索工作流",
-        tools: "Skill、Python、Markdown、MinerU VLM、Firecrawl、Sciverse、qmd",
-        description: "一个 Obsidian 风格的个人知识库 Skill，用于把 PDF、PPT、Word、网页和文献检索结果沉淀为来源页、主题页、实体页，并建立可检索索引。",
-        problem: "资料管理不只包括本地 PDF，还会涉及网页材料、论文候选、DOI 落地页和后续写作证据；如果缺少统一入口，网页、文献发现、解析、消化和检索会分散在不同工具里。",
-        solution: "建立 raw、parsed、digest、wiki、retrieval 的分层契约：PDF 走 MinerU VLM，网页走 Firecrawl，文献发现走 Sciverse，统一生成 parsed/source bundle 后再由 LLM 消化为 digest，脚本负责重建页面、审计链接、生成 qmd 检索索引，并支持论文模式下的文献桥接和章节草稿工作面。",
+        tools: "Skill, Python, Markdown, MinerU VLM, Firecrawl, Sciverse",
+        description: "Obsidian 风格的个人知识库 Skill，用于把 PDF、PPT、Word、网页和文献检索结果沉淀为来源页、主题页、实体页并建立检索索引。",
+        problem: "资料管理不只包括本地 PDF，还涉及网页材料、论文候选、DOI 落地页和后续写作证据，缺少统一入口会让解析、消化和检索分散。",
+        solution: "建立 raw、parsed、digest、wiki、retrieval 的分层契约：PDF 走 MinerU VLM，网页走 Firecrawl，文献发现走 Sciverse，再统一生成检索索引。",
         image: "assets/project-knowledge-base.png",
         link: "assets/general-knowledge-base.zip",
         linkLabel: "下载 ZIP",
         featured: true,
         tags: ["知识库", "Firecrawl", "Sciverse", "MinerU", "论文写作"]
       }
-      /*
-      后续项目发给我后，我会按这个结构补充：
-      {
-        title: "项目名称",
-        category: "分类",
-        year: "年份",
-        role: "你的角色",
-        tools: "工具或技术",
-        description: "项目描述",
-        problem: "为了解决什么问题",
-        solution: "解决方案",
-        image: "assets/project-image.png",
-        link: "",
-        linkLabel: "打开",
-        featured: true,
-        tags: ["关键词"]
-      }
-      */
     ];
 
-    let projects = projectsData.map(normalizeProject);
-
     const stack = document.querySelector("#projectStack");
-    const visualStrip = document.querySelector("#visualStrip");
     const searchInput = document.querySelector("#searchInput");
     const categoryFilter = document.querySelector("#categoryFilter");
     const yearFilter = document.querySelector("#yearFilter");
-    const filterToolbar = document.querySelector("#filterToolbar");
-
-    function normalizeProject(raw) {
-      return {
-        title: raw.title || "未命名项目",
-        category: raw.category || "其他",
-        year: String(raw.year || "待补充"),
-        role: raw.role || "待补充",
-        tools: raw.tools || "待补充",
-        description: raw.description || "",
-        problem: raw.problem || "",
-        solution: raw.solution || "",
-        image: raw.image || "assets/work-portfolio.png",
-        link: raw.link || "",
-        linkLabel: raw.linkLabel || "打开",
-        featured: Boolean(raw.featured),
-        tags: Array.isArray(raw.tags) ? raw.tags : String(raw.tags || "").split(",").map((tag) => tag.trim()).filter(Boolean)
-      };
-    }
+    const navLinks = [...document.querySelectorAll("[data-nav-target]")];
 
     function escapeHtml(value) {
       return String(value).replace(/[&<>"']/g, (char) => ({
@@ -1492,17 +1040,16 @@
     }
 
     function updateFilters() {
-      const categories = ["全部", ...new Set(projects.map((project) => project.category))];
-      const years = ["全部", ...new Set(projects.map((project) => project.year))].sort((a, b) => b.localeCompare(a));
+      const categories = ["全部", ...new Set(projectsData.map((project) => project.category))];
+      const years = ["全部", ...new Set(projectsData.map((project) => project.year))].sort((a, b) => b.localeCompare(a));
       categoryFilter.innerHTML = categories.map((item) => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`).join("");
       yearFilter.innerHTML = years.map((item) => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`).join("");
-      filterToolbar.hidden = projects.length === 0;
     }
 
     function filteredProjects() {
       const query = searchInput.value.trim().toLowerCase();
-      return projects.filter((project) => {
-        const text = [
+      return projectsData.filter((project) => {
+        const searchable = [
           project.title,
           project.category,
           project.year,
@@ -1513,100 +1060,147 @@
           project.solution,
           project.tags.join(" ")
         ].join(" ").toLowerCase();
-        return (!query || text.includes(query))
+
+        return (!query || searchable.includes(query))
           && (categoryFilter.value === "全部" || project.category === categoryFilter.value)
           && (yearFilter.value === "全部" || project.year === yearFilter.value);
       });
     }
 
-    function renderStats() {
-      document.querySelector("#statTotal").textContent = projects.length;
-      document.querySelector("#statCategories").textContent = new Set(projects.map((project) => project.category)).size;
-      document.querySelector("#statYears").textContent = new Set(projects.map((project) => project.year)).size;
-      document.querySelector("#statFeatured").textContent = projects.filter((project) => project.featured).length;
+    function imageFallback(event) {
+      event.currentTarget.src = "assets/work-portfolio.png";
     }
 
     function renderProjects() {
       const visible = filteredProjects();
       if (!visible.length) {
-        stack.innerHTML = `
-          <div class="empty">
-            <div>
-              <strong>没有匹配的项目</strong>
-              <span>可以换一个关键词，或者重置筛选查看全部作品。</span>
-            </div>
-          </div>
-        `;
+        stack.innerHTML = '<div class="empty"><strong>没有匹配的项目</strong><br><span>换一个关键词或重置筛选查看全部作品。</span></div>';
         return;
       }
 
-      stack.innerHTML = visible.map((project, index) => `
-        <article class="project-row">
-          <div class="project-media">
-            <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)} project image" loading="lazy" onerror="this.src='assets/work-portfolio.png'">
-          </div>
-          <div class="project-info">
-            <div class="eyebrow">
-              <span>${escapeHtml(project.category)}</span>
-              <span>${escapeHtml(project.year)}</span>
-              <span>${escapeHtml(project.role)}</span>
-            </div>
-            <h3>${escapeHtml(project.title)}</h3>
-            <p>${escapeHtml(project.description)}</p>
-            <div class="case-grid">
-              <div class="case-block"><b>解决的问题</b><p>${escapeHtml(project.problem)}</p></div>
-              <div class="case-block"><b>方案设计</b><p>${escapeHtml(project.solution)}</p></div>
-            </div>
-            <div>${project.tags.map((tag) => `<span class="pill">${escapeHtml(tag)}</span>`).join(" ")}</div>
-            <div class="row-actions">
-              <button class="button" type="button" data-detail="${index}">查看详情</button>
-              ${project.link ? `<a class="button secondary" href="${escapeHtml(project.link)}" target="_blank" rel="noreferrer">${escapeHtml(project.linkLabel)}</a>` : ""}
-            </div>
-          </div>
-        </article>
-      `).join("");
-
-      stack.querySelectorAll("[data-detail]").forEach((button) => {
-        button.addEventListener("click", () => showDetail(visible[Number(button.dataset.detail)]));
-      });
-    }
-
-    function renderVisualStrip() {
-      const wheelItems = [...projects, ...projects].map((project, index) => {
-        const projectIndex = index % projects.length;
-        const duplicateAttrs = index >= projects.length ? ' aria-hidden="true" tabindex="-1"' : "";
+      stack.innerHTML = visible.map((project, index) => {
+        const top = 84 + Math.min(index, 5) * 8;
+        const scale = 1 - Math.min(index, 5) * 0.004;
         return `
-          <button class="visual-card" type="button" data-visual-detail="${projectIndex}" aria-label="查看${escapeHtml(project.title)}详情"${duplicateAttrs}>
-            <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)} project cover" loading="${index < 4 ? "eager" : "lazy"}" onerror="this.src='assets/work-portfolio.png'">
-            <span>${escapeHtml(project.title)}</span>
-          </button>
+          <article class="project-card" style="top:${top}px;transform:scale(${scale});">
+            <div class="project-head">
+              <strong class="project-number">${String(index + 1).padStart(2, "0")}</strong>
+              <div>
+                <div class="project-meta">
+                  <span>${escapeHtml(project.category)}</span>
+                  <span>${escapeHtml(project.year)}</span>
+                  <span>${escapeHtml(project.role)}</span>
+                </div>
+                <h3>${escapeHtml(project.title)}</h3>
+              </div>
+              ${project.link ? `<a class="ghost" href="${escapeHtml(project.link)}" target="_blank" rel="noreferrer">${escapeHtml(project.linkLabel)}</a>` : ""}
+            </div>
+            <div class="project-body">
+              <div class="project-images">
+                <div class="project-image"><img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)} 项目主图" loading="lazy"></div>
+              </div>
+              <div class="project-text">
+                <p>${escapeHtml(project.description)}</p>
+                <div class="case-grid">
+                  <div class="case-block"><b>解决的问题</b><p>${escapeHtml(project.problem)}</p></div>
+                  <div class="case-block"><b>方案设计</b><p>${escapeHtml(project.solution)}</p></div>
+                  <div class="case-block"><b>我的职责 / 工具</b><p>${escapeHtml(project.role)} · ${escapeHtml(project.tools)}</p></div>
+                </div>
+                <div class="tags">${project.tags.map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>
+              </div>
+            </div>
+          </article>
         `;
       }).join("");
 
-      visualStrip.innerHTML = `<div class="visual-track">${wheelItems}</div>`;
-
-      visualStrip.querySelectorAll("[data-visual-detail]").forEach((button) => {
-        button.addEventListener("click", () => showDetail(projects[Number(button.dataset.visualDetail)]));
+      stack.querySelectorAll("img").forEach((img) => {
+        img.addEventListener("error", imageFallback);
       });
     }
 
-    function showDetail(project) {
-      document.querySelector("#modalImage").src = project.image;
-      document.querySelector("#modalImage").alt = `${project.title} project image`;
-      document.querySelector("#modalMeta").textContent = `${project.category} / ${project.year}`;
-      document.querySelector("#modalTitle").textContent = project.title;
-      document.querySelector("#modalDescription").textContent = project.description;
-      document.querySelector("#modalProblem").textContent = project.problem;
-      document.querySelector("#modalSolution").textContent = project.solution;
-      document.querySelector("#modalRole").textContent = project.role;
-      document.querySelector("#modalTools").textContent = project.tools;
-      document.querySelector("#projectModal").setAttribute("open", "");
+    function initRevealAnimations() {
+      const revealItems = [...document.querySelectorAll("[data-reveal]")];
+      const markVisible = () => {
+        const viewport = window.innerHeight || document.documentElement.clientHeight;
+        revealItems.forEach((item) => {
+          if (item.classList.contains("in-view")) return;
+          const rect = item.getBoundingClientRect();
+          if (rect.top < viewport * .72 && rect.bottom > viewport * .08) {
+            item.classList.add("in-view");
+          }
+        });
+      };
+
+      if (!("IntersectionObserver" in window)) {
+        revealItems.forEach((item) => item.classList.add("in-view"));
+        document.body.classList.add("reveal-ready");
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("in-view");
+          observer.unobserve(entry.target);
+        });
+      }, {
+        root: null,
+        rootMargin: "0px 0px -26% 0px",
+        threshold: 0.18
+      });
+
+      revealItems.forEach((item) => observer.observe(item));
+      markVisible();
+      document.body.classList.add("reveal-ready");
+      window.addEventListener("scroll", markVisible, { passive: true });
+      window.addEventListener("resize", markVisible);
     }
 
-    function refresh() {
-      renderStats();
-      renderVisualStrip();
-      renderProjects();
+    function initSplitRevealText() {
+      document.querySelectorAll("[data-split-reveal]").forEach((element) => {
+        const text = element.textContent || "";
+        element.textContent = "";
+        [...text].forEach((char) => {
+          const span = document.createElement("span");
+          span.className = "char";
+          span.textContent = char;
+          element.appendChild(span);
+        });
+      });
+      updateSplitRevealText();
+    }
+
+    function updateSplitRevealText() {
+      document.querySelectorAll("[data-split-reveal]").forEach((element) => {
+        const rect = element.getBoundingClientRect();
+        const viewport = window.innerHeight || document.documentElement.clientHeight;
+        const progress = (viewport * .95 - rect.top) / (viewport * .72 + rect.height);
+        const clamped = Math.max(0, Math.min(1, progress));
+        const chars = [...element.querySelectorAll(".char")];
+        const total = Math.max(1, chars.length - 1);
+
+        chars.forEach((char, index) => {
+          const start = index / total;
+          const opacity = Math.max(.42, Math.min(1, (clamped - start * .45) / .22));
+          char.style.setProperty("--char-opacity", opacity.toFixed(3));
+        });
+      });
+    }
+
+    function updateActiveNav() {
+      const sections = ["top", "about", "ability", "projects", "contact"]
+        .map((id) => ({ id, element: document.getElementById(id) }))
+        .filter((item) => item.element);
+      const marker = window.scrollY + Math.max(120, window.innerHeight * 0.28);
+      let activeId = "top";
+
+      sections.forEach(({ id, element }) => {
+        if (element.offsetTop <= marker) activeId = id;
+      });
+
+      navLinks.forEach((link) => {
+        link.classList.toggle("active", link.dataset.navTarget === activeId);
+      });
     }
 
     document.querySelector("#resetFilters").addEventListener("click", () => {
@@ -1615,35 +1209,52 @@
       yearFilter.value = "全部";
       renderProjects();
     });
-    document.querySelector("#closeModal").addEventListener("click", () => {
-      document.querySelector("#projectModal").removeAttribute("open");
-    });
-    document.querySelector("#projectModal").addEventListener("click", (event) => {
-      if (event.target.id === "projectModal") event.currentTarget.removeAttribute("open");
-    });
+
     [searchInput, categoryFilter, yearFilter].forEach((control) => {
       control.addEventListener("input", renderProjects);
       control.addEventListener("change", renderProjects);
     });
 
+    const heroPortrait = document.querySelector("#heroPortrait");
+
+    function resetHeroPortrait() {
+      if (!heroPortrait) return;
+      heroPortrait.style.setProperty("--head-x", "0px");
+      heroPortrait.style.setProperty("--head-y", "0px");
+      heroPortrait.style.setProperty("--head-rx", "0deg");
+      heroPortrait.style.setProperty("--head-ry", "0deg");
+    }
+
     window.addEventListener("pointermove", (event) => {
       document.body.style.setProperty("--mx", `${Math.round((event.clientX / window.innerWidth) * 100)}%`);
       document.body.style.setProperty("--my", `${Math.round((event.clientY / window.innerHeight) * 100)}%`);
-    });
 
-    document.querySelector("#cursorCta").addEventListener("pointermove", (event) => {
-      const box = event.currentTarget.getBoundingClientRect();
-      const x = event.clientX - box.left;
-      const y = event.clientY - box.top;
-      [["#dotOne", 0], ["#dotTwo", 28], ["#dotThree", -34]].forEach(([selector, offset]) => {
-        const dot = document.querySelector(selector);
-        dot.style.left = `${x + offset}px`;
-        dot.style.top = `${y - offset}px`;
-      });
-    });
+      if (!heroPortrait || window.matchMedia("(pointer: coarse)").matches) return;
+      const box = heroPortrait.getBoundingClientRect();
+      const centerX = box.left + box.width / 2;
+      const centerY = box.top + box.height / 2;
+      const dx = (event.clientX - centerX) / box.width;
+      const dy = (event.clientY - centerY) / box.height;
+      const clampedX = Math.max(-1, Math.min(1, dx));
+      const clampedY = Math.max(-1, Math.min(1, dy));
+
+      heroPortrait.style.setProperty("--head-x", `${clampedX * 18}px`);
+      heroPortrait.style.setProperty("--head-y", `${clampedY * 10}px`);
+      heroPortrait.style.setProperty("--head-rx", `${clampedY * -10}deg`);
+      heroPortrait.style.setProperty("--head-ry", `${clampedX * 14}deg`);
+    }, { passive: true });
+
+    window.addEventListener("pointerleave", resetHeroPortrait);
+    window.addEventListener("scroll", updateSplitRevealText, { passive: true });
+    window.addEventListener("scroll", updateActiveNav, { passive: true });
+    window.addEventListener("resize", updateSplitRevealText);
+    window.addEventListener("resize", updateActiveNav);
 
     updateFilters();
-    refresh();
+    renderProjects();
+    initSplitRevealText();
+    initRevealAnimations();
+    updateActiveNav();
   </script>
 </body>
 </html>
