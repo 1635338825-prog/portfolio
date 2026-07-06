@@ -1151,16 +1151,16 @@
         title: "通用个人知识库 Skill",
         category: "知识系统",
         year: "2026",
-        role: "知识库架构设计 / 资料消化流程 / 检索入口设计",
-        tools: "Skill、Python、Markdown、MinerU VLM、qmd、Obsidian 风格结构",
-        description: "一个 Obsidian 风格的个人知识库 Skill，用于把 PDF、PPT、Word、网页和项目文档解析为来源页、主题页、实体页，并建立可检索索引。",
-        problem: "资料管理常停留在文件夹和零散笔记层面，来源内容、主题归纳、实体关系、检索证据和论文写作材料彼此断开，后续查找和复用成本很高。",
-        solution: "建立 raw、parsed、digest、wiki、retrieval 的分层契约：先用解析工具处理原始资料，再由 LLM 消化为 digest，脚本负责重建页面、审计链接和生成检索索引；论文模式下额外维护主线、文献桥接和章节草稿工作面。",
+        role: "知识库架构设计 / 网页与文献接入 / 检索工作流",
+        tools: "Skill、Python、Markdown、MinerU VLM、Firecrawl、Sciverse、qmd",
+        description: "一个 Obsidian 风格的个人知识库 Skill，用于把 PDF、PPT、Word、网页和文献检索结果沉淀为来源页、主题页、实体页，并建立可检索索引。",
+        problem: "资料管理不只包括本地 PDF，还会涉及网页材料、论文候选、DOI 落地页和后续写作证据；如果缺少统一入口，网页、文献发现、解析、消化和检索会分散在不同工具里。",
+        solution: "建立 raw、parsed、digest、wiki、retrieval 的分层契约：PDF 走 MinerU VLM，网页走 Firecrawl，文献发现走 Sciverse，统一生成 parsed/source bundle 后再由 LLM 消化为 digest，脚本负责重建页面、审计链接、生成 qmd 检索索引，并支持论文模式下的文献桥接和章节草稿工作面。",
         image: "assets/work-portfolio.png",
         link: "assets/general-knowledge-base.zip",
         linkLabel: "下载 ZIP",
         featured: true,
-        tags: ["知识库", "RAG", "资料管理", "论文写作"]
+        tags: ["知识库", "Firecrawl", "Sciverse", "MinerU", "论文写作"]
       }
       /*
       后续项目发给我后，我会按这个结构补充：
