@@ -817,7 +817,7 @@
 
     .hero {
       position: relative;
-      min-height: 92vh;
+      min-height: 78vh;
       padding-top: 132px;
     }
 
@@ -850,17 +850,47 @@
     }
 
     .visual-strip {
-      display: flex;
-      gap: 16px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      padding: 0 clamp(18px, 5vw, 76px) 46px;
+      position: relative;
+      display: block;
+      overflow: hidden;
+      padding: 0 0 52px;
       border-bottom: 1px solid var(--line);
-      scrollbar-width: none;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
     }
 
-    .visual-strip::-webkit-scrollbar {
-      display: none;
+    .visual-strip::before,
+    .visual-strip::after {
+      position: absolute;
+      top: 0;
+      bottom: 52px;
+      z-index: 3;
+      width: clamp(42px, 9vw, 130px);
+      content: "";
+      pointer-events: none;
+    }
+
+    .visual-strip::before {
+      left: 0;
+      background: linear-gradient(90deg, #050508, transparent);
+    }
+
+    .visual-strip::after {
+      right: 0;
+      background: linear-gradient(270deg, #050508, transparent);
+    }
+
+    .visual-track {
+      display: flex;
+      gap: 18px;
+      width: max-content;
+      padding-left: clamp(18px, 5vw, 76px);
+      animation: projectWheel 44s linear infinite;
+      will-change: transform;
+    }
+
+    .visual-strip:hover .visual-track {
+      animation-play-state: paused;
     }
 
     .visual-card {
@@ -875,7 +905,8 @@
       box-shadow: 0 32px 92px rgba(0, 0, 0, .48);
       animation: none;
       cursor: pointer;
-      transition: transform .26s ease, border-color .26s ease;
+      transform: perspective(900px) rotateY(-4deg);
+      transition: transform .26s ease, border-color .26s ease, box-shadow .26s ease;
     }
 
     .visual-card:nth-child(1),
@@ -887,7 +918,8 @@
 
     .visual-card:hover {
       border-color: rgba(232, 232, 236, .42);
-      transform: translateY(-4px);
+      transform: perspective(900px) rotateY(0deg) translateY(-5px) scale(1.015);
+      box-shadow: 0 36px 110px rgba(0, 0, 0, .62), 0 0 46px rgba(220, 220, 240, .10);
     }
 
     .visual-card::after {
@@ -924,6 +956,15 @@
       text-shadow: 0 6px 22px rgba(0, 0, 0, .72);
     }
 
+    @keyframes projectWheel {
+      from {
+        transform: translate3d(0, 0, 0);
+      }
+      to {
+        transform: translate3d(calc(-50% - 9px), 0, 0);
+      }
+    }
+
     .marquee {
       background: rgba(255, 255, 255, .025);
     }
@@ -935,7 +976,8 @@
     }
 
     .project-row {
-      background: linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .022));
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, .018));
     }
 
     .project-row:hover {
@@ -946,6 +988,27 @@
     .project-media {
       background: #08080c;
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08), 0 22px 70px rgba(0, 0, 0, .34);
+      aspect-ratio: 16 / 10;
+      min-height: 320px;
+    }
+
+    .project-media::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, transparent 58%, rgba(0, 0, 0, .35)),
+        radial-gradient(circle at 64% 40%, rgba(255, 255, 255, .10), transparent 32%);
+      opacity: .85;
+    }
+
+    .project-info {
+      padding-right: clamp(8px, 2vw, 28px);
+    }
+
+    .project-info h3 {
+      font-size: clamp(38px, 5.4vw, 82px);
     }
 
     .pill {
@@ -1509,12 +1572,18 @@
     }
 
     function renderVisualStrip() {
-      visualStrip.innerHTML = projects.map((project, index) => `
-        <button class="visual-card" type="button" data-visual-detail="${index}" aria-label="查看${escapeHtml(project.title)}详情">
-          <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)} project cover" loading="lazy" onerror="this.src='assets/work-portfolio.png'">
-          <span>${escapeHtml(project.title)}</span>
-        </button>
-      `).join("");
+      const wheelItems = [...projects, ...projects].map((project, index) => {
+        const projectIndex = index % projects.length;
+        const duplicateAttrs = index >= projects.length ? ' aria-hidden="true" tabindex="-1"' : "";
+        return `
+          <button class="visual-card" type="button" data-visual-detail="${projectIndex}" aria-label="查看${escapeHtml(project.title)}详情"${duplicateAttrs}>
+            <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)} project cover" loading="${index < 4 ? "eager" : "lazy"}" onerror="this.src='assets/work-portfolio.png'">
+            <span>${escapeHtml(project.title)}</span>
+          </button>
+        `;
+      }).join("");
+
+      visualStrip.innerHTML = `<div class="visual-track">${wheelItems}</div>`;
 
       visualStrip.querySelectorAll("[data-visual-detail]").forEach((button) => {
         button.addEventListener("click", () => showDetail(projects[Number(button.dataset.visualDetail)]));
