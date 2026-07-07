@@ -775,54 +775,195 @@
 
       .project-card {
         position: sticky;
-        top: 74px;
-        max-height: calc(100svh - 92px);
-        min-height: min(78svh, 620px);
-        margin-bottom: 118px;
-        padding: 14px;
-        border-radius: 28px;
-        overflow-y: auto;
-        overscroll-behavior: contain;
-        scrollbar-width: thin;
+        min-height: auto;
+        margin-bottom: 112px;
+        padding: 12px;
+        border-radius: 24px;
+        overflow: visible;
       }
 
       .project-head {
-        gap: 12px;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 10px;
+      }
+
+      .project-head .ghost {
+        grid-column: 1 / -1;
+        justify-self: start;
+        min-height: 34px;
+        padding: 0 16px;
+        font-size: .68rem;
+      }
+
+      .project-meta {
+        gap: 6px;
+        margin-bottom: 6px;
+        font-size: .68rem;
       }
 
       .project-number {
-        font-size: clamp(2.2rem, 18vw, 4.8rem);
+        font-size: clamp(2rem, 15vw, 3.8rem);
       }
 
       .project-card h3 {
-        font-size: clamp(1.45rem, 9vw, 2.7rem);
+        font-size: clamp(1.35rem, 7.6vw, 2.15rem);
+        line-height: .96;
+      }
+
+      .project-body {
+        gap: 9px;
+      }
+
+      .project-images {
+        min-height: 116px;
       }
 
       .project-image {
-        min-height: 156px;
+        min-height: 116px;
+        border-radius: 18px;
+      }
+
+      .project-image img {
+        object-fit: cover;
       }
 
       .project-text > p,
       .case-block p {
-        font-size: .78rem;
-        line-height: 1.48;
+        font-size: .72rem;
+        line-height: 1.38;
       }
 
       .project-text {
-        gap: 8px;
-      }
-
-      .case-grid {
         gap: 7px;
       }
 
+      .case-grid {
+        gap: 6px;
+      }
+
       .case-block {
-        padding: 9px 10px;
+        padding: 7px 8px;
+      }
+
+      .case-block b {
+        margin-bottom: 3px;
+        font-size: .68rem;
       }
 
       .tag {
+        font-size: .64rem;
+        padding: 4px 7px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .project-card {
+        margin-bottom: 96px;
+        padding: 10px;
+        border-radius: 22px;
+      }
+
+      .project-head {
+        gap: 8px;
+      }
+
+      .project-head .ghost {
+        min-height: 30px;
+        padding: 0 13px;
+        font-size: .62rem;
+      }
+
+      .project-number {
+        font-size: clamp(1.85rem, 13vw, 3rem);
+      }
+
+      .project-card h3 {
+        font-size: clamp(1.22rem, 6.9vw, 1.85rem);
+      }
+
+      .project-images,
+      .project-image {
+        min-height: 74px;
+      }
+
+      .project-text > p,
+      .case-block p {
         font-size: .68rem;
-        padding: 5px 8px;
+        line-height: 1.32;
+      }
+
+      .case-block {
+        padding: 6px 7px;
+      }
+    }
+
+    @media (max-width: 560px) and (max-height: 700px) {
+      .project-card {
+        margin-bottom: 92px;
+        padding: 10px;
+      }
+
+      .project-head {
+        gap: 7px;
+      }
+
+      .project-head .ghost {
+        min-height: 26px;
+        font-size: .6rem;
+      }
+
+      .project-meta {
+        gap: 5px;
+        margin-bottom: 4px;
+        font-size: .62rem;
+      }
+
+      .project-number {
+        font-size: clamp(1.72rem, 12vw, 2.85rem);
+      }
+
+      .project-card h3 {
+        font-size: clamp(1.12rem, 6.2vw, 1.72rem);
+        line-height: .94;
+      }
+
+      .project-body,
+      .project-text,
+      .case-grid {
+        gap: 5px;
+      }
+
+      .project-images,
+      .project-image {
+        min-height: 48px;
+      }
+
+      .project-text > p,
+      .case-block p {
+        font-size: .62rem;
+        line-height: 1.24;
+      }
+
+      .case-block {
+        padding: 5px 6px;
+      }
+
+      .case-block b {
+        margin-bottom: 2px;
+        font-size: .6rem;
+      }
+
+      .tag {
+        padding: 3px 6px;
+        font-size: .58rem;
+      }
+    }
+
+    @media (max-width: 560px) and (max-height: 620px) {
+      .project-card {
+        max-height: calc(100svh - 82px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
       }
     }
 
@@ -1129,9 +1270,12 @@
         return;
       }
 
+      const isMobileStack = window.matchMedia("(max-width: 560px)").matches;
+      const isShortMobileStack = window.matchMedia("(max-width: 560px) and (max-height: 700px)").matches;
       stack.innerHTML = visible.map((project, index) => {
-        const top = 84 + Math.min(index, 5) * 8;
-        const scale = 1 - Math.min(index, 5) * 0.004;
+        const stackIndex = Math.min(index, 5);
+        const top = isShortMobileStack ? 58 + stackIndex * 2 : isMobileStack ? 62 + stackIndex * 4 : 84 + stackIndex * 8;
+        const scale = 1 - stackIndex * (isMobileStack ? 0.002 : 0.004);
         return `
           <article class="project-card" style="top:${top}px;transform:scale(${scale});">
             <div class="project-head">
@@ -1266,6 +1410,20 @@
       control.addEventListener("change", renderProjects);
     });
 
+    let stackViewportMode = "";
+    function syncProjectStackViewport() {
+      const nextMode = [
+        window.matchMedia("(max-width: 560px)").matches ? "mobile" : "desktop",
+        window.matchMedia("(max-width: 560px) and (max-height: 700px)").matches ? "short" : "regular"
+      ].join("-");
+      if (nextMode !== stackViewportMode) {
+        stackViewportMode = nextMode;
+        renderProjects();
+      }
+    }
+
+    window.addEventListener("resize", syncProjectStackViewport);
+
     const heroPortrait = document.querySelector("#heroPortrait");
 
     function resetHeroPortrait() {
@@ -1303,6 +1461,7 @@
 
     updateFilters();
     renderProjects();
+    syncProjectStackViewport();
     initSplitRevealText();
     initRevealAnimations();
     updateActiveNav();
