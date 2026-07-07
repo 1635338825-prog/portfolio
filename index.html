@@ -681,7 +681,7 @@
 
     @media (max-width: 900px) {
       .nav {
-        justify-content: flex-start;
+        justify-content: center;
         gap: 2px;
         overflow-x: auto;
         scrollbar-width: none;
@@ -742,8 +742,8 @@
 
       .nav a {
         min-height: 38px;
-        padding: 0 10px;
-        font-size: .64rem;
+        padding: 0 8px;
+        font-size: .62rem;
         letter-spacing: .07em;
       }
 
@@ -785,6 +785,10 @@
 
       .hero-bottom .button {
         width: min(100%, 340px);
+      }
+
+      .nav .brand {
+        padding-inline: 10px;
       }
 
       .service-item,
@@ -873,6 +877,18 @@
       .tag {
         font-size: .64rem;
         padding: 4px 7px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .nav a {
+        padding: 0 6px;
+        font-size: .55rem;
+        letter-spacing: .055em;
+      }
+
+      .nav .brand {
+        padding-inline: 8px;
       }
     }
 
