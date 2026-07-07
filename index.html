@@ -127,6 +127,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      flex: 0 0 auto;
       min-height: 40px;
       padding: 0 14px;
       color: var(--ink);
@@ -680,11 +681,13 @@
 
     @media (max-width: 900px) {
       .nav {
-        justify-content: center;
+        justify-content: flex-start;
         gap: 2px;
+        overflow-x: auto;
+        scrollbar-width: none;
       }
 
-      .nav .brand {
+      .nav::-webkit-scrollbar {
         display: none;
       }
 
@@ -731,19 +734,36 @@
     }
 
     @media (max-width: 560px) {
+      .nav {
+        width: calc(100% - 18px);
+        min-height: 50px;
+        padding: 6px;
+      }
+
       .nav a {
-        padding: 0 9px;
-        font-size: .68rem;
+        min-height: 38px;
+        padding: 0 10px;
+        font-size: .64rem;
+        letter-spacing: .07em;
       }
 
       .hero {
         min-height: 760px;
         align-items: center;
         text-align: center;
+        padding-top: 82px;
+      }
+
+      .hero-title {
+        width: 100%;
+        margin-top: 18px;
       }
 
       .hero h1 {
-        font-size: clamp(2.95rem, 15.2vw, 6.1rem);
+        width: 100%;
+        font-size: clamp(2.34rem, 12.6vw, 4.25rem);
+        line-height: .9;
+        white-space: nowrap;
       }
 
       .hero-portrait {
