@@ -776,10 +776,14 @@
       .project-card {
         position: sticky;
         top: 74px;
-        min-height: auto;
-        margin-bottom: 92px;
+        max-height: calc(100svh - 92px);
+        min-height: min(78svh, 620px);
+        margin-bottom: 118px;
         padding: 14px;
         border-radius: 28px;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-width: thin;
       }
 
       .project-head {
@@ -795,17 +799,30 @@
       }
 
       .project-image {
-        min-height: 210px;
+        min-height: 156px;
       }
 
       .project-text > p,
       .case-block p {
-        font-size: .82rem;
-        line-height: 1.52;
+        font-size: .78rem;
+        line-height: 1.48;
       }
 
-      .tags {
-        display: none;
+      .project-text {
+        gap: 8px;
+      }
+
+      .case-grid {
+        gap: 7px;
+      }
+
+      .case-block {
+        padding: 9px 10px;
+      }
+
+      .tag {
+        font-size: .68rem;
+        padding: 5px 8px;
       }
     }
 
