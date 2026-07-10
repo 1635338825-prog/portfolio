@@ -414,45 +414,6 @@
       background: var(--ink);
     }
 
-    .assistant-config {
-      display: none;
-      grid-template-columns: 1.15fr .85fr 1fr auto;
-      gap: 8px;
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--line);
-      background: rgba(215, 226, 234, .035);
-    }
-
-    .assistant-config.open {
-      display: grid;
-    }
-
-    .assistant-config input {
-      min-width: 0;
-      min-height: 38px;
-      padding: 0 10px;
-      color: var(--ink);
-      font-family: "Noto Sans SC", sans-serif;
-      font-size: .78rem;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      outline: 0;
-      background: rgba(12, 12, 12, .42);
-    }
-
-    .assistant-config button {
-      min-height: 38px;
-      padding: 0 12px;
-      color: var(--black);
-      font-size: .72rem;
-      font-weight: 900;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      border: 0;
-      border-radius: 8px;
-      background: var(--ink);
-    }
-
     .assistant-messages {
       display: grid;
       align-content: start;
@@ -1090,8 +1051,6 @@
         grid-template-columns: 1fr;
       }
 
-      .assistant-config,
-      .assistant-config.open,
       .assistant-trace {
         grid-template-columns: 1fr;
       }
@@ -1372,14 +1331,8 @@
             <div class="assistant-controls">
               <span class="assistant-state" id="assistantModelState">Local RAG</span>
               <button class="assistant-small-button" id="refreshAssistantKnowledge" type="button">刷新知识库</button>
-              <button class="assistant-small-button primary" id="toggleAssistantConfig" type="button">配置模型</button>
             </div>
           </div>
-          <form class="assistant-config" id="assistantModelConfig">
-            <input id="assistantProxyUrl" type="url" placeholder="DeepSeek 代理地址，例如 https://your-site.vercel.app/api/deepseek-chat">
-            <input id="assistantModelName" type="text" placeholder="模型，默认 deepseek-chat">
-            <button type="submit">保存</button>
-          </form>
           <div class="assistant-trace" aria-label="项目 RAG 检索状态">
             <div class="trace-item"><b>检索模式</b><span id="assistantTraceMode">QMD-lite / local</span></div>
             <div class="trace-item"><b>命中来源</b><span id="assistantTraceSources">待提问</span></div>
@@ -1634,10 +1587,6 @@
     const assistantTraceMode = document.querySelector("#assistantTraceMode");
     const assistantTraceSources = document.querySelector("#assistantTraceSources");
     const assistantTraceRefresh = document.querySelector("#assistantTraceRefresh");
-    const assistantModelConfig = document.querySelector("#assistantModelConfig");
-    const assistantProxyUrl = document.querySelector("#assistantProxyUrl");
-    const assistantModelName = document.querySelector("#assistantModelName");
-    const toggleAssistantConfig = document.querySelector("#toggleAssistantConfig");
     const refreshAssistantKnowledge = document.querySelector("#refreshAssistantKnowledge");
     const ASSISTANT_CONFIG_KEY = "portfolio_assistant_proxy_config";
     const DEFAULT_ASSISTANT_CONFIG = {
@@ -1866,8 +1815,6 @@
       if (assistantModelState) {
         assistantModelState.textContent = hasProxy ? `DeepSeek 代理 · ${config.model}` : "Local RAG";
       }
-      if (assistantProxyUrl) assistantProxyUrl.value = config.proxyUrl || defaultAssistantProxyUrl();
-      if (assistantModelName) assistantModelName.value = config.model;
     }
 
     async function askPortfolioAssistant(question) {
@@ -2084,28 +2031,6 @@
         assistantInput.value = "";
         askPortfolioAssistant(question);
         assistantInput.focus();
-      });
-    }
-
-    if (toggleAssistantConfig && assistantModelConfig) {
-      toggleAssistantConfig.addEventListener("click", () => {
-        assistantModelConfig.classList.toggle("open");
-      });
-    }
-
-    if (assistantModelConfig) {
-      assistantModelConfig.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const nextConfig = {
-          proxyUrl: assistantProxyUrl?.value.trim() || "",
-          model: assistantModelName?.value.trim() || DEFAULT_ASSISTANT_CONFIG.model
-        };
-        saveAssistantConfig(nextConfig);
-        updateAssistantModelState();
-        assistantModelConfig.classList.remove("open");
-        addAssistantMessage("bot", nextConfig.proxyUrl
-          ? `已保存 DeepSeek 代理配置。之后的问题会优先走 ${escapeHtml(nextConfig.model)}，并保留 RAG 检索 trace。`
-          : "已清空代理地址。之后的问题会使用本地 RAG 回答。");
       });
     }
 
