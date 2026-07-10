@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Harness RAG 智能客服 | Daniel Portfolio</title>
+  <meta name="description" content="客服场景 Harness RAG 智能客服项目展示页，包含项目背景、架构、功能、评测和运行方式。">
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0c0c0c;
+      --ink: #d7e2ea;
+      --muted: rgba(215, 226, 234, .68);
+      --line: rgba(215, 226, 234, .18);
+      --panel: rgba(215, 226, 234, .055);
+      --cyan: #8fd9ff;
+      --green: #b7ff5a;
+      --black: #0c0c0c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background: var(--bg);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Kanit", "Noto Sans SC", sans-serif;
+      background:
+        linear-gradient(90deg, rgba(215, 226, 234, .05) 1px, transparent 1px) 0 0 / 42px 42px,
+        linear-gradient(0deg, rgba(215, 226, 234, .045) 1px, transparent 1px) 0 0 / 42px 42px,
+        radial-gradient(circle at 76% 10%, rgba(143, 217, 255, .18), transparent 30vw),
+        var(--bg);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .nav {
+      position: fixed;
+      left: 50%;
+      top: 18px;
+      z-index: 20;
+      width: min(880px, calc(100% - 24px));
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 7px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(12, 12, 12, .78);
+      backdrop-filter: blur(20px);
+      transform: translateX(-50%);
+    }
+
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 16px;
+      font-size: clamp(.78rem, 1.2vw, 1rem);
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      border-radius: 999px;
+    }
+
+    .nav a.active {
+      color: var(--black);
+      background: var(--ink);
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 112px 0 56px;
+    }
+
+    .hero {
+      min-height: calc(100svh - 128px);
+      display: grid;
+      align-items: center;
+      gap: 26px;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      font-size: .9rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 980px;
+      margin-top: 12px;
+      font-size: clamp(3rem, 9vw, 8.8rem);
+      font-weight: 900;
+      line-height: .86;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin-top: 18px;
+      color: var(--ink);
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: clamp(1rem, 1.7vw, 1.35rem);
+      font-weight: 600;
+      line-height: 1.75;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 22px;
+      color: var(--black);
+      font-size: .82rem;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      background: var(--ink);
+    }
+
+    .button.secondary {
+      color: var(--ink);
+      background: rgba(215, 226, 234, .02);
+    }
+
+    .cover {
+      overflow: hidden;
+      border: 2px solid var(--ink);
+      border-radius: clamp(24px, 5vw, 56px);
+      background: #101216;
+      box-shadow: 0 40px 120px rgba(0, 0, 0, .48);
+    }
+
+    .cover img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 28px 0 56px;
+    }
+
+    .metric,
+    .block {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .metric {
+      padding: 18px;
+    }
+
+    .metric strong {
+      display: block;
+      color: var(--cyan);
+      font-size: 1.15rem;
+      line-height: 1.2;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: .92rem;
+      line-height: 1.65;
+    }
+
+    section {
+      margin-top: 54px;
+    }
+
+    h2 {
+      margin-bottom: 16px;
+      font-size: clamp(1.8rem, 4vw, 4.6rem);
+      font-weight: 900;
+      line-height: .92;
+      text-transform: uppercase;
+    }
+
+    .blocks {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .block {
+      padding: 20px;
+      font-family: "Noto Sans SC", sans-serif;
+    }
+
+    .block b {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--cyan);
+      font-size: 1rem;
+    }
+
+    .block p,
+    .block li {
+      color: var(--muted);
+      font-size: .96rem;
+      line-height: 1.78;
+    }
+
+    .block ul {
+      padding-left: 1.1em;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .step {
+      min-height: 108px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(215, 226, 234, .045);
+    }
+
+    .step strong {
+      display: block;
+      color: var(--green);
+      font-size: .9rem;
+      text-transform: uppercase;
+    }
+
+    .step span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: .88rem;
+      line-height: 1.55;
+    }
+
+    .code {
+      overflow: auto;
+      padding: 18px;
+      color: #d7e2ea;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: .92rem;
+      line-height: 1.7;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #08090b;
+    }
+
+    @media (max-width: 860px) {
+      .nav {
+        position: static;
+        transform: none;
+        width: 100%;
+        margin: 10px 0 0;
+      }
+
+      .page {
+        padding-top: 26px;
+      }
+
+      .grid,
+      .blocks,
+      .flow {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="项目页导航">
+    <a href="index.html">Daniel</a>
+    <a href="index.html#projects" class="active">Projects</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#run">Run</a>
+  </nav>
+
+  <main class="page">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">AI App · 2026 · Harness / RAG / Customer Service</p>
+        <h1>Harness RAG<br>智能客服</h1>
+        <p class="lead">面向电商客服场景的 RAG 项目，使用 Markdown 知识库、DuckDB 本地索引、QMD 混合检索、风险识别、转人工策略、前台聊天页、管理后台和 Harness 质量门禁，展示从原型到可评测 AI 应用的完整链路。</p>
+        <div class="actions">
+          <a class="button" href="https://github.com/1635338825-prog/customer-service-rag" target="_blank" rel="noreferrer">查看源码</a>
+          <a class="button secondary" href="index.html#projects">返回作品集</a>
+        </div>
+      </div>
+      <figure class="cover">
+        <img src="assets/project-harness-rag-customer-service.png" alt="Harness RAG 智能客服项目封面">
+      </figure>
+    </section>
+
+    <div class="grid">
+      <div class="metric"><strong>QMD 检索</strong><span>结合 Query 扩展、Metadata 命中、Dense 向量检索和 BM25 关键词检索，并用 RRF 融合排序。</span></div>
+      <div class="metric"><strong>客服风控</strong><span>投诉、赔偿、支付、账号安全、隐私等高风险场景触发转人工，避免越权承诺。</span></div>
+      <div class="metric"><strong>Harness 质量门禁</strong><span>把单元测试、离线 RAG 评测和 LLM-as-a-Judge 检查纳入交付链路。</span></div>
+    </div>
+
+    <section id="architecture">
+      <h2>Architecture</h2>
+      <div class="flow">
+        <div class="step"><strong>Input</strong><span>用户问题与多轮会话上下文</span></div>
+        <div class="step"><strong>Plan</strong><span>Query 规范化、扩展与检索计划</span></div>
+        <div class="step"><strong>Retrieve</strong><span>QMD 混合召回与 RRF 排序</span></div>
+        <div class="step"><strong>Policy</strong><span>风险识别、灰度规则、转人工判断</span></div>
+        <div class="step"><strong>Answer</strong><span>引用约束回答、Trace 记录与评测输出</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>What I Built</h2>
+      <div class="blocks">
+        <article class="block">
+          <b>解决的问题</b>
+          <p>客服 RAG 不只是“检索 + 生成”。它需要能识别业务线、处理追问上下文、给出政策来源、规避隐私和赔偿风险，并在高风险场景转人工。</p>
+        </article>
+        <article class="block">
+          <b>方案设计</b>
+          <p>项目把知识库、检索器、风险策略、Prompt、生成器、Trace 和评测解耦，后续可以替换 pgvector、Milvus、Qdrant、Elasticsearch 或企业内部模型。</p>
+        </article>
+        <article class="block">
+          <b>已实现能力</b>
+          <ul>
+            <li>客服前台聊天页与管理后台。</li>
+            <li>退款、发票、物流、订单、账号安全、支付扣款、退换货等知识库。</li>
+            <li>无 API Key 时使用本地模板生成，有 Key 时走 OpenAI 兼容接口。</li>
+            <li>离线评测：准确率、召回率、Top1 召回、转人工率、引用率、幻觉风险率。</li>
+          </ul>
+        </article>
+        <article class="block">
+          <b>我的职责 / 工具</b>
+          <p>RAG 架构设计、Markdown 知识库整理、DuckDB 索引、本地 HTTP 服务、QMD 检索、风险策略、评测脚本、Harness CI 质量门禁配置。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="run">
+      <h2>Run Locally</h2>
+      <div class="code">git clone https://github.com/1635338825-prog/customer-service-rag.git
+cd customer-service-rag
+pip install -r customer_service_rag/requirements.txt
+python customer_service_rag/app.py serve --host 127.0.0.1 --port 8000
+
+# 用户前台
+http://127.0.0.1:8000/chat
+
+# 管理后台
+http://127.0.0.1:8000/admin</div>
+    </section>
+  </main>
+</body>
+</html>
