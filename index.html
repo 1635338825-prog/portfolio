@@ -388,6 +388,79 @@
       background: rgba(215, 226, 234, .05);
     }
 
+    .assistant-controls {
+      display: flex;
+      flex: 0 0 auto;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .assistant-small-button {
+      min-height: 30px;
+      padding: 0 10px;
+      color: var(--ink);
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: .72rem;
+      font-weight: 800;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(215, 226, 234, .05);
+    }
+
+    .assistant-small-button.primary {
+      color: var(--black);
+      border-color: transparent;
+      background: var(--ink);
+    }
+
+    .assistant-config {
+      display: none;
+      grid-template-columns: 1.15fr .85fr 1fr auto;
+      gap: 8px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(215, 226, 234, .035);
+    }
+
+    .assistant-config.open {
+      display: grid;
+    }
+
+    .assistant-config input {
+      min-width: 0;
+      min-height: 38px;
+      padding: 0 10px;
+      color: var(--ink);
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: .78rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      outline: 0;
+      background: rgba(12, 12, 12, .42);
+    }
+
+    .assistant-config button {
+      min-height: 38px;
+      padding: 0 12px;
+      color: var(--black);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      border: 0;
+      border-radius: 8px;
+      background: var(--ink);
+    }
+
+    .assistant-config-note {
+      grid-column: 1 / -1;
+      color: var(--muted);
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: .72rem;
+      line-height: 1.55;
+    }
+
     .assistant-messages {
       display: grid;
       align-content: start;
@@ -431,6 +504,41 @@
 
     .assistant-message.user a {
       color: var(--black);
+    }
+
+    .assistant-trace {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--line);
+      background: rgba(215, 226, 234, .025);
+      font-family: "Noto Sans SC", sans-serif;
+    }
+
+    .trace-item {
+      min-height: 56px;
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(215, 226, 234, .045);
+    }
+
+    .trace-item b {
+      display: block;
+      color: var(--cyan);
+      font-size: .74rem;
+      margin-bottom: 4px;
+    }
+
+    .trace-item span {
+      display: block;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: .76rem;
+      line-height: 1.45;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .assistant-tools {
@@ -990,6 +1098,12 @@
         grid-template-columns: 1fr;
       }
 
+      .assistant-config,
+      .assistant-config.open,
+      .assistant-trace {
+        grid-template-columns: 1fr;
+      }
+
       .nav .brand {
         padding-inline: 10px;
       }
@@ -1260,13 +1374,29 @@
               <span class="assistant-orb">AI</span>
               <div>
                 <strong>项目智能客服</strong>
-                <span>可咨询项目能力、技术栈、交付物和适合岗位</span>
+                <span>RAG 检索项目库，可选接入大模型生成回答</span>
               </div>
             </div>
-            <span class="assistant-state">Portfolio RAG</span>
+            <div class="assistant-controls">
+              <span class="assistant-state" id="assistantModelState">Local RAG</span>
+              <button class="assistant-small-button" id="refreshAssistantKnowledge" type="button">刷新知识库</button>
+              <button class="assistant-small-button primary" id="toggleAssistantConfig" type="button">配置模型</button>
+            </div>
+          </div>
+          <form class="assistant-config" id="assistantModelConfig">
+            <input id="assistantBaseUrl" type="url" placeholder="DeepSeek Base URL，默认 https://api.deepseek.com/v1">
+            <input id="assistantModelName" type="text" placeholder="模型，默认 deepseek-chat">
+            <input id="assistantApiKey" type="password" autocomplete="current-password" placeholder="DeepSeek API Key，仅保存在本机浏览器">
+            <button type="submit">保存</button>
+            <div class="assistant-config-note">静态作品集不能把你的 DeepSeek Key 写进公开代码。这里保存到当前浏览器 localStorage；保存后本机访问会优先调用 DeepSeek，未配置或调用失败时自动回退本地 RAG。</div>
+          </form>
+          <div class="assistant-trace" aria-label="项目 RAG 检索状态">
+            <div class="trace-item"><b>检索模式</b><span id="assistantTraceMode">QMD-lite / local</span></div>
+            <div class="trace-item"><b>命中来源</b><span id="assistantTraceSources">待提问</span></div>
+            <div class="trace-item"><b>刷新时间</b><span id="assistantTraceRefresh">未刷新</span></div>
           </div>
           <div class="assistant-messages" id="portfolioAssistantMessages">
-            <div class="assistant-message bot">您好，我是 Daniel 作品集智能客服。可以问我：哪个项目最能体现 RAG 能力？有哪些自动化项目？内容质检项目解决什么问题？也可以直接输入你关心的岗位或技术关键词。</div>
+            <div class="assistant-message bot">您好，我是 Daniel 作品集智能客服。我会先从项目库里做 RAG 检索，再根据命中项目回答；如果你配置了大模型，我会把检索上下文交给模型生成更自然的回答。</div>
           </div>
           <div class="assistant-tools">
             <div class="assistant-quick">
@@ -1510,6 +1640,23 @@
     const assistantMessages = document.querySelector("#portfolioAssistantMessages");
     const assistantForm = document.querySelector("#portfolioAssistantForm");
     const assistantInput = document.querySelector("#portfolioAssistantInput");
+    const assistantModelState = document.querySelector("#assistantModelState");
+    const assistantTraceMode = document.querySelector("#assistantTraceMode");
+    const assistantTraceSources = document.querySelector("#assistantTraceSources");
+    const assistantTraceRefresh = document.querySelector("#assistantTraceRefresh");
+    const assistantModelConfig = document.querySelector("#assistantModelConfig");
+    const assistantBaseUrl = document.querySelector("#assistantBaseUrl");
+    const assistantModelName = document.querySelector("#assistantModelName");
+    const assistantApiKey = document.querySelector("#assistantApiKey");
+    const toggleAssistantConfig = document.querySelector("#toggleAssistantConfig");
+    const refreshAssistantKnowledge = document.querySelector("#refreshAssistantKnowledge");
+    const ASSISTANT_CONFIG_KEY = "portfolio_assistant_deepseek_config";
+    const DEFAULT_ASSISTANT_CONFIG = {
+      baseUrl: "https://api.deepseek.com/v1",
+      model: "deepseek-chat",
+      apiKey: ""
+    };
+    let assistantKnowledge = [];
 
     function addAssistantMessage(role, html) {
       if (!assistantMessages) return;
@@ -1525,98 +1672,234 @@
       return `<a href="${escapeHtml(project.link)}" target="_blank" rel="noreferrer">查看 ${escapeHtml(project.title)}</a>`;
     }
 
-    function formatProjectAnswer(projects, intro) {
-      const items = projects.slice(0, 3).map((project) => {
-        return `- ${project.title}：${project.description}\n  技术/职责：${project.role} · ${project.tools}`;
+    function loadAssistantConfig() {
+      try {
+        return { ...DEFAULT_ASSISTANT_CONFIG, ...JSON.parse(localStorage.getItem(ASSISTANT_CONFIG_KEY) || "{}") };
+      } catch (error) {
+        return { ...DEFAULT_ASSISTANT_CONFIG };
+      }
+    }
+
+    function saveAssistantConfig(config) {
+      localStorage.setItem(ASSISTANT_CONFIG_KEY, JSON.stringify(config));
+    }
+
+    function normalizeText(value) {
+      return String(value || "").toLowerCase();
+    }
+
+    function tokenizePortfolioText(value) {
+      const normalized = normalizeText(value);
+      const words = normalized.match(/[a-z0-9+#.-]+|[\u4e00-\u9fff]/g) || [];
+      const compactChinese = (normalized.match(/[\u4e00-\u9fff]{2,}/g) || []).flatMap((item) => {
+        const grams = [];
+        for (let size = 2; size <= Math.min(4, item.length); size += 1) {
+          for (let index = 0; index <= item.length - size; index += 1) {
+            grams.push(item.slice(index, index + size));
+          }
+        }
+        return grams;
+      });
+      return [...new Set([...words, ...compactChinese])];
+    }
+
+    function expandAssistantQuery(question) {
+      const base = tokenizePortfolioText(question);
+      const compact = question.replace(/\s+/g, "").toLowerCase();
+      const expansions = [];
+      const rules = [
+        [/rag|客服|问答|检索|harness/, ["rag", "智能客服", "知识库", "检索", "harness", "qmd"]],
+        [/自动化|周报|报表|广告|数据|excel|csv/, ["自动化", "周报", "报表", "广告", "excel", "csv"]],
+        [/质检|审核|评论|ocr|规则/, ["质检", "审核", "评论", "ocr", "规则"]],
+        [/岗位|适合|求职|面试|能力/, ["岗位", "能力", "ai app", "rag", "自动化", "内容质检", "产品交付"]],
+        [/知识库|论文|文献|资料/, ["知识库", "文献", "检索", "markdown", "mineru", "firecrawl"]],
+        [/语音|输入|桌面|快捷键/, ["语音", "桌面", "输入", "python"]]
+      ];
+      rules.forEach(([pattern, values]) => {
+        if (pattern.test(compact)) expansions.push(...values);
+      });
+      return [...new Set([...base, ...expansions.map(normalizeText)])];
+    }
+
+    function buildAssistantKnowledge() {
+      assistantKnowledge = projectsData.map((project, index) => {
+        const sections = {
+          title: project.title,
+          category: project.category,
+          role: project.role,
+          tools: project.tools,
+          description: project.description,
+          problem: project.problem,
+          solution: project.solution,
+          tags: project.tags.join(" ")
+        };
+        const content = [
+          `项目：${sections.title}`,
+          `分类：${sections.category}`,
+          `职责：${sections.role}`,
+          `工具：${sections.tools}`,
+          `简介：${sections.description}`,
+          `解决的问题：${sections.problem}`,
+          `方案设计：${sections.solution}`,
+          `标签：${sections.tags}`
+        ].join("\n");
+        return {
+          id: `project-${index + 1}`,
+          project,
+          sections,
+          content,
+          tokens: tokenizePortfolioText(content)
+        };
+      });
+      if (assistantTraceRefresh) {
+        assistantTraceRefresh.textContent = new Date().toLocaleTimeString("zh-CN", { hour12: false });
+      }
+      return assistantKnowledge;
+    }
+
+    function retrievePortfolioContext(question) {
+      if (!assistantKnowledge.length) buildAssistantKnowledge();
+      const queryTokens = expandAssistantQuery(question);
+      const querySet = new Set(queryTokens);
+      const compact = normalizeText(question.replace(/\s+/g, ""));
+      const scored = assistantKnowledge.map((doc) => {
+        let score = 0;
+        const hits = [];
+        const sectionWeights = [
+          ["title", 6],
+          ["tags", 4],
+          ["category", 3],
+          ["role", 3],
+          ["tools", 3],
+          ["description", 2],
+          ["problem", 2],
+          ["solution", 2]
+        ];
+        sectionWeights.forEach(([key, weight]) => {
+          const text = normalizeText(doc.sections[key]);
+          queryTokens.forEach((token) => {
+            if (token && text.includes(token)) {
+              score += weight;
+              hits.push(token);
+            }
+          });
+        });
+        doc.tokens.forEach((token) => {
+          if (querySet.has(token)) score += 0.8;
+        });
+        if (compact && normalizeText(doc.project.title).replace(/\s+/g, "").includes(compact)) score += 8;
+        return { ...doc, score, hits: [...new Set(hits)].slice(0, 6) };
+      }).filter((doc) => doc.score > 0).sort((a, b) => b.score - a.score);
+
+      return scored.length ? scored.slice(0, 4) : assistantKnowledge.slice(0, 3).map((doc) => ({ ...doc, score: 0, hits: [] }));
+    }
+
+    function updateAssistantTrace(mode, retrieved) {
+      if (assistantTraceMode) assistantTraceMode.textContent = mode;
+      if (assistantTraceSources) {
+        assistantTraceSources.textContent = retrieved.length
+          ? retrieved.map((item) => `${item.project.title}${item.hits.length ? `(${item.hits.join("/")})` : ""}`).join("；")
+          : "未命中";
+      }
+    }
+
+    function buildLocalRagAnswer(question, retrieved) {
+      const topProjects = retrieved.map((item) => item.project);
+      const intro = retrieved.some((item) => item.score > 0)
+        ? "我先从项目库里做了本地 RAG 检索，命中这些项目："
+        : "没有精确命中关键词，先给你几个最能代表整体能力的项目：";
+      const items = topProjects.slice(0, 3).map((project, index) => {
+        return `${index + 1}. ${project.title}\n- 解决的问题：${project.problem}\n- 方案设计：${project.solution}\n- 技术/职责：${project.role} · ${project.tools}`;
       }).join("\n\n");
-      const firstLink = projects[0] ? projectLink(projects[0]) : "";
-      return `${escapeHtml(intro)}\n\n${escapeHtml(items)}${firstLink}`;
+      const fit = /岗位|适合|求职|面试/.test(question)
+        ? "\n\n综合来看，更匹配 AI 应用搭建、RAG/知识库、数据自动化、内容质检工作流、AI 产品交付这类方向。"
+        : "";
+      const links = topProjects.slice(0, 2).map(projectLink).join("");
+      return `${escapeHtml(`${intro}\n\n${items}${fit}`)}${links}`;
     }
 
-    function findProjectsByKeywords(keywords) {
-      const lowered = keywords.map((keyword) => keyword.toLowerCase());
-      return projectsData.filter((project) => {
-        const searchable = [
-          project.title,
-          project.category,
-          project.role,
-          project.tools,
-          project.description,
-          project.problem,
-          project.solution,
-          project.tags.join(" ")
-        ].join(" ").toLowerCase();
-        return lowered.some((keyword) => searchable.includes(keyword));
+    function buildAssistantPrompt(question, retrieved) {
+      const context = retrieved.map((item, index) => {
+        const project = item.project;
+        return [
+          `#${index + 1} ${project.title}`,
+          `分类：${project.category}`,
+          `职责：${project.role}`,
+          `工具：${project.tools}`,
+          `简介：${project.description}`,
+          `解决的问题：${project.problem}`,
+          `方案设计：${project.solution}`,
+          `标签：${project.tags.join("、")}`
+        ].join("\n");
+      }).join("\n\n");
+      return [
+        {
+          role: "system",
+          content: "你是 Daniel 个人作品集的项目智能客服。只能基于给定项目上下文回答，回答要简洁、具体、面向招聘/面试访客。不要编造没有出现在上下文中的项目经历。"
+        },
+        {
+          role: "user",
+          content: `用户问题：${question}\n\n检索到的项目上下文：\n${context}\n\n请用中文回答。先直接回答问题，再用 2-3 个项目证据支撑。`
+        }
+      ];
+    }
+
+    async function callAssistantModel(question, retrieved, config) {
+      const endpoint = `${config.baseUrl.replace(/\/+$/, "")}/chat/completions`;
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${config.apiKey}`
+        },
+        body: JSON.stringify({
+          model: config.model,
+          messages: buildAssistantPrompt(question, retrieved),
+          temperature: 0.35
+        })
       });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(payload.error?.message || `模型请求失败：${response.status}`);
+      }
+      return payload.choices?.[0]?.message?.content?.trim() || "";
     }
 
-    function buildPortfolioAssistantAnswer(question) {
-      const query = question.trim().toLowerCase();
-      if (!query) return "";
-
-      if (/rag|客服|问答|知识库|检索|harness/.test(query)) {
-        return formatProjectAnswer(
-          findProjectsByKeywords(["rag", "智能客服", "知识库", "检索", "harness"]),
-          "最能体现 RAG 和知识库能力的是这些项目："
-        );
+    function updateAssistantModelState() {
+      const config = loadAssistantConfig();
+      if (assistantModelState) {
+        assistantModelState.textContent = config.apiKey ? `DeepSeek · ${config.model}` : "Local RAG";
       }
-
-      if (/岗位|适合|求职|面试|介绍/.test(query)) {
-        return "从作品集看，Daniel 更适合 AI 应用搭建、RAG/知识库、数据自动化、内容质检工作流、AI 产品交付这类岗位或实习方向。\n\n核心证据包括：Harness RAG 智能客服体现 RAG 架构和评测能力；内容质检与评论助手体现规则/OCR/结构化输出能力；周报和广告报告项目体现数据自动化交付能力；个人知识库 Skill 体现资料解析和检索系统设计能力。";
-      }
-
-      if (/自动化|周报|报表|广告|数据|excel|csv/.test(query)) {
-        return formatProjectAnswer(
-          findProjectsByKeywords(["自动化", "周报", "报表", "广告", "excel", "csv"]),
-          "数据自动化相关项目主要集中在报表生产和流程配置化："
-        );
-      }
-
-      if (/质检|审核|评论|ocr|规则/.test(query)) {
-        return formatProjectAnswer(
-          findProjectsByKeywords(["质检", "审核", "评论", "ocr", "规则"]),
-          "内容质检方向的代表项目是："
-        );
-      }
-
-      if (/语音|输入|桌面|快捷键/.test(query)) {
-        return formatProjectAnswer(
-          findProjectsByKeywords(["语音", "桌面", "快捷键", "输入"]),
-          "语音和桌面工具方向可以看这个项目："
-        );
-      }
-
-      if (/skill|技能|沉淀|员工/.test(query)) {
-        return formatProjectAnswer(
-          findProjectsByKeywords(["skill", "员工", "沉淀", "模板"]),
-          "Skill 和工作流沉淀相关项目包括："
-        );
-      }
-
-      const directMatches = projectsData.filter((project) => {
-        const searchable = [
-          project.title,
-          project.category,
-          project.role,
-          project.tools,
-          project.description,
-          project.tags.join(" ")
-        ].join(" ").toLowerCase();
-        return query.split(/\s+/).filter(Boolean).some((word) => searchable.includes(word));
-      });
-
-      if (directMatches.length) {
-        return formatProjectAnswer(directMatches, "根据你的问题，我匹配到这些项目：");
-      }
-
-      return "你可以问我这些问题：哪个项目最能体现 RAG 能力、有哪些自动化项目、内容质检项目解决什么问题、有哪些知识库项目、适合什么岗位。我会根据当前作品集项目列表回答。";
+      if (assistantBaseUrl) assistantBaseUrl.value = config.baseUrl;
+      if (assistantModelName) assistantModelName.value = config.model;
+      if (assistantApiKey) assistantApiKey.value = config.apiKey;
     }
 
-    function askPortfolioAssistant(question) {
+    async function askPortfolioAssistant(question) {
       const clean = question.trim();
       if (!clean) return;
       addAssistantMessage("user", escapeHtml(clean));
-      addAssistantMessage("bot", buildPortfolioAssistantAnswer(clean));
+      const pending = document.createElement("div");
+      pending.className = "assistant-message bot";
+      pending.textContent = "正在刷新检索上下文并生成回答...";
+      assistantMessages.appendChild(pending);
+      assistantMessages.scrollTop = assistantMessages.scrollHeight;
+
+      const retrieved = retrievePortfolioContext(clean);
+      const config = loadAssistantConfig();
+      try {
+        if (config.apiKey) {
+          updateAssistantTrace(`QMD-lite + DeepSeek (${config.model})`, retrieved);
+          const answer = await callAssistantModel(clean, retrieved, config);
+          pending.innerHTML = `${escapeHtml(answer)}${retrieved.slice(0, 2).map((item) => projectLink(item.project)).join("")}`;
+          return;
+        }
+        updateAssistantTrace("QMD-lite / local answer", retrieved);
+        pending.innerHTML = buildLocalRagAnswer(clean, retrieved);
+      } catch (error) {
+        updateAssistantTrace("DeepSeek failed / local fallback", retrieved);
+        pending.innerHTML = `${buildLocalRagAnswer(clean, retrieved)}<br><span style="color:var(--muted);font-size:.78rem;">DeepSeek 调用失败，已回退本地 RAG：${escapeHtml(error.message || error)}</span>`;
+      }
     }
 
     function updateFilters() {
@@ -1808,6 +2091,37 @@
       });
     }
 
+    if (toggleAssistantConfig && assistantModelConfig) {
+      toggleAssistantConfig.addEventListener("click", () => {
+        assistantModelConfig.classList.toggle("open");
+      });
+    }
+
+    if (assistantModelConfig) {
+      assistantModelConfig.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const nextConfig = {
+          baseUrl: assistantBaseUrl?.value.trim() || DEFAULT_ASSISTANT_CONFIG.baseUrl,
+          model: assistantModelName?.value.trim() || DEFAULT_ASSISTANT_CONFIG.model,
+          apiKey: assistantApiKey?.value.trim() || ""
+        };
+        saveAssistantConfig(nextConfig);
+        updateAssistantModelState();
+        assistantModelConfig.classList.remove("open");
+        addAssistantMessage("bot", nextConfig.apiKey
+          ? `已保存 DeepSeek 配置。之后的问题会优先走 ${escapeHtml(nextConfig.model)}，并保留 RAG 检索 trace。`
+          : "已清空模型 Key。之后的问题会使用本地 RAG 回答。");
+      });
+    }
+
+    if (refreshAssistantKnowledge) {
+      refreshAssistantKnowledge.addEventListener("click", () => {
+        buildAssistantKnowledge();
+        updateAssistantTrace(loadAssistantConfig().apiKey ? "QMD-lite + DeepSeek ready" : "QMD-lite / local ready", []);
+        addAssistantMessage("bot", `项目知识库已刷新：当前索引 ${assistantKnowledge.length} 个项目，刷新时间 ${escapeHtml(assistantTraceRefresh?.textContent || "")}。`);
+      });
+    }
+
     document.querySelectorAll("[data-assistant-question]").forEach((button) => {
       button.addEventListener("click", () => {
         askPortfolioAssistant(button.dataset.assistantQuestion || "");
@@ -1866,6 +2180,9 @@
     updateFilters();
     renderProjects();
     syncProjectStackViewport();
+    buildAssistantKnowledge();
+    updateAssistantModelState();
+    updateAssistantTrace(loadAssistantConfig().apiKey ? "QMD-lite + DeepSeek ready" : "QMD-lite / local ready", []);
     initSplitRevealText();
     initRevealAnimations();
     updateActiveNav();
