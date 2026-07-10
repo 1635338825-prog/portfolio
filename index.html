@@ -286,7 +286,7 @@
     }
 
     .about-inner {
-      width: min(900px, 100%);
+      width: min(980px, 100%);
     }
 
     .about-actions {
@@ -318,6 +318,178 @@
       font-size: clamp(1rem, 1.75vw, 1.28rem);
       font-weight: 500;
       line-height: 1.9;
+    }
+
+    .project-assistant {
+      width: min(900px, 100%);
+      margin: clamp(20px, 4vw, 42px) auto 0;
+      overflow: hidden;
+      text-align: left;
+      border: 2px solid var(--ink);
+      border-radius: clamp(22px, 4vw, 42px);
+      background:
+        radial-gradient(circle at 16% 0%, rgba(143, 217, 255, .13), transparent 34%),
+        rgba(12, 12, 12, .78);
+      box-shadow: 0 34px 100px rgba(0, 0, 0, .44);
+    }
+
+    .assistant-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(215, 226, 234, .045);
+    }
+
+    .assistant-title {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      gap: 10px;
+    }
+
+    .assistant-orb {
+      width: 36px;
+      height: 36px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      color: var(--black);
+      font-weight: 900;
+      border-radius: 50%;
+      background: var(--ink);
+      box-shadow: 0 0 28px rgba(143, 217, 255, .26);
+    }
+
+    .assistant-title strong {
+      display: block;
+      color: var(--ink);
+      font-size: clamp(.98rem, 1.6vw, 1.2rem);
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .assistant-title span,
+    .assistant-state {
+      color: var(--muted);
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: .78rem;
+      font-weight: 700;
+    }
+
+    .assistant-state {
+      flex: 0 0 auto;
+      padding: 5px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(215, 226, 234, .05);
+    }
+
+    .assistant-messages {
+      display: grid;
+      align-content: start;
+      gap: 10px;
+      min-height: 218px;
+      max-height: 340px;
+      overflow: auto;
+      padding: 16px;
+      font-family: "Noto Sans SC", sans-serif;
+    }
+
+    .assistant-message {
+      max-width: 82%;
+      padding: 11px 13px;
+      color: var(--ink);
+      font-size: .92rem;
+      line-height: 1.65;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(215, 226, 234, .06);
+      white-space: pre-wrap;
+    }
+
+    .assistant-message.bot {
+      justify-self: start;
+    }
+
+    .assistant-message.user {
+      justify-self: end;
+      color: var(--black);
+      border-color: transparent;
+      background: var(--ink);
+    }
+
+    .assistant-message a {
+      display: inline-flex;
+      margin-top: 8px;
+      color: var(--cyan);
+      font-weight: 800;
+    }
+
+    .assistant-message.user a {
+      color: var(--black);
+    }
+
+    .assistant-tools {
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .assistant-quick {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px 0;
+    }
+
+    .assistant-quick button {
+      min-height: 34px;
+      padding: 0 12px;
+      color: var(--ink);
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: .78rem;
+      font-weight: 800;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(215, 226, 234, .05);
+    }
+
+    .assistant-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 88px;
+      gap: 8px;
+    }
+
+    .assistant-form input {
+      min-width: 0;
+      min-height: 42px;
+      padding: 0 12px;
+      color: var(--ink);
+      font-family: "Noto Sans SC", sans-serif;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      outline: 0;
+      background: rgba(215, 226, 234, .055);
+    }
+
+    .assistant-form input:focus {
+      border-color: rgba(143, 217, 255, .72);
+      box-shadow: 0 0 0 3px rgba(143, 217, 255, .12);
+    }
+
+    .assistant-form button {
+      min-height: 42px;
+      color: var(--black);
+      font-size: .78rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      border: 0;
+      border-radius: 8px;
+      background: var(--ink);
     }
 
     .ability {
@@ -731,6 +903,11 @@
         min-height: 300px;
       }
 
+      .assistant-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
     }
 
     @media (max-width: 560px) {
@@ -785,6 +962,32 @@
 
       .hero-bottom .button {
         width: min(100%, 340px);
+      }
+
+      .about {
+        min-height: auto;
+      }
+
+      .project-assistant {
+        border-radius: 24px;
+      }
+
+      .assistant-messages {
+        max-height: 320px;
+        padding: 12px;
+      }
+
+      .assistant-message {
+        max-width: 96%;
+        font-size: .82rem;
+      }
+
+      .assistant-tools {
+        padding: 0 12px 12px;
+      }
+
+      .assistant-form {
+        grid-template-columns: 1fr;
       }
 
       .nav .brand {
@@ -1050,11 +1253,33 @@
       <div class="about-inner">
         <div class="section-title">
           <h2 class="hero-heading reveal split-heading" data-reveal data-split-reveal>About Me</h2>
-          <p class="split-reveal" data-split-reveal>我关注 AI 应用、自动化脚本、知识库和工作流交付。这个作品集把我的项目按真实问题、方案设计、角色职责和交付物重新整理，方便快速判断我如何把模糊需求拆成可运行的工具。</p>
         </div>
-        <div class="about-actions reveal" data-reveal style="--reveal-delay:180ms">
-          <a class="button secondary" href="#projects">View Projects</a>
-          <a class="button" href="assets/resume-wu-xinke.pdf" target="_blank" rel="noreferrer">Resume</a>
+        <div class="project-assistant reveal" data-reveal style="--reveal-delay:180ms" aria-label="项目智能客服问答">
+          <div class="assistant-head">
+            <div class="assistant-title">
+              <span class="assistant-orb">AI</span>
+              <div>
+                <strong>项目智能客服</strong>
+                <span>可咨询项目能力、技术栈、交付物和适合岗位</span>
+              </div>
+            </div>
+            <span class="assistant-state">Portfolio RAG</span>
+          </div>
+          <div class="assistant-messages" id="portfolioAssistantMessages">
+            <div class="assistant-message bot">您好，我是 Daniel 作品集智能客服。可以问我：哪个项目最能体现 RAG 能力？有哪些自动化项目？内容质检项目解决什么问题？也可以直接输入你关心的岗位或技术关键词。</div>
+          </div>
+          <div class="assistant-tools">
+            <div class="assistant-quick">
+              <button type="button" data-assistant-question="哪个项目最能体现 RAG 能力？">RAG 能力</button>
+              <button type="button" data-assistant-question="有哪些数据自动化项目？">数据自动化</button>
+              <button type="button" data-assistant-question="内容质检项目解决什么问题？">内容质检</button>
+              <button type="button" data-assistant-question="我适合什么岗位？">适合岗位</button>
+            </div>
+            <form class="assistant-form" id="portfolioAssistantForm">
+              <input id="portfolioAssistantInput" autocomplete="off" placeholder="输入问题，例如：有哪些知识库项目？">
+              <button type="submit">发送</button>
+            </form>
+          </div>
         </div>
       </div>
     </section>
@@ -1282,6 +1507,118 @@
       })[char]);
     }
 
+    const assistantMessages = document.querySelector("#portfolioAssistantMessages");
+    const assistantForm = document.querySelector("#portfolioAssistantForm");
+    const assistantInput = document.querySelector("#portfolioAssistantInput");
+
+    function addAssistantMessage(role, html) {
+      if (!assistantMessages) return;
+      const message = document.createElement("div");
+      message.className = `assistant-message ${role}`;
+      message.innerHTML = html;
+      assistantMessages.appendChild(message);
+      assistantMessages.scrollTop = assistantMessages.scrollHeight;
+    }
+
+    function projectLink(project) {
+      if (!project.link) return "";
+      return `<a href="${escapeHtml(project.link)}" target="_blank" rel="noreferrer">查看 ${escapeHtml(project.title)}</a>`;
+    }
+
+    function formatProjectAnswer(projects, intro) {
+      const items = projects.slice(0, 3).map((project) => {
+        return `- ${project.title}：${project.description}\n  技术/职责：${project.role} · ${project.tools}`;
+      }).join("\n\n");
+      const firstLink = projects[0] ? projectLink(projects[0]) : "";
+      return `${escapeHtml(intro)}\n\n${escapeHtml(items)}${firstLink}`;
+    }
+
+    function findProjectsByKeywords(keywords) {
+      const lowered = keywords.map((keyword) => keyword.toLowerCase());
+      return projectsData.filter((project) => {
+        const searchable = [
+          project.title,
+          project.category,
+          project.role,
+          project.tools,
+          project.description,
+          project.problem,
+          project.solution,
+          project.tags.join(" ")
+        ].join(" ").toLowerCase();
+        return lowered.some((keyword) => searchable.includes(keyword));
+      });
+    }
+
+    function buildPortfolioAssistantAnswer(question) {
+      const query = question.trim().toLowerCase();
+      if (!query) return "";
+
+      if (/rag|客服|问答|知识库|检索|harness/.test(query)) {
+        return formatProjectAnswer(
+          findProjectsByKeywords(["rag", "智能客服", "知识库", "检索", "harness"]),
+          "最能体现 RAG 和知识库能力的是这些项目："
+        );
+      }
+
+      if (/岗位|适合|求职|面试|介绍/.test(query)) {
+        return "从作品集看，Daniel 更适合 AI 应用搭建、RAG/知识库、数据自动化、内容质检工作流、AI 产品交付这类岗位或实习方向。\n\n核心证据包括：Harness RAG 智能客服体现 RAG 架构和评测能力；内容质检与评论助手体现规则/OCR/结构化输出能力；周报和广告报告项目体现数据自动化交付能力；个人知识库 Skill 体现资料解析和检索系统设计能力。";
+      }
+
+      if (/自动化|周报|报表|广告|数据|excel|csv/.test(query)) {
+        return formatProjectAnswer(
+          findProjectsByKeywords(["自动化", "周报", "报表", "广告", "excel", "csv"]),
+          "数据自动化相关项目主要集中在报表生产和流程配置化："
+        );
+      }
+
+      if (/质检|审核|评论|ocr|规则/.test(query)) {
+        return formatProjectAnswer(
+          findProjectsByKeywords(["质检", "审核", "评论", "ocr", "规则"]),
+          "内容质检方向的代表项目是："
+        );
+      }
+
+      if (/语音|输入|桌面|快捷键/.test(query)) {
+        return formatProjectAnswer(
+          findProjectsByKeywords(["语音", "桌面", "快捷键", "输入"]),
+          "语音和桌面工具方向可以看这个项目："
+        );
+      }
+
+      if (/skill|技能|沉淀|员工/.test(query)) {
+        return formatProjectAnswer(
+          findProjectsByKeywords(["skill", "员工", "沉淀", "模板"]),
+          "Skill 和工作流沉淀相关项目包括："
+        );
+      }
+
+      const directMatches = projectsData.filter((project) => {
+        const searchable = [
+          project.title,
+          project.category,
+          project.role,
+          project.tools,
+          project.description,
+          project.tags.join(" ")
+        ].join(" ").toLowerCase();
+        return query.split(/\s+/).filter(Boolean).some((word) => searchable.includes(word));
+      });
+
+      if (directMatches.length) {
+        return formatProjectAnswer(directMatches, "根据你的问题，我匹配到这些项目：");
+      }
+
+      return "你可以问我这些问题：哪个项目最能体现 RAG 能力、有哪些自动化项目、内容质检项目解决什么问题、有哪些知识库项目、适合什么岗位。我会根据当前作品集项目列表回答。";
+    }
+
+    function askPortfolioAssistant(question) {
+      const clean = question.trim();
+      if (!clean) return;
+      addAssistantMessage("user", escapeHtml(clean));
+      addAssistantMessage("bot", buildPortfolioAssistantAnswer(clean));
+    }
+
     function updateFilters() {
       const categories = ["全部", ...new Set(projectsData.map((project) => project.category))];
       const years = ["全部", ...new Set(projectsData.map((project) => project.year))].sort((a, b) => b.localeCompare(a));
@@ -1459,6 +1796,22 @@
     [searchInput, categoryFilter, yearFilter].forEach((control) => {
       control.addEventListener("input", renderProjects);
       control.addEventListener("change", renderProjects);
+    });
+
+    if (assistantForm && assistantInput) {
+      assistantForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const question = assistantInput.value;
+        assistantInput.value = "";
+        askPortfolioAssistant(question);
+        assistantInput.focus();
+      });
+    }
+
+    document.querySelectorAll("[data-assistant-question]").forEach((button) => {
+      button.addEventListener("click", () => {
+        askPortfolioAssistant(button.dataset.assistantQuestion || "");
+      });
     });
 
     let stackViewportMode = "";
