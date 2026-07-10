@@ -453,14 +453,6 @@
       background: var(--ink);
     }
 
-    .assistant-config-note {
-      grid-column: 1 / -1;
-      color: var(--muted);
-      font-family: "Noto Sans SC", sans-serif;
-      font-size: .72rem;
-      line-height: 1.55;
-    }
-
     .assistant-messages {
       display: grid;
       align-content: start;
@@ -1384,11 +1376,9 @@
             </div>
           </div>
           <form class="assistant-config" id="assistantModelConfig">
-            <input id="assistantBaseUrl" type="url" placeholder="DeepSeek Base URL，默认 https://api.deepseek.com/v1">
+            <input id="assistantProxyUrl" type="url" placeholder="DeepSeek 代理地址，例如 https://your-site.vercel.app/api/deepseek-chat">
             <input id="assistantModelName" type="text" placeholder="模型，默认 deepseek-chat">
-            <input id="assistantApiKey" type="password" autocomplete="current-password" placeholder="DeepSeek API Key，仅保存在本机浏览器">
             <button type="submit">保存</button>
-            <div class="assistant-config-note">静态作品集不能把你的 DeepSeek Key 写进公开代码。这里保存到当前浏览器 localStorage；保存后本机访问会优先调用 DeepSeek，未配置或调用失败时自动回退本地 RAG。</div>
           </form>
           <div class="assistant-trace" aria-label="项目 RAG 检索状态">
             <div class="trace-item"><b>检索模式</b><span id="assistantTraceMode">QMD-lite / local</span></div>
@@ -1645,16 +1635,14 @@
     const assistantTraceSources = document.querySelector("#assistantTraceSources");
     const assistantTraceRefresh = document.querySelector("#assistantTraceRefresh");
     const assistantModelConfig = document.querySelector("#assistantModelConfig");
-    const assistantBaseUrl = document.querySelector("#assistantBaseUrl");
+    const assistantProxyUrl = document.querySelector("#assistantProxyUrl");
     const assistantModelName = document.querySelector("#assistantModelName");
-    const assistantApiKey = document.querySelector("#assistantApiKey");
     const toggleAssistantConfig = document.querySelector("#toggleAssistantConfig");
     const refreshAssistantKnowledge = document.querySelector("#refreshAssistantKnowledge");
-    const ASSISTANT_CONFIG_KEY = "portfolio_assistant_deepseek_config";
+    const ASSISTANT_CONFIG_KEY = "portfolio_assistant_proxy_config";
     const DEFAULT_ASSISTANT_CONFIG = {
-      baseUrl: "https://api.deepseek.com/v1",
-      model: "deepseek-chat",
-      apiKey: ""
+      proxyUrl: "",
+      model: "deepseek-chat"
     };
     let assistantKnowledge = [];
 
@@ -1682,6 +1670,12 @@
 
     function saveAssistantConfig(config) {
       localStorage.setItem(ASSISTANT_CONFIG_KEY, JSON.stringify(config));
+    }
+
+    function defaultAssistantProxyUrl() {
+      if (window.PORTFOLIO_ASSISTANT_PROXY_URL) return window.PORTFOLIO_ASSISTANT_PROXY_URL;
+      const backendHosts = ["vercel.app", "openai.site"];
+      return backendHosts.some((host) => location.hostname.endsWith(host)) ? "/api/deepseek-chat" : "";
     }
 
     function normalizeText(value) {
@@ -1845,34 +1839,35 @@
     }
 
     async function callAssistantModel(question, retrieved, config) {
-      const endpoint = `${config.baseUrl.replace(/\/+$/, "")}/chat/completions`;
+      const endpoint = (config.proxyUrl || defaultAssistantProxyUrl()).trim();
+      if (!endpoint) {
+        throw new Error("DeepSeek 代理地址未配置");
+      }
       const response = await fetch(endpoint, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${config.apiKey}`
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
           model: config.model,
-          messages: buildAssistantPrompt(question, retrieved),
-          temperature: 0.35
+          messages: buildAssistantPrompt(question, retrieved)
         })
       });
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) {
-        throw new Error(payload.error?.message || `模型请求失败：${response.status}`);
+        throw new Error(payload.error?.message || payload.error || `代理请求失败：${response.status}`);
       }
-      return payload.choices?.[0]?.message?.content?.trim() || "";
+      return payload.answer || payload.choices?.[0]?.message?.content?.trim() || "";
     }
 
     function updateAssistantModelState() {
       const config = loadAssistantConfig();
+      const hasProxy = Boolean(config.proxyUrl || defaultAssistantProxyUrl());
       if (assistantModelState) {
-        assistantModelState.textContent = config.apiKey ? `DeepSeek · ${config.model}` : "Local RAG";
+        assistantModelState.textContent = hasProxy ? `DeepSeek 代理 · ${config.model}` : "Local RAG";
       }
-      if (assistantBaseUrl) assistantBaseUrl.value = config.baseUrl;
+      if (assistantProxyUrl) assistantProxyUrl.value = config.proxyUrl || defaultAssistantProxyUrl();
       if (assistantModelName) assistantModelName.value = config.model;
-      if (assistantApiKey) assistantApiKey.value = config.apiKey;
     }
 
     async function askPortfolioAssistant(question) {
@@ -1887,9 +1882,10 @@
 
       const retrieved = retrievePortfolioContext(clean);
       const config = loadAssistantConfig();
+      const hasProxy = Boolean(config.proxyUrl || defaultAssistantProxyUrl());
       try {
-        if (config.apiKey) {
-          updateAssistantTrace(`QMD-lite + DeepSeek (${config.model})`, retrieved);
+        if (hasProxy) {
+          updateAssistantTrace(`QMD-lite + DeepSeek proxy (${config.model})`, retrieved);
           const answer = await callAssistantModel(clean, retrieved, config);
           pending.innerHTML = `${escapeHtml(answer)}${retrieved.slice(0, 2).map((item) => projectLink(item.project)).join("")}`;
           return;
@@ -1897,8 +1893,8 @@
         updateAssistantTrace("QMD-lite / local answer", retrieved);
         pending.innerHTML = buildLocalRagAnswer(clean, retrieved);
       } catch (error) {
-        updateAssistantTrace("DeepSeek failed / local fallback", retrieved);
-        pending.innerHTML = `${buildLocalRagAnswer(clean, retrieved)}<br><span style="color:var(--muted);font-size:.78rem;">DeepSeek 调用失败，已回退本地 RAG：${escapeHtml(error.message || error)}</span>`;
+        updateAssistantTrace("DeepSeek proxy failed / local fallback", retrieved);
+        pending.innerHTML = `${buildLocalRagAnswer(clean, retrieved)}<br><span style="color:var(--muted);font-size:.78rem;">DeepSeek 代理调用失败，已回退本地 RAG：${escapeHtml(error.message || error)}</span>`;
       }
     }
 
@@ -2101,23 +2097,22 @@
       assistantModelConfig.addEventListener("submit", (event) => {
         event.preventDefault();
         const nextConfig = {
-          baseUrl: assistantBaseUrl?.value.trim() || DEFAULT_ASSISTANT_CONFIG.baseUrl,
-          model: assistantModelName?.value.trim() || DEFAULT_ASSISTANT_CONFIG.model,
-          apiKey: assistantApiKey?.value.trim() || ""
+          proxyUrl: assistantProxyUrl?.value.trim() || "",
+          model: assistantModelName?.value.trim() || DEFAULT_ASSISTANT_CONFIG.model
         };
         saveAssistantConfig(nextConfig);
         updateAssistantModelState();
         assistantModelConfig.classList.remove("open");
-        addAssistantMessage("bot", nextConfig.apiKey
-          ? `已保存 DeepSeek 配置。之后的问题会优先走 ${escapeHtml(nextConfig.model)}，并保留 RAG 检索 trace。`
-          : "已清空模型 Key。之后的问题会使用本地 RAG 回答。");
+        addAssistantMessage("bot", nextConfig.proxyUrl
+          ? `已保存 DeepSeek 代理配置。之后的问题会优先走 ${escapeHtml(nextConfig.model)}，并保留 RAG 检索 trace。`
+          : "已清空代理地址。之后的问题会使用本地 RAG 回答。");
       });
     }
 
     if (refreshAssistantKnowledge) {
       refreshAssistantKnowledge.addEventListener("click", () => {
         buildAssistantKnowledge();
-        updateAssistantTrace(loadAssistantConfig().apiKey ? "QMD-lite + DeepSeek ready" : "QMD-lite / local ready", []);
+        updateAssistantTrace((loadAssistantConfig().proxyUrl || defaultAssistantProxyUrl()) ? "QMD-lite + DeepSeek proxy ready" : "QMD-lite / local ready", []);
         addAssistantMessage("bot", `项目知识库已刷新：当前索引 ${assistantKnowledge.length} 个项目，刷新时间 ${escapeHtml(assistantTraceRefresh?.textContent || "")}。`);
       });
     }
@@ -2182,7 +2177,7 @@
     syncProjectStackViewport();
     buildAssistantKnowledge();
     updateAssistantModelState();
-    updateAssistantTrace(loadAssistantConfig().apiKey ? "QMD-lite + DeepSeek ready" : "QMD-lite / local ready", []);
+    updateAssistantTrace((loadAssistantConfig().proxyUrl || defaultAssistantProxyUrl()) ? "QMD-lite + DeepSeek proxy ready" : "QMD-lite / local ready", []);
     initSplitRevealText();
     initRevealAnimations();
     updateActiveNav();

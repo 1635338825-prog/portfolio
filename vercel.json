@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/deepseek-chat.js": {
+      "maxDuration": 30
+    }
+  }
+}
