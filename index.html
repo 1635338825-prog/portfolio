@@ -1611,14 +1611,15 @@
 
     function loadAssistantConfig() {
       try {
-        return { ...DEFAULT_ASSISTANT_CONFIG, ...JSON.parse(localStorage.getItem(ASSISTANT_CONFIG_KEY) || "{}") };
+        localStorage.removeItem(ASSISTANT_CONFIG_KEY);
       } catch (error) {
-        return { ...DEFAULT_ASSISTANT_CONFIG };
+        // Ignore blocked storage. The public portfolio uses the bundled proxy config.
       }
+      return { ...DEFAULT_ASSISTANT_CONFIG };
     }
 
     function saveAssistantConfig(config) {
-      localStorage.setItem(ASSISTANT_CONFIG_KEY, JSON.stringify(config));
+      return config;
     }
 
     function defaultAssistantProxyUrl() {

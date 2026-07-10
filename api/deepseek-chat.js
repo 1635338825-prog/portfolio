@@ -1,11 +1,11 @@
 const DEFAULT_MODEL = "deepseek-chat";
 const DEFAULT_DEEPSEEK_BASE_URL = "https://api.deepseek.com/v1";
-const DEFAULT_ALLOWED_ORIGIN = "https://1635338825-prog.github.io";
+const DEFAULT_ALLOWED_ORIGIN = "https://1635338825-prog.github.io,null";
 
 function allowedOrigin(req) {
   const origin = req.headers.origin || "";
-  const configured = process.env.ALLOWED_ORIGIN || DEFAULT_ALLOWED_ORIGIN;
-  const allowed = configured.split(",").map((item) => item.trim()).filter(Boolean);
+  const configured = [DEFAULT_ALLOWED_ORIGIN, process.env.ALLOWED_ORIGIN || ""].join(",");
+  const allowed = [...new Set(configured.split(",").map((item) => item.trim()).filter(Boolean))];
   if (allowed.includes("*")) return origin || "*";
   return allowed.includes(origin) ? origin : allowed[0] || DEFAULT_ALLOWED_ORIGIN;
 }
