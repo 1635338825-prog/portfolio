@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>客服场景 RAG 智能客服</title>
+  <meta name="description" content="可公开体验的客服场景 RAG 智能客服，支持知识检索、引用来源、风险识别和转人工策略。">
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #111822;
+      --panel-2: #172231;
+      --ink: #ecf4f1;
+      --muted: rgba(236, 244, 241, .66);
+      --line: rgba(236, 244, 241, .16);
+      --accent: #52d68f;
+      --cyan: #79c7ff;
+      --amber: #f4b05f;
+      --danger: #ff7a7a;
+      --paper: #f7faf8;
+      --paper-ink: #14201b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Noto Sans SC", system-ui, sans-serif;
+      background:
+        linear-gradient(90deg, rgba(236, 244, 241, .045) 1px, transparent 1px) 0 0 / 44px 44px,
+        linear-gradient(0deg, rgba(236, 244, 241, .04) 1px, transparent 1px) 0 0 / 44px 44px,
+        radial-gradient(circle at 18% 12%, rgba(82, 214, 143, .22), transparent 30vw),
+        radial-gradient(circle at 82% 8%, rgba(121, 199, 255, .18), transparent 26vw),
+        var(--bg);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      width: min(1180px, calc(100% - 28px));
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 18px 0;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 16px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 58px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(11, 15, 20, .72);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .mark {
+      width: 38px;
+      height: 38px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      color: #07120d;
+      font-family: "Kanit", sans-serif;
+      font-weight: 800;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--cyan));
+      box-shadow: 0 12px 34px rgba(82, 214, 143, .28);
+    }
+
+    h1 {
+      overflow: hidden;
+      font-size: clamp(1rem, 2.2vw, 1.45rem);
+      font-weight: 900;
+      line-height: 1.1;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill-button {
+      min-height: 40px;
+      padding: 0 16px;
+      color: var(--ink);
+      font-size: .85rem;
+      font-weight: 800;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(236, 244, 241, .06);
+    }
+
+    .pill-button.primary {
+      color: #07120d;
+      border-color: transparent;
+      background: var(--accent);
+    }
+
+    .workspace {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 330px;
+      gap: 16px;
+    }
+
+    .chat-shell,
+    .side-panel {
+      min-height: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(17, 24, 34, .84);
+      box-shadow: 0 28px 90px rgba(0, 0, 0, .28);
+      backdrop-filter: blur(18px);
+    }
+
+    .chat-shell {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      overflow: hidden;
+    }
+
+    .status-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(236, 244, 241, .035);
+    }
+
+    .status-chip {
+      padding: 6px 10px;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(11, 15, 20, .32);
+    }
+
+    .status-chip strong {
+      color: var(--ink);
+    }
+
+    .messages {
+      min-height: 360px;
+      overflow: auto;
+      padding: 18px;
+      display: grid;
+      align-content: start;
+      gap: 14px;
+    }
+
+    .msg {
+      max-width: min(720px, 88%);
+      padding: 13px 15px;
+      border-radius: 8px;
+      line-height: 1.72;
+      white-space: pre-wrap;
+    }
+
+    .msg.user {
+      justify-self: end;
+      color: #07120d;
+      background: var(--accent);
+    }
+
+    .msg.bot {
+      justify-self: start;
+      color: var(--paper-ink);
+      background: var(--paper);
+      border: 1px solid rgba(236, 244, 241, .28);
+    }
+
+    .msg.system {
+      justify-self: center;
+      max-width: 680px;
+      color: var(--muted);
+      font-size: .9rem;
+      text-align: center;
+      border: 1px dashed var(--line);
+      background: rgba(236, 244, 241, .045);
+    }
+
+    .answer-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(20, 32, 27, .12);
+    }
+
+    .answer-meta span {
+      padding: 3px 8px;
+      color: #214233;
+      font-size: .75rem;
+      font-weight: 700;
+      border-radius: 999px;
+      background: rgba(82, 214, 143, .16);
+    }
+
+    .answer-meta .warn {
+      color: #6c3200;
+      background: rgba(244, 176, 95, .22);
+    }
+
+    .quick-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 0 14px 12px;
+    }
+
+    .quick-row button {
+      min-height: 36px;
+      padding: 0 12px;
+      color: var(--ink);
+      font-size: .82rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(236, 244, 241, .055);
+    }
+
+    .composer {
+      display: grid;
+      grid-template-columns: 1fr 92px;
+      gap: 10px;
+      padding: 12px;
+      border-top: 1px solid var(--line);
+      background: rgba(11, 15, 20, .52);
+    }
+
+    .composer input {
+      min-width: 0;
+      min-height: 46px;
+      padding: 0 13px;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      outline: none;
+      background: rgba(236, 244, 241, .07);
+    }
+
+    .composer input:focus {
+      border-color: rgba(82, 214, 143, .72);
+      box-shadow: 0 0 0 3px rgba(82, 214, 143, .14);
+    }
+
+    .send {
+      min-height: 46px;
+      color: #07120d;
+      font-weight: 900;
+      border: 0;
+      border-radius: 8px;
+      background: var(--accent);
+    }
+
+    .side-panel {
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .panel-head {
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .panel-head h2 {
+      font-family: "Kanit", "Noto Sans SC", sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .panel-body {
+      overflow: auto;
+      padding: 14px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .metric,
+    .source-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(236, 244, 241, .05);
+    }
+
+    .metric {
+      padding: 11px;
+    }
+
+    .metric b {
+      display: block;
+      color: var(--accent);
+      font-family: "Kanit", sans-serif;
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: .76rem;
+    }
+
+    .source-card {
+      padding: 12px;
+      display: grid;
+      gap: 7px;
+    }
+
+    .source-card h3 {
+      font-size: .96rem;
+      line-height: 1.35;
+    }
+
+    .source-card p {
+      color: var(--muted);
+      font-size: .8rem;
+      line-height: 1.58;
+    }
+
+    .source-card .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .source-card .tag {
+      padding: 3px 7px;
+      color: var(--ink);
+      font-size: .7rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(11, 15, 20, .28);
+    }
+
+    .source-card.high {
+      border-color: rgba(255, 122, 122, .42);
+    }
+
+    @media (max-width: 900px) {
+      .app {
+        width: min(100% - 18px, 680px);
+        padding: 9px 0;
+      }
+
+      .topbar {
+        align-items: stretch;
+        border-radius: 8px;
+      }
+
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .side-panel {
+        min-height: 420px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .topbar,
+      .top-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .brand {
+        justify-content: center;
+      }
+
+      .pill-button,
+      .pill-button.primary {
+        width: 100%;
+      }
+
+      .messages {
+        min-height: 320px;
+        padding: 12px;
+      }
+
+      .msg {
+        max-width: 96%;
+      }
+
+      .composer {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <a class="brand" href="index.html#projects" aria-label="返回作品集项目列表">
+        <span class="mark">R</span>
+        <h1>客服场景 RAG 智能客服</h1>
+      </a>
+      <div class="top-actions">
+        <button class="pill-button" type="button" id="resetBtn">清空会话</button>
+        <a class="pill-button primary" href="index.html#projects">返回作品集</a>
+      </div>
+    </header>
+
+    <section class="workspace">
+      <div class="chat-shell">
+        <div class="status-strip" id="statusStrip">
+          <span class="status-chip">检索模式 <strong>QMD + RRF</strong></span>
+          <span class="status-chip">知识库 <strong>电商客服政策</strong></span>
+          <span class="status-chip">转人工策略 <strong>启用</strong></span>
+        </div>
+
+        <div class="messages" id="messages">
+          <div class="msg system">您好，我是智能客服。可以咨询退款、发票、物流、订单、账号安全、支付扣款和退换货问题。</div>
+        </div>
+
+        <div>
+          <div class="quick-row">
+            <button type="button" data-question="会员可以退款吗？">会员可以退款吗？</button>
+            <button type="button" data-question="发票怎么开？">发票怎么开？</button>
+            <button type="button" data-question="账号被盗了怎么办？">账号被盗了怎么办？</button>
+            <button type="button" data-question="物流 3 天没更新怎么办？">物流 3 天没更新怎么办？</button>
+          </div>
+          <form class="composer" id="askForm">
+            <input id="questionInput" autocomplete="off" placeholder="输入您的问题">
+            <button class="send" type="submit">发送</button>
+          </form>
+        </div>
+      </div>
+
+      <aside class="side-panel" aria-label="检索详情">
+        <div class="panel-head">
+          <h2>Retrieval Trace</h2>
+        </div>
+        <div class="panel-body">
+          <div class="metric-grid">
+            <div class="metric"><b id="confidenceMetric">--</b><span>置信度</span></div>
+            <div class="metric"><b id="handoffMetric">--</b><span>转人工</span></div>
+            <div class="metric"><b id="domainMetric">--</b><span>业务线</span></div>
+            <div class="metric"><b id="sourceMetric">--</b><span>命中来源</span></div>
+          </div>
+          <div id="sourceList"></div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    const knowledgeBase = [
+      {
+        id: "refund_policy.member_refund",
+        title: "退款政策 / 会员服务退款",
+        domain: "售后",
+        risk: "中",
+        updated: "2026-07-08",
+        keywords: ["会员", "退款", "会员服务", "权益", "优惠券", "第三方", "购买后", "7天"],
+        answer: "如果购买会员服务后没有使用任何会员权益，通常可在购买后 7 天内申请退款。若已经使用优惠券、专属折扣、增值服务或其他会员权益，需要人工客服结合订单判断。通过第三方渠道购买的会员，应回到原支付渠道申请退款。客服不能承诺一定退款、立即到账或额外赔偿。"
+      },
+      {
+        id: "refund_policy.refund_time",
+        title: "退款政策 / 退款到账时间",
+        domain: "售后",
+        risk: "中",
+        updated: "2026-07-08",
+        keywords: ["退款", "到账", "多久", "工作日", "原路退回", "银行", "支付渠道", "超过7天"],
+        answer: "退款审核通过后，通常会在 1 至 7 个工作日内原路退回。实际到账时间会受支付渠道和银行处理速度影响。若超过 7 个工作日仍未到账，建议提供订单号并转人工核查。"
+      },
+      {
+        id: "invoice_policy.e_invoice",
+        title: "发票政策 / 电子发票申请",
+        domain: "售后",
+        risk: "低",
+        updated: "2026-07-08",
+        keywords: ["发票", "电子发票", "抬头", "税号", "邮箱", "企业", "个人", "订单详情"],
+        answer: "可以在订单详情页选择“申请发票”。发票类型支持个人抬头和企业抬头；企业抬头通常需要填写公司名称、纳税人识别号和接收邮箱。电子发票开具后会发送到用户填写的邮箱。"
+      },
+      {
+        id: "account_security.stolen",
+        title: "账号安全 / 账号被盗",
+        domain: "账号",
+        risk: "高",
+        updated: "2026-07-08",
+        keywords: ["账号", "被盗", "盗号", "登录异常", "冻结", "异常登录", "手机号", "邮箱", "资金", "订单", "身份核验"],
+        answer: "如果怀疑账号被盗，请先修改密码，并检查绑定手机号、邮箱和第三方登录。涉及资金、订单或权益损失时必须转人工处理。处理过程中需要完成身份核验，不能直接修改账号归属，也不能在未核验身份时透露手机号、订单和地址等隐私信息。"
+      },
+      {
+        id: "shipping_logistics.delay",
+        title: "物流与配送 / 物流停滞",
+        domain: "物流",
+        risk: "中",
+        updated: "2026-07-09",
+        keywords: ["物流", "快递", "停滞", "没更新", "扫描", "72小时", "48小时", "丢失", "破损", "派送"],
+        answer: "物流信息 48 小时内未更新，可以先关注承运商后续扫描；超过 72 小时未更新，客服应协助发起物流核查。若核查确认包裹丢失、严重破损或无法继续派送，应转人工处理补发、退款或赔付方案。"
+      },
+      {
+        id: "shipping_logistics.sign_exception",
+        title: "物流与配送 / 签收异常",
+        domain: "物流",
+        risk: "中",
+        updated: "2026-07-09",
+        keywords: ["签收", "没收到", "本人未收到", "代收点", "门卫", "驿站", "盗领", "高价值"],
+        answer: "如果物流显示已签收但本人未收到，建议先确认收件地址、收件人、代收点、门卫或驿站信息。若确认未收到，客服应协助发起承运商签收核查。核查完成前，不能直接承诺退款或补发。"
+      },
+      {
+        id: "order_status.cancel",
+        title: "订单状态 / 订单取消",
+        domain: "订单",
+        risk: "低",
+        updated: "2026-07-09",
+        keywords: ["订单", "取消", "未付款", "已付款", "未发货", "已发货", "拦截", "预售", "定制"],
+        answer: "未付款订单可在订单详情页自行取消。已付款但未发货订单可尝试申请取消，是否成功以仓库拦截结果为准。已发货订单通常无法直接取消，可在收到后按退货流程处理。"
+      },
+      {
+        id: "returns_exchange.no_reason",
+        title: "退换货规则 / 七天无理由退货",
+        domain: "售后",
+        risk: "中",
+        updated: "2026-07-09",
+        keywords: ["七天无理由", "退货", "签收", "7天", "二次销售", "赠品", "包装", "生鲜", "定制", "虚拟商品"],
+        answer: "支持七天无理由的商品，应在签收后 7 天内发起申请。商品需要保持不影响二次销售，并包含主商品、配件、赠品、包装和发票等。生鲜、定制、虚拟商品、拆封后影响安全或卫生的商品可能不支持七天无理由，最终以商品页、订单页和平台规则为准。"
+      },
+      {
+        id: "returns_exchange.exchange",
+        title: "退换货规则 / 换货申请",
+        domain: "售后",
+        risk: "中",
+        updated: "2026-07-09",
+        keywords: ["换货", "库存", "售后期", "质量问题", "照片", "视频", "检测", "差价", "缺货"],
+        answer: "申请换货时，应先确认商品是否支持换货、库存是否充足、收货时间是否在售后期内。质量问题换货通常需要提供照片、视频或检测说明。非质量原因换货可能需要用户承担寄回运费；涉及差价、缺货或争议责任时应转人工处理。"
+      },
+      {
+        id: "payment_billing.paid_no_order",
+        title: "支付与扣款 / 支付成功但订单未生成",
+        domain: "支付",
+        risk: "高",
+        updated: "2026-07-09",
+        keywords: ["支付", "扣款", "订单未生成", "没订单", "重复支付", "30分钟", "流水", "银行卡", "验证码"],
+        answer: "已扣款但订单未生成时，请先不要重复支付。支付状态同步通常需要一定时间，可以稍后刷新订单列表；如果超过 30 分钟仍无订单，应转人工核查支付流水。请不要提供完整银行卡号、支付密码、短信验证码或其他敏感凭证。"
+      },
+      {
+        id: "warranty_quality.damage",
+        title: "商品质量与质保 / 商品破损",
+        domain: "售后",
+        risk: "中",
+        updated: "2026-07-09",
+        keywords: ["破损", "质量", "质保", "照片", "视频", "开箱", "外包装", "面单", "维修", "换新"],
+        answer: "反馈商品破损或质量问题时，建议保留外包装、面单、商品照片和开箱视频，并尽快在订单售后入口提交凭证。责任需要结合物流、包装、商品状态和用户凭证判断；涉及补发、退款、赔付金额或责任争议时应转人工处理。"
+      },
+      {
+        id: "complaint_escalation.complaint",
+        title: "投诉与升级处理 / 投诉与法律监管",
+        domain: "投诉",
+        risk: "高",
+        updated: "2026-07-09",
+        keywords: ["投诉", "举报", "曝光", "监管", "律师", "起诉", "仲裁", "法院", "消费者协会", "赔偿", "索赔", "精神损失费"],
+        answer: "涉及投诉、举报、曝光、监管投诉、赔偿诉求、律师、起诉、仲裁或法院等内容时，应优先安抚情绪并转人工处理。AI 可以先记录诉求、订单信息、争议点和期望解决方案，但不能提供法律意见、责任认定或承诺赔偿金额。"
+      }
+    ];
+
+    const synonyms = new Map([
+      ["多久", ["到账", "时效", "几天", "什么时候"]],
+      ["钱", ["退款", "扣款", "支付", "到账"]],
+      ["开发票", ["发票", "抬头", "税号", "电子发票"]],
+      ["没收到", ["签收", "物流", "快递", "派送"]],
+      ["盗号", ["账号", "被盗", "登录异常", "身份核验"]],
+      ["退", ["退款", "退货", "七天无理由", "售后"]],
+      ["换", ["换货", "售后", "质量问题"]],
+      ["赔", ["赔偿", "补偿", "投诉", "转人工"]]
+    ]);
+
+    const messages = document.querySelector("#messages");
+    const form = document.querySelector("#askForm");
+    const input = document.querySelector("#questionInput");
+    const sourceList = document.querySelector("#sourceList");
+    const confidenceMetric = document.querySelector("#confidenceMetric");
+    const handoffMetric = document.querySelector("#handoffMetric");
+    const domainMetric = document.querySelector("#domainMetric");
+    const sourceMetric = document.querySelector("#sourceMetric");
+    const resetBtn = document.querySelector("#resetBtn");
+    let history = [];
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
+
+    function addMessage(role, html) {
+      const el = document.createElement("div");
+      el.className = `msg ${role}`;
+      el.innerHTML = html;
+      messages.appendChild(el);
+      messages.scrollTop = messages.scrollHeight;
+      return el;
+    }
+
+    function expandQuestion(question) {
+      const words = new Set([question]);
+      const compact = question.replace(/\s+/g, "");
+      words.add(compact);
+      for (const [trigger, additions] of synonyms.entries()) {
+        if (compact.includes(trigger)) {
+          additions.forEach((item) => words.add(item));
+        }
+      }
+      const last = history.at(-1);
+      if (last && /多久|几天|什么时候|怎么处理|然后呢|那/.test(compact)) {
+        last.sources.slice(0, 2).forEach((source) => {
+          source.keywords.slice(0, 4).forEach((keyword) => words.add(keyword));
+        });
+      }
+      return [...words];
+    }
+
+    function retrieve(question) {
+      const expanded = expandQuestion(question);
+      const compact = question.replace(/\s+/g, "");
+      return knowledgeBase
+        .map((item) => {
+          let score = 0;
+          const hits = [];
+          item.keywords.forEach((keyword) => {
+            if (compact.includes(keyword)) {
+              score += keyword.length >= 3 ? 5 : 3;
+              hits.push(keyword);
+            }
+          });
+          expanded.forEach((word) => {
+            if (word && item.keywords.some((keyword) => keyword.includes(word) || word.includes(keyword))) {
+              score += 2;
+              hits.push(word);
+            }
+          });
+          if (compact.includes(item.domain)) score += 3;
+          if (item.title.includes(compact)) score += 4;
+          return {...item, score, hits: [...new Set(hits)]};
+        })
+        .filter((item) => item.score > 0)
+        .sort((a, b) => b.score - a.score || b.updated.localeCompare(a.updated))
+        .slice(0, 4);
+    }
+
+    function shouldHandoff(question, sources) {
+      const riskWords = /赔偿|补偿|投诉|举报|曝光|监管|律师|起诉|仲裁|法院|消费者协会|被盗|盗号|扣款|银行卡|验证码|支付密码|精神损失/;
+      return riskWords.test(question) || sources.some((source) => source.risk === "高");
+    }
+
+    function buildAnswer(question) {
+      let sources = retrieve(question);
+      if (!sources.length) {
+        sources = knowledgeBase
+          .filter((item) => item.domain === "售后")
+          .slice(0, 3)
+          .map((item) => ({...item, score: 1, hits: []}));
+      }
+      const top = sources[0];
+      const handoff = shouldHandoff(question, sources);
+      const confidence = Math.min(96, Math.max(42, Math.round((top.score / 18) * 100)));
+      const sourceText = sources.slice(0, 2).map((source, index) => `${index + 1}. ${source.answer}`).join("\n\n");
+      const guardrail = handoff
+        ? "\n\n该问题涉及高风险或需人工核验的信息，我会建议转人工处理，并避免承诺赔偿、退款结果或泄露隐私信息。"
+        : "";
+      const answer = `${sourceText}${guardrail}\n\n引用来源：${sources.slice(0, 3).map((source) => source.title).join("；")}`;
+      return {answer, sources, handoff, confidence, domain: top.domain};
+    }
+
+    function renderTrace(result) {
+      confidenceMetric.textContent = `${result.confidence}%`;
+      handoffMetric.textContent = result.handoff ? "建议" : "否";
+      domainMetric.textContent = result.domain;
+      sourceMetric.textContent = String(result.sources.length);
+      sourceList.innerHTML = result.sources.map((source) => `
+        <article class="source-card ${source.risk === "高" ? "high" : ""}">
+          <h3>${escapeHtml(source.title)}</h3>
+          <p>${escapeHtml(source.answer)}</p>
+          <div class="tags">
+            <span class="tag">${escapeHtml(source.domain)}</span>
+            <span class="tag">风险：${escapeHtml(source.risk)}</span>
+            <span class="tag">${escapeHtml(source.updated)}</span>
+            ${source.hits.slice(0, 3).map((hit) => `<span class="tag">命中：${escapeHtml(hit)}</span>`).join("")}
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function ask(question) {
+      const clean = question.trim();
+      if (!clean) return;
+      addMessage("user", escapeHtml(clean));
+      const pending = addMessage("bot", "正在检索知识库...");
+      const result = buildAnswer(clean);
+      history.push({question: clean, sources: result.sources});
+      history = history.slice(-6);
+      pending.innerHTML = `${escapeHtml(result.answer)}
+        <div class="answer-meta">
+          <span>置信度 ${result.confidence}%</span>
+          <span>命中 ${result.sources.length} 条知识</span>
+          <span class="${result.handoff ? "warn" : ""}">${result.handoff ? "建议转人工" : "可直接答复"}</span>
+        </div>`;
+      renderTrace(result);
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const question = input.value;
+      input.value = "";
+      ask(question);
+      input.focus();
+    });
+
+    document.querySelectorAll("[data-question]").forEach((button) => {
+      button.addEventListener("click", () => ask(button.dataset.question));
+    });
+
+    resetBtn.addEventListener("click", () => {
+      history = [];
+      messages.innerHTML = '<div class="msg system">会话已清空。可以重新咨询退款、发票、物流、订单、账号安全、支付扣款和退换货问题。</div>';
+      confidenceMetric.textContent = "--";
+      handoffMetric.textContent = "--";
+      domainMetric.textContent = "--";
+      sourceMetric.textContent = "--";
+      sourceList.innerHTML = "";
+      input.focus();
+    });
+
+    input.focus();
+  </script>
+</body>
+</html>
