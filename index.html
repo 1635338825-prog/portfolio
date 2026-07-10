@@ -344,23 +344,7 @@
     }
 
     .assistant-title {
-      display: flex;
-      align-items: center;
       min-width: 0;
-      gap: 10px;
-    }
-
-    .assistant-orb {
-      width: 36px;
-      height: 36px;
-      flex: 0 0 auto;
-      display: grid;
-      place-items: center;
-      color: var(--black);
-      font-weight: 900;
-      border-radius: 50%;
-      background: var(--ink);
-      box-shadow: 0 0 28px rgba(143, 217, 255, .26);
     }
 
     .assistant-title strong {
@@ -1248,15 +1232,14 @@
         <div class="project-assistant reveal" data-reveal style="--reveal-delay:180ms" aria-label="个人介绍问答">
           <div class="assistant-head">
             <div class="assistant-title">
-              <span class="assistant-orb">AI</span>
               <div>
-                <strong>问我关于 Daniel</strong>
+                <strong>About Me</strong>
                 <span>快速了解我的项目、能力和适合方向</span>
               </div>
             </div>
           </div>
           <div class="assistant-messages" id="portfolioAssistantMessages">
-            <div class="assistant-message bot">你好，可以直接问我关于 Daniel 的项目经历、技术能力、作品亮点或适合岗位。</div>
+            <div class="assistant-message bot">你好，可以直接了解我的项目经历、技术能力、作品亮点或适合岗位。</div>
           </div>
           <div class="assistant-tools">
             <div class="assistant-quick">
