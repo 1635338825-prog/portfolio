@@ -1391,16 +1391,16 @@
         title: "客户周报自动化助手",
         category: "Data Automation",
         year: "2026",
-        role: "周报配置设计 / 聚合逻辑实现 / 脱敏交付",
-        tools: "Skill, Python, CSV, JSON, 指标计算",
-        description: "脱敏后的周报自动化模板，读取本地 CSV，按配置生成整体汇总、投放位置、内容类型等周报页面，并输出校验摘要。",
-        problem: "每周报告需要反复整理花费、曝光、点击、转化等数据，再计算 CPC、CTR、转化率、转化成本。",
-        solution: "在配置中定义日期范围、分组维度、基础指标、派生指标和页面结构，由脚本完成数据聚合、指标计算、CSV 输出和摘要校验。",
+        role: "需求拆解 / 跨源映射 / 自动化流水线 / 异常回补",
+        tools: "Skill, Python, API, 网页数据采集, JSON, Excel",
+        description: "面向广告业务的客户周报自动化系统：连接两个数据平台，通过计划标识与点位码完成跨源数据映射，处理指标计算、模板渲染与异常回补，并生成可复用的周报交付。",
+        problem: "不同平台的数据口径和字段结构不一致，周报需要反复整理投放、转化与内容数据；提示词驱动的人工执行也难以稳定复用。",
+        solution: "第一版以 Skill 引导 Agent 分步执行，随后重构为脚本化流水线，将数据接入、字段映射、聚合计算、校验回补和报表输出模块化。公开下载包已移除账户、凭据、缓存和历史数据，仅保留可复用的流程设计。",
         image: "assets/project-weekly-report.png",
         link: "assets/weekly-report-automation.zip",
         linkLabel: "下载 ZIP",
         featured: true,
-        tags: ["周报自动化", "数据聚合", "脱敏模板", "本地报表"]
+        tags: ["周报自动化", "跨平台映射", "异常回补", "脱敏模板"]
       },
       {
         title: "跨境电商智能助教系统",
